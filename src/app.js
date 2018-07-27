@@ -31,10 +31,10 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 
-app.use('/', index);
-app.use('/login', login);
-app.use('/pacients', pacientsRoute);
-app.use('/user', userRoute);
+app.use('/api/', index);
+app.use('/api/auth', login);
+app.use('/api/pacient', pacientsRoute);
+app.use('/api/user', userRoute);
 
 // Habilita o CORS
 app.use(function (req, res, next) {

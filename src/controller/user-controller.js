@@ -237,10 +237,7 @@ exports.updatePacient = async (req, res, next) => {
         await repository.updatePacient({
             identifier: req.params.identifier,
             id: data.id,
-            name: {
-                first: req.body.name.first,
-                last: req.body.name.last
-            },
+            name: req.body.name,
             age: req.body.age,
             active: req.body.active
         });

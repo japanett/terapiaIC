@@ -5,8 +5,8 @@ const router = express.Router();
 const controller = require('../controller/user-controller');
 const authService = require('../services/auth-service');
 
-router.post('/', controller.createUser);
-router.delete('/', authService.authorize, controller.delete);
+router.post('/create', controller.createUser);
+router.delete('/delete', authService.authorize, controller.delete);
 router.put('/', authService.authorize, controller.update);
 router.get('/', authService.authorize, controller.get);
 
