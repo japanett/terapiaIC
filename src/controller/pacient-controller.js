@@ -27,7 +27,7 @@ exports.authenticate = async (req, res, next) => {
         });
 
         res.status(200).send({
-            message: 'Paciente ' + pacient.name.first + ' ' + pacient.name.last + ' logado',
+            message: 'Paciente ' + pacient.name + ' logado',
             success: true,
             token: token,
             data: {

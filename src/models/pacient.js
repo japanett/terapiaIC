@@ -5,14 +5,8 @@ const Schema = mongoose.Schema;
 
 const pacientSchema = new Schema({
     name: {
-        first: {
-            type: String,
-            required: [true, 'Field not specified']
-        },
-        last: {
-            type: String,
-            required: [true, 'Field not specified']
-        }
+        type: String,
+        required: [true, 'Field not specified']
     },
     age: {
         type: Number,

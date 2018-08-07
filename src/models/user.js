@@ -5,14 +5,8 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
     name: {
-        first: {
-            type: String,
-            required: [true, 'Field not specified']
-        },
-        last: {
-            type: String,
-            required: [true, 'Field not specified']
-        }
+        type: String,
+        required: [true, 'Field not specified']
     },
     login: {
         type: String,
@@ -45,7 +39,7 @@ const userSchema = new Schema({
                 type: Number,
                 required: false
             },
-            _id:false
+            _id: false
         }],
         identifier: {
             type: String,

@@ -26,6 +26,14 @@ const login = require('./routes/login-route');
 const pacientsRoute = require('./routes/pacient-route');
 const userRoute = require('./routes/user-route');
 
+// Habilita o CORS
+app.use(function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, x-access-token');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    next();
+});
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: false
@@ -35,14 +43,6 @@ app.use('/api/', index);
 app.use('/api/auth', login);
 app.use('/api/pacient', pacientsRoute);
 app.use('/api/user', userRoute);
-
-// Habilita o CORS
-app.use(function (req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, x-access-token');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    next();
-});
 
 module.exports = app;
 

@@ -20,7 +20,7 @@ exports.createPacient = async (data) => {
 }
 
 exports.setPacientGame = async (data) => {
-  
+
     await user.findOneAndUpdate({
         'pacients.identifier': data.identifier
     }, {
@@ -48,7 +48,7 @@ exports.setPacientGame = async (data) => {
 }
 
 exports.deletePacientGame = async (data) => {
-  
+
     await user.findOneAndUpdate({
         'pacients.identifier': data.identifier
     }, {
@@ -79,8 +79,7 @@ exports.update = async (data) => {
     await user.findByIdAndUpdate(data.id,
         {
             $set: {
-                'name.first': data.name.first,
-                'name.last': data.name.last,
+                name: data.name,
                 password: data.password,
                 email: data.email
             }
@@ -91,7 +90,7 @@ exports.update = async (data) => {
 }
 
 exports.updatePacient = async (data) => {
-    await user.findOneAndUpdate({ 'pacients.identifier': data.identifier }, { $set: { 'pacients.$.name.first': data.name.first, 'pacients.$.name.last': data.name.last, 'pacients.$.active': data.active } }, {
+    await user.findOneAndUpdate({ 'pacients.identifier': data.identifier }, { $set: { 'pacients.$.name': data.name, 'pacients.$.active': data.active } }, {
         new: true,
         rawResult: true
     });
@@ -100,8 +99,7 @@ exports.updatePacient = async (data) => {
         identifier: data.identifier
     }, {
             $set: {
-                'name.first': data.name.first,
-                'name.last': data.name.last,
+                name: data.name,
                 age: data.age
             }
         }, {

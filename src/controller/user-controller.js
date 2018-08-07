@@ -84,16 +84,13 @@ exports.update = async (req, res, next) => {
 
         await repository.update({
             id: data.id,
-            name: {
-                first: req.body.name.first,
-                last: req.body.name.last
-            },
+            name: req.body.name,
             password: tempPassword,
             email: req.body.email
         });
 
         res.status(200).send({
-            message: 'User: ' + req.body.name.first + ' atualizado com sucesso !',
+            message: 'User: ' + req.body.name + ' atualizado com sucesso !',
             success: true
         });
     } catch (e) {
@@ -106,15 +103,17 @@ exports.update = async (req, res, next) => {
 }
 
 exports.createUser = async (req, res, next) => {
+    console.log('logging user create');
+    console.log(req.body);
     try {
-        var firstname = req.body.name.first;
+        var name = req.body.name;
         var login = req.body.login;
         var realpwd = req.body.password;
         var email = req.body.email;
 
         var tempPassword = md5(realpwd + global.SALT_KEY);
 
-        var subject = ('Bem vindo(a) name !').replace('name', firstname);
+        var subject = ('Bem vindo(a) name !').replace('name', name);
 
         var index = [
             'name',
@@ -122,7 +121,7 @@ exports.createUser = async (req, res, next) => {
             'pwd'
         ];
         var index2 = [
-            firstname,
+            name,
             login,
             realpwd
         ];
@@ -130,7 +129,7 @@ exports.createUser = async (req, res, next) => {
         for (var i = 0; i < index.length; i++) {
             body = body.replace(index[i], index2[i]);
         }
-        
+
         emailService.sendEMAIL(
             email,
             subject,
@@ -141,10 +140,7 @@ exports.createUser = async (req, res, next) => {
             login: login,
             password: tempPassword,
             email: email,
-            name: {
-                first: firstname,
-                last: req.body.name.last
-            }
+            name: name
         });
 
 
@@ -156,9 +152,9 @@ exports.createUser = async (req, res, next) => {
         //     html: '<strong>and easy to do anywhere, even with Node.js</strong>',
         // };
         // await sgMail.send(msg);
-
+        // console('terapeuta criado');
         res.status(201).send({
-            message: 'Terapeuta ' + req.body.name.first + ' ' + req.body.name.last + ' criado.',
+            message: 'Terapeuta ' + req.body.name + ' criado.',
             success: true,
             login: req.body.login
         });
@@ -243,7 +239,7 @@ exports.updatePacient = async (req, res, next) => {
         });
 
         res.status(200).send({
-            message: 'Paciente: ' + req.body.name.first + ' atualizado com sucesso !',
+            message: 'Paciente: ' + req.body.name + ' atualizado com sucesso !',
             success: true
         });
     } catch (e) {
@@ -264,8 +260,7 @@ exports.createPacient = async (req, res, next) => {
         const data = await authService.decodeToken(token);
 
         //i need to check identifier to be unique
-        var identifier = (md5(req.body.
-            name.first + req.body.name.last + global.SALT_KEY)).substring(0, 5);
+        var identifier = (md5(req.body.name + global.SALT_KEY)).substring(0, 5);
 
 
         //validando se o usuario existe
@@ -273,10 +268,7 @@ exports.createPacient = async (req, res, next) => {
         if (validate) {
             await repository.createPacient({
                 pacient: {
-                    name: {
-                        first: req.body.name.first,
-                        last: req.body.name.last
-                    },
+                    name: req.body.name,
                     age: req.body.age,
                     sexo: req.body.sexo,
                     patologia: req.body.patologia,
@@ -289,7 +281,7 @@ exports.createPacient = async (req, res, next) => {
                 },
                 id: data.id
             });
-            var subject = ('Dados do seu paciente - name ').replace('name', req.body.name.first);
+            var subject = ('Dados do seu paciente - name ').replace('name', req.body.name);
             var index = [
                 'username',
                 'namepaciente',
@@ -300,8 +292,8 @@ exports.createPacient = async (req, res, next) => {
                 'identifier'
             ];
             var index2 = [
-                validate.name.first,
-                req.body.name.first,
+                validate.name,
+                req.body.name,
                 req.body.sexo,
                 req.body.age,
                 req.body.patologia,
@@ -320,7 +312,7 @@ exports.createPacient = async (req, res, next) => {
                 body
             );
             res.status(200).send({
-                message: data.login + ' added pacient ' + req.body.name.first + ' ' + req.body.name.last,
+                message: data.login + ' added pacient ' + req.body.name,
                 pacient_identifier: identifier,
                 success: true
             });

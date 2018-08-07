@@ -4,25 +4,22 @@
 ## Documentation
 
 #### User endpoint
-#### Create a new user(medic)
+#### Create new user
 ```http
-POST /api/user/create --creates new user(medic)
+POST /api/user/create
 ```
-```
+```json
 {
-	"name":{
-		"first":"zoka",
-		"last":"japanet"
-	},
-	"login":"etnapaj",
-	"password":"123@teste",
-	"email":"etnapaj@gmail.com"
+	"name":"Jhon Daenerys Snow",
+	"login":"dany",
+	"password":"6@Nine",
+	"email":"daenerys@targaryan.net"
 }
 ```
 ##### Response
-```
+```json
 {
-    "message": "Terapeuta zoka japanet criado.",
+    "message": "Terapeuta Jhon Daenerys Snow criado.",
     "success": true,
     "login": "etnapaj"
 }
@@ -31,19 +28,19 @@ POST /api/user/create --creates new user(medic)
 ```http
 POST /api/auth
 ```
-```
+```json
 {
-	"login":"etnapaj",
-	"password":"123@teste"
+	"login":"dany",
+	"password":"6@Nine"
 }
 ```
 ##### Response
-```
+```json
 {
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg",
     "success": true,
     "data": {
-        "login": "etnapah",
+        "login": "dany",
         "id": "5b5a8a00af3a90114cbb00ee"
     }
 }
@@ -52,20 +49,17 @@ POST /api/auth
 ```http
 PUT /api/user
 ```
-```
+```json
 {
 "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg",
-	"name":{
-		"first":"new",
-		"last":"name"
-	},
+	"name":"New Name",
 	"login":"login2",
 	"password":"n3Wp4sS",
 	"email":"n3W3M4aiL@gmail.com"
 }
 ```
 ##### Response
-```
+```json
 {
     "message": "Atualizado com sucesso",
     "success": true
@@ -75,21 +69,18 @@ PUT /api/user
 ```http
 GET /api/user
 ```
-```
+```json
 {
 "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg"
 }
 ```
 ##### Response
-```
+```json
 {
   "data": {
-  "name":{
-    "first":"zoka",
-    "last":"japanet"
-   },
+  "name":"Jhon Daenerys Snow",
   "login":"etnapaj",
-  "password":"123@teste",
+  "password":"6@Nine?",
   "email":"etnapaj@gmail.com",
   "_id": "5b5a8a00af3a90114cbb00ee",
   "password": "62256e3e61d93f25aa1a83a2ae1035da",
@@ -104,13 +95,13 @@ GET /api/user
 ```http
 DELETE /api/user/delete
 ```
-```
+```json
 {
 "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg"
 }
 ```
 ##### Response
-```
+```json
 {
     "success": true
 }
@@ -119,13 +110,10 @@ DELETE /api/user/delete
 ```http
 PUT /api/user/pacients
 ```
-```
+```json
 {
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg"
-	"name":{
-    "first":"paciente",
-    "last":"teste"
-  },
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg",
+  "name":"Jhon Daenerys Snow",
   "age":7,
   "sexo":"femenino",
   "patologia":"patologia exemplo",
@@ -133,7 +121,7 @@ PUT /api/user/pacients
 }
 ```
 ##### Response
-```
+```json
 {
   "message": "etenapaj added pacient paciente teste",
   "pacient_identifier": "c2d3b",
@@ -144,14 +132,14 @@ PUT /api/user/pacients
 ```http
 PUT /api/user/pacients/games/c2d3b(pacient identifier)
 ```
-```
+```json
 {
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg"
-"toPlay":1(id of the game to be played"
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg",
+  "toPlay":1(id of the game to be played
 }
 ```
 ##### Response
-```
+```json
 {
     "message": "Adicionado jogos para o Paciente: c2d3b",
     "success": true
@@ -159,15 +147,15 @@ PUT /api/user/pacients/games/c2d3b(pacient identifier)
 ```
 #### Delete pacient
 ```http
-DELETE /api/user/pacients/c2d3b(pacient identifier)
+DELETE /api/user/pacients/c2d3b - (pacient identifier)
 ```
-```
+```json
 {
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg"
 }
 ```
 ##### Response
-```
+```json
 {
     "message": "Paciente excluído",
     "success": true
@@ -177,22 +165,19 @@ DELETE /api/user/pacients/c2d3b(pacient identifier)
 ```http
 PUT /api/user/pacients/c2d3b(pacient identifier)
 ```
-```
+```json
 {
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg",
-  "name":{
-    "first":"tete",
-		"last":"dede"
-	},
+  "name":"Jhon Daenerys Snow",
   "age":7,
-	"sexo":"femenino",
-	"patologia":"patologia exemplo",
-	"objetivo": "objetivo do paciente",
-	"active":true
+  "sexo":"femenino",
+  "patologia":"patologia exemplo",
+  "objetivo": "objetivo do paciente",
+  "active":true
 }
 ```
 ##### Response
-```
+```json
 {
     "message": "Paciente atualizado com sucesso",
 }
@@ -204,20 +189,17 @@ GET /api/user/pacients/c2d3b(pacient identifier)
 ```http
 GET /api/user/pacients/ (all pacients)
 ```
-```
+```json
 {
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg"
 }
 ```
 ##### Response
-```
+```json
 {
     "data": [
         {
-            "name": {
-                "first": "paciente",
-                "last": "teste"
-            },
+            "name":"Jhon Daenerys Snow",
             "medic": {
                 "id": "5b5a8a00af3a90114cbb00ee"
             },
@@ -245,14 +227,14 @@ GET /api/user/pacients/ (all pacients)
 ```http
 PUT /api/user/pacients/games/delete/c2d3b (pacient identifier)
 ```
-```
+```json
 {
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg",
   "toPlay":1
 }
 ```
 ##### Response
-```
+```json
 {
     "message": "Removido jogo undefined do paciente: c2d3b",
     "success": true
