@@ -135,7 +135,7 @@ PUT /api/user/pacients/games/c2d3b(pacient identifier)
 ```json
 {
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg",
-  "toPlay":1(id of the game to be played
+  "toPlay": 1 (id of the game to be played)
 }
 ```
 ##### Response
