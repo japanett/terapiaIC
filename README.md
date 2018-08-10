@@ -1,5 +1,5 @@
 # API service for my Undergraduate Research project
-## This project is intended to rehabilitate kids motor functions through virtual games, which are being developed by a physiotherapist and a group of students using Leap Motion. My part is to receive data from the game and display it to the physiotherapist. 
+## This project is intended to rehabilitate kids motor functions through virtual games, which are being developed by a physiotherapist and a group of students using Leap Motion. My part is to receive data from the game and display it to the physiotherapist through a mobile application that is being developed using Ionic Framework. 
 
 ## Documentation
 
@@ -135,7 +135,7 @@ PUT /api/user/pacients/games/c2d3b(pacient identifier)
 ```json
 {
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg",
-  "toPlay": 1 (id of the game to be played)
+  "toPlay":1 (id of the game to be played)
 }
 ```
 ##### Response
@@ -240,7 +240,82 @@ PUT /api/user/pacients/games/delete/c2d3b (pacient identifier)
     "success": true
 }
 ```
-#falta fazer as rotas do pacient
+#### Pacient authentication
+```http
+POST /api/pacient/auth
+```
+```json
+{
+	"identifier":"cd404"
+}
+```
+##### Response
+```json
+{
+    "message": "Paciente paciente de teste logado",
+    "success": true,
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYWNpZW50X2lkIjoiNWI2OGFlNTgyNDRjYmUwM2M4MjYwOTU5IiwibWVkaWNfaWQiOiI1YjY4YWRhZTI0NGNiZTAzYzgyNjA5NTgiLCJpZGVudGlmaWVyIjoiY2Q0MDQiLCJpYXQiOjE1MzM2ODk3MDAsImV4cCI6MTUzMzc3NjEwMH0.mvM1vQJGM_ENkk8DnOitS_Zn-WXCOWLTKJ2Noz20VBU",
+    "data": {
+        "medic_id": "5b68adae244cbe03c8260958",
+        "identifier": "cd404"
+    }
+}
+```
+#### Get Pacient information
+```http
+GET /api/pacient/
+```
+```json
+{
+"x-access-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYWNpZW50X2lkIjoiNWI2OGFlNTgyNDRjYmUwM2M4MjYwOTU5IiwibWVkaWNfaWQiOiI1YjY4YWRhZTI0NGNiZTAzYzgyNjA5NTgiLCJpZGVudGlmaWVyIjoiY2Q0MDQiLCJpYXQiOjE1MzM4NTk0MzAsImV4cCI6MTUzMzk0NTgzMH0.Zq4ICbaTamUMUb5PiBR-9PVgminOI_CxUw4J_Fpn1qw"
+}
+```
+##### Response
+```json
+{
+    "data": {
+        "medic": {
+            "id": "5b68adae244cbe03c8260958"
+        },
+        "games": {
+            "gameMaca": []
+        },
+        "_id": "5b68ae58244cbe03c8260959",
+        "name": "paciente de teste",
+        "age": 7,
+        "sexo": "femenino",
+        "patologia": "patologia exemplo",
+        "objetivo": "objetivo do paciente",
+        "identifier": "cd404",
+        "toPlay": [],
+        "__v": 0
+    },
+    "success": true
+}
+```
+#### Put pacient's game information
+```http
+PUT /api/pacient/games
+```
+```json
+{
+	"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYWNpZW50X2lkIjoiNWI2OGFlNTgyNDRjYmUwM2M4MjYwOTU5IiwibWVkaWNfaWQiOiI1YjY4YWRhZTI0NGNiZTAzYzgyNjA5NTgiLCJpZGVudGlmaWVyIjoiY2Q0MDQiLCJpYXQiOjE1MzM4NjQ2MjMsImV4cCI6MTUzMzk1MTAyM30.RyDWo4Hmaw2VRqvzz0qhaWpBt_BGU7r--eq6yZ39qPE",
+	"gameID": 1,
+        "seconds": 123,
+        "acertos":25,
+        "error": {
+            "mao": 0,
+            "caixa": 2
+        }
+}
+```
+##### Response
+```json
+{
+    "message": "Informações do jogo Jogo da maçã para o paciente cd404 atualizada",
+    "success": true
+}
+
 ## User(medic) functionalities:
 - CREATE pacient
 - GET his own data

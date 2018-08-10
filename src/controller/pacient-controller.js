@@ -63,7 +63,6 @@ exports.get = async (req, res, next) => {
 }
 
 exports.put = async (req, res, next) => {
-
     try {
         //token:{identifier,medic_id}
         //recupera token
