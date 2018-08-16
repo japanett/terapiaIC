@@ -3,8 +3,6 @@ const mongoose = require('mongoose');
 const pacient = mongoose.model('PacientSchema');
 const user = mongoose.model('userSchema');
 
-const guid = require('guid');
-
 exports.authenticate = async (data) => {
     const res = await pacient.findOne({
         identifier: data

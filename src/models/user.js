@@ -6,7 +6,7 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
     name: {
         type: String,
-        required: [true, 'Field not specified']
+        required: [true, 'name not specified']
     },
     login: {
         type: String,
@@ -25,25 +25,34 @@ const userSchema = new Schema({
     },
     pacients: [{
         name: {
-            first: {
-                type: String,
-                required: [true, 'Field not specified']
-            },
-            last: {
-                type: String,
-                required: [true, 'Field not specified']
-            }
+            type: String,
+            required: [true, 'Field not specified']
         },
         toPlay: [{
             gameID: {
                 type: Number,
                 required: false
             },
+            config: {//this
+                type: String,
+                required: [false],
+                default: 0
+            },
+            ordem: {
+                type: Number,
+                required: false,
+                default: 1
+            },
+            idToPlay: { //this
+                type: String,
+                required: [false]
+            },
             _id: false
         }],
         identifier: {
             type: String,
-            required: [true, 'Field not specified']
+            required: [true, 'Field not specified'],
+            unique: true
         },
         active: {
             type: Boolean,

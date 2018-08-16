@@ -80,12 +80,9 @@ exports.update = async (req, res, next) => {
         //decodifica token
         const data = await authService.decodeToken(token);
 
-        var tempPassword = md5(req.body.password + global.SALT_KEY);
-
         await repository.update({
             id: data.id,
             name: req.body.name,
-            password: tempPassword,
             email: req.body.email
         });
 
@@ -179,7 +176,8 @@ exports.setPacientGame = async (req, res, next) => {
         await repository.setPacientGame({
             identifier: req.params.identifier,
             toPlay: req.body.toPlay,
-            id: data.id
+            config: req.body.config,
+            ordem: req.body.ordem
         });
 
         res.status(200).send({
@@ -205,12 +203,11 @@ exports.deletePacientGame = async (req, res, next) => {
 
         await repository.deletePacientGame({
             identifier: req.params.identifier,
-            toPlay: req.body.toPlay,
-            id: data.id
+            gameid: req.body.gameid
         });
 
         res.status(200).send({
-            message: 'Removido jogo ' + req.body.toPlay + ' do paciente: ' + req.params.identifier,
+            message: 'Removido jogo do paciente: ' + req.params.identifier,
             success: true
         });
     } catch (e) {
@@ -232,10 +229,12 @@ exports.updatePacient = async (req, res, next) => {
 
         await repository.updatePacient({
             identifier: req.params.identifier,
-            id: data.id,
             name: req.body.name,
+            sexo:req.body.sexo,
             age: req.body.age,
-            active: req.body.active
+            active: req.body.active,
+            objetivo: req.body.objetivo,
+            patologia: req.body.patologia
         });
 
         res.status(200).send({
@@ -340,7 +339,6 @@ exports.delete = async (req, res, next) => {
         //decodifica token
         const data = await authService.decodeToken(token);
 
-        // deletando pelo identifier do paciente
         await repository.delete(data.id);
 
         res.status(200).send({

@@ -8,8 +8,6 @@ const userSchema = mongoose.model('userSchema');
 const authService = require('../services/auth-service');
 const repository = require('../repositories/pacient-repository');
 
-const guid = require('guid');
-
 exports.authenticate = async (req, res, next) => {
     try {
         const pacient = await repository.authenticate(req.body.identifier);
@@ -100,7 +98,7 @@ exports.put = async (req, res, next) => {
                 success: true
             });
         } else {
-            res.status(200).send({
+            res.status(400).send({
                 message: 'Jogo inexistente na base de dados',
                 success: false
             });

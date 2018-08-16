@@ -32,12 +32,31 @@ const pacientSchema = new Schema({
     },
     identifier: {
         type: String,
-        required: [true, 'Field not specified']
+        required: [true, 'identifier not specified'],
+        // unique: true
+    },
+    active: {//this
+        type: Boolean,
+        required: false,
+        default: true
     },
     toPlay: [{
         gameID: {
             type: Number,
             required: false
+        },
+        config: {//this
+            type: String,
+            required: [false]
+        },
+        ordem: {
+            type: Number,
+            required: false,
+            default: 1
+        },
+        idToPlay: { //this
+            type: String,
+            required: [false]
         },
         _id: false
     }],
@@ -80,6 +99,10 @@ const pacientSchema = new Schema({
                     required: false,
                     default: 0
                 }
+            },
+            idToPlay: { //this
+                type: String,
+                required: [false]
             }
         }]
         // gameDois: [[game2Schema]]

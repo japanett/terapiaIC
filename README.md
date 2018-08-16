@@ -3,7 +3,8 @@
 
 ## Documentation
 
-#### User endpoint
+## User endpoint
+
 #### Create new user
 ```http
 POST /api/user/create
@@ -53,8 +54,6 @@ PUT /api/user
 {
 "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg",
 	"name":"New Name",
-	"login":"login2",
-	"password":"n3Wp4sS",
 	"email":"n3W3M4aiL@gmail.com"
 }
 ```
@@ -77,18 +76,48 @@ GET /api/user
 ##### Response
 ```json
 {
-  "data": {
-  "name":"Jhon Daenerys Snow",
-  "login":"etnapaj",
-  "password":"6@Nine?",
-  "email":"etnapaj@gmail.com",
-  "_id": "5b5a8a00af3a90114cbb00ee",
-  "password": "62256e3e61d93f25aa1a83a2ae1035da",
-  "email": "gabrielkenzo@gmail.com",
-  "pacients": [],
-  "__v": 0
-  },
-  "success": true
+    "data": {
+        "_id": "5b73a0490af1fc31884e7c80",
+        "login": "dany",
+        "password": "62256e3e61d93f25aa1a83a2ae1035da",
+        "email": "daenerys@targaryan.net",
+        "name": "Jhon Daenerys Snow",
+        "pacients": [
+            {
+                "active": false,
+                "toPlay": [],
+                "name": "marcos rio d ejaneiro",
+                "identifier": "6c60a"
+            },
+            {
+                "active": true,
+                "toPlay": [
+                    {
+                        "config": "mao direita",
+                        "ordem": 1,
+                        "gameID": 1,
+                        "idToPlay": "22b2d0b0-a042-11e8-a216-7bd1cd177fea"
+                    },
+                    {
+                        "config": "mao esquerda",
+                        "ordem": 2,
+                        "gameID": 1,
+                        "idToPlay": "25bd9fb0-a042-11e8-a216-7bd1cd177fea"
+                    },
+                    {
+                        "config": "ambas",
+                        "ordem": 3,
+                        "gameID": 1,
+                        "idToPlay": "2826d780-a042-11e8-a216-7bd1cd177fea"
+                    }
+                ],
+                "name": "larissa hildebrand sux",
+                "identifier": "77584"
+            }
+        ],
+        "__v": 0
+    },
+    "success": true
 }
 ```
 #### Delete user
@@ -97,12 +126,13 @@ DELETE /api/user/delete
 ```
 ```json
 {
-"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg"
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg"
 }
 ```
 ##### Response
 ```json
 {
+    "message": "account dany deleted",
     "success": true
 }
 ```
@@ -112,42 +142,44 @@ PUT /api/user/pacients
 ```
 ```json
 {
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg",
-  "name":"Jhon Daenerys Snow",
-  "age":7,
-  "sexo":"femenino",
-  "patologia":"patologia exemplo",
-  "objetivo": "objetivo do paciente"
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg",
+	"name":"larissa hildebrand sux",
+	"age":21,
+	"sexo":"feminino",
+	"patologia":"patologia exemplo2",
+	"objetivo": "ser um creme"
 }
 ```
 ##### Response
 ```json
 {
-  "message": "etenapaj added pacient paciente teste",
-  "pacient_identifier": "c2d3b",
-  "success": true
+    "message": "dany added pacient larissa hildebrand sux",
+    "pacient_identifier": "77584",
+    "success": true
 }
 ```
 #### Add games to pacient's list
 ```http
-PUT /api/user/pacients/games/c2d3b(pacient identifier)
+PUT /api/user/pacients/games/77584(pacient identifier)
 ```
 ```json
 {
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg",
-  "toPlay":1 (id of the game to be played)
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg",
+    "toPlay":1,
+    "config":"ambas",
+	"ordem":3
 }
 ```
 ##### Response
 ```json
 {
-    "message": "Adicionado jogos para o Paciente: c2d3b",
+    "message": "Adicionado jogos para o Paciente: 77584",
     "success": true
 }
 ```
 #### Delete pacient
 ```http
-DELETE /api/user/pacients/c2d3b - (pacient identifier)
+DELETE /api/user/pacients/77584  (pacient identifier)
 ```
 ```json
 {
@@ -161,25 +193,26 @@ DELETE /api/user/pacients/c2d3b - (pacient identifier)
     "success": true
 }
 ```
-#### !!! FIX- ta quebrando,Update Pacient
+#### Update Pacient
 ```http
-PUT /api/user/pacients/c2d3b(pacient identifier)
+PUT /api/user/pacients/6c60a(pacient identifier)
 ```
 ```json
 {
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg",
-  "name":"Jhon Daenerys Snow",
-  "age":7,
-  "sexo":"femenino",
-  "patologia":"patologia exemplo",
-  "objetivo": "objetivo do paciente",
-  "active":true
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg",
+  	"name":"marcos rio d ejaneiro",
+    "sexo":"indefinido",
+    "age": 24,
+    "active": false,
+    "objetivo": "objetivo indefinido",
+    "patologia": "nao sei"
 }
 ```
 ##### Response
 ```json
 {
     "message": "Paciente atualizado com sucesso",
+    "success": true
 }
 ```
 #### Get pacient information
@@ -199,22 +232,56 @@ GET /api/user/pacients/ (all pacients)
 {
     "data": [
         {
-            "name":"Jhon Daenerys Snow",
             "medic": {
-                "id": "5b5a8a00af3a90114cbb00ee"
+                "id": "5b73a0490af1fc31884e7c80"
             },
             "games": {
                 "gameMaca": []
             },
-            "_id": "5b5a9bb8b56111060cc28f87",
-            "age": 7,
-            "sexo": "femenino",
-            "patologia": "patologia exemplo",
-            "objetivo": "objetivo do paciente",
-            "identifier": "c2d3b",
+            "active": false,
+            "_id": "5b73a44d206c6d1e28788cd9",
+            "name": "marcos rio d ejaneiro",
+            "age": 24,
+            "sexo": "indefinido",
+            "patologia": "nao sei",
+            "objetivo": "objetivo indefinido",
+            "identifier": "6c60a",
+            "toPlay": [],
+            "__v": 0
+        },
+        {
+            "medic": {
+                "id": "5b73a0490af1fc31884e7c80"
+            },
+            "games": {
+                "gameMaca": []
+            },
+            "active": true,
+            "_id": "5b73a9500499502f08187d36",
+            "name": "larissa hildebrand sux",
+            "age": 21,
+            "sexo": "feminino",
+            "patologia": "patologia exemplo2",
+            "objetivo": "ser um creme",
+            "identifier": "77584",
             "toPlay": [
                 {
-                    "gameID": 1
+                    "ordem": 1,
+                    "gameID": 1,
+                    "config": "mao direita",
+                    "idToPlay": "22b2d0b0-a042-11e8-a216-7bd1cd177fea"
+                },
+                {
+                    "ordem": 2,
+                    "gameID": 1,
+                    "config": "mao esquerda",
+                    "idToPlay": "25bd9fb0-a042-11e8-a216-7bd1cd177fea"
+                },
+                {
+                    "ordem": 3,
+                    "gameID": 1,
+                    "config": "ambas",
+                    "idToPlay": "2826d780-a042-11e8-a216-7bd1cd177fea"
                 }
             ],
             "__v": 0
@@ -223,23 +290,26 @@ GET /api/user/pacients/ (all pacients)
     "success": true
 }
 ```
-#### FIX--Remove pacient game of toPlay list - ta vindo undefined*
+#### FIX--Remove pacient game of toPlay list
 ```http
-PUT /api/user/pacients/games/delete/c2d3b (pacient identifier)
+PUT /api/user/pacients/games/delete/77584 (pacient identifier)
 ```
 ```json
 {
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg",
-  "toPlay":1
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg",
+    "gameid":"2826d780-a042-11e8-a216-7bd1cd177fea"
 }
 ```
 ##### Response
 ```json
 {
-    "message": "Removido jogo undefined do paciente: c2d3b",
+    "message": "Removido jogo undefined do paciente: 775484",
     "success": true
 }
 ```
+
+## User endpoint
+
 #### Pacient authentication
 ```http
 POST /api/pacient/auth
@@ -273,27 +343,46 @@ GET /api/pacient/
 ##### Response
 ```json
 {
-    "data": {
+    "data":  {
         "medic": {
-            "id": "5b68adae244cbe03c8260958"
+            "id": "5b73a0490af1fc31884e7c80"
         },
         "games": {
-            "gameMaca": []
-        },
-        "_id": "5b68ae58244cbe03c8260959",
-        "name": "paciente de teste",
-        "age": 7,
-        "sexo": "femenino",
-        "patologia": "patologia exemplo",
-        "objetivo": "objetivo do paciente",
-        "identifier": "cd404",
-        "toPlay": [],
-        "__v": 0
+               "gameMaca": []
+            },
+        "active": true,
+        "_id": "5b73a9500499502f08187d36",
+        "name": "larissa hildebrand sux",
+        "age": 21,
+        "sexo": "feminino",
+        "patologia": "patologia exemplo2",
+        "objetivo": "ser um creme",
+        "identifier": "77584",
+        "toPlay": [
+            {
+                "ordem": 1,
+                "gameID": 1,
+                "config": "mao direita",
+                "idToPlay": "22b2d0b0-a042-11e8-a216-7bd1cd177fea"
+            },
+            {
+                "ordem": 2,
+                "gameID": 1,
+                "config": "mao esquerda",
+                "idToPlay": "25bd9fb0-a042-11e8-a216-7bd1cd177fea"
+            },
+            {
+                "ordem": 3,
+                "gameID": 1,
+                "config": "ambas",
+                "idToPlay": "2826d780-a042-11e8-a216-7bd1cd177fea"
+            }
+        ],
     },
     "success": true
 }
 ```
-#### Put pacient's game information
+#### Play game (put game information)
 ```http
 PUT /api/pacient/games
 ```
@@ -301,12 +390,12 @@ PUT /api/pacient/games
 {
 	"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYWNpZW50X2lkIjoiNWI2OGFlNTgyNDRjYmUwM2M4MjYwOTU5IiwibWVkaWNfaWQiOiI1YjY4YWRhZTI0NGNiZTAzYzgyNjA5NTgiLCJpZGVudGlmaWVyIjoiY2Q0MDQiLCJpYXQiOjE1MzM4NjQ2MjMsImV4cCI6MTUzMzk1MTAyM30.RyDWo4Hmaw2VRqvzz0qhaWpBt_BGU7r--eq6yZ39qPE",
 	"gameID": 1,
-        "seconds": 123,
-        "acertos":25,
-        "error": {
-            "mao": 0,
-            "caixa": 2
-        }
+    "seconds": 123,
+    "acertos":25,
+    "error": {
+        "mao": 0,
+        "caixa": 2
+    }
 }
 ```
 ##### Response
@@ -338,5 +427,6 @@ PUT /api/pacient/games
 - Bug hunting
 
 ## Fix:
+- (Create user) Sending email even when the request response != 201
 - A user can delete another user's pacient
-- toPlay[] can have duplicate gameID's
+- Remove pacient game to play(not working)

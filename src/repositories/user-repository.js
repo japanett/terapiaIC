@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const user = mongoose.model('userSchema');
 const pacient = mongoose.model('PacientSchema');
 
+const uuidv1 = require('uuid/v1');
+
 exports.createPacient = async (data) => {
     var tempPacient = new pacient(data.pacient);
 
@@ -21,11 +23,18 @@ exports.createPacient = async (data) => {
 
 exports.setPacientGame = async (data) => {
 
+    var id = uuidv1();
+
     await user.findOneAndUpdate({
         'pacients.identifier': data.identifier
     }, {
             $push: {
-                'pacients.$.toPlay': { gameID: data.toPlay }
+                'pacients.$.toPlay': { 
+                    gameID: data.toPlay,
+                    config: data.config,
+                    ordem: data.ordem,
+                    idToPlay: id
+                }
             }
         }, {
             new: true,
@@ -38,7 +47,10 @@ exports.setPacientGame = async (data) => {
     }, {
             $push: {
                 toPlay: {
-                    gameID: data.toPlay
+                    gameID: data.toPlay,
+                    config: data.config,
+                    ordem: data.ordem,
+                    idToPlay: id
                 }
             }
         }, {
@@ -53,7 +65,7 @@ exports.deletePacientGame = async (data) => {
         'pacients.identifier': data.identifier
     }, {
             $pull: {
-                'pacients.$.toPlay': { gameID: data.toPlay }
+                'pacients.$.toPlay': { idToPlay: data.gameid }
             }
         }, {
             new: true,
@@ -61,12 +73,12 @@ exports.deletePacientGame = async (data) => {
         });
 
 
-    await pacient.findOneAndUpdate({ //WORKING
+    await pacient.findOneAndUpdate({ 
         identifier: data.identifier
     }, {
             $pull: {
                 toPlay: {
-                    gameID: data.toPlay
+                    idToPlay: data.gameid
                 }
             }
         }, {
@@ -80,7 +92,6 @@ exports.update = async (data) => {
         {
             $set: {
                 name: data.name,
-                password: data.password,
                 email: data.email
             }
         }, {
@@ -90,17 +101,27 @@ exports.update = async (data) => {
 }
 
 exports.updatePacient = async (data) => {
-    await user.findOneAndUpdate({ 'pacients.identifier': data.identifier }, { $set: { 'pacients.$.name': data.name, 'pacients.$.active': data.active } }, {
+    await user.findOneAndUpdate({ 'pacients.identifier': data.identifier }, 
+    { $set: { 
+        'pacients.$.name': data.name, 
+        'pacients.$.active': data.active
+    } }, {
         new: true,
         rawResult: true
     });
 
-    await pacient.findOneAndUpdate({ //WORKING
+    await pacient.findOneAndUpdate({ 
         identifier: data.identifier
     }, {
             $set: {
                 name: data.name,
-                age: data.age
+                age: data.age,
+                
+                sexo: data.sexo,
+
+                active: data.active,
+                objetivo: data.objetivo,
+                patologia: data.patologia
             }
         }, {
             new: true,
