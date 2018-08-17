@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose');
 
-const pacient = mongoose.model('PacientSchema');
+const pacient = mongoose.model('pacientSchema');
 const userSchema = mongoose.model('userSchema');
 
 const authService = require('../services/auth-service');
@@ -90,7 +90,8 @@ exports.put = async (req, res, next) => {
             identifier: data.identifier,
             medic_id: data.medic_id,
             gameID: req.body.gameID,
-            game: temp
+            game: temp,
+            idToPlay: req.body.idToPlay
         });
         if (val) {
             res.status(200).send({

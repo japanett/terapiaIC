@@ -6,8 +6,6 @@ const md5 = require('md5');
 const authService = require('../services/auth-service');
 const repository = require('../repositories/login-repository');
 
-const guid = require('guid');//can i removethis?
-
 exports.authenticate = async (req, res, next) => {
     try {
         const user = await repository.authenticate({

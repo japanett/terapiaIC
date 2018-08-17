@@ -6,11 +6,6 @@ const emailService = require('../services/email-service');
 const authService = require('../services/auth-service');
 const repository = require('../repositories/user-repository');
 
-// var config = require('../config');
-// const sgMail = require('@sendgrid/mail');
-// sgMail.setApiKey(config.sendgridKey);
-
-// https://github.com/balta-io/1972/blob/master/src/repositories/product-repository.js
 exports.get = async (req, res, next) => {
     try {
         //recupera token
@@ -166,6 +161,9 @@ exports.createUser = async (req, res, next) => {
 }
 
 exports.setPacientGame = async (req, res, next) => {
+    // paciente vai receber o idToPlay do jogo
+    // salvar o jogo com o id do paciente, medico, config, ordem, gameID
+    // title vai passar de acordo com o gameID
     try {
         //token:{login,id}
         //recupera token
@@ -175,9 +173,10 @@ exports.setPacientGame = async (req, res, next) => {
 
         await repository.setPacientGame({
             identifier: req.params.identifier,
-            toPlay: req.body.toPlay,
+            gameID: req.body.toPlay,
             config: req.body.config,
-            ordem: req.body.ordem
+            ordem: req.body.ordem,
+            medic: data.id
         });
 
         res.status(200).send({
@@ -202,12 +201,13 @@ exports.deletePacientGame = async (req, res, next) => {
         const data = await authService.decodeToken(token);
 
         await repository.deletePacientGame({
-            identifier: req.params.identifier,
-            gameid: req.body.gameid
+            medic: data.id,
+            pacient: req.params.pacientid,
+            gameid: req.params.gameid
         });
 
         res.status(200).send({
-            message: 'Removido jogo do paciente: ' + req.params.identifier,
+            message: 'Jogo removido',
             success: true
         });
     } catch (e) {
@@ -228,9 +228,10 @@ exports.updatePacient = async (req, res, next) => {
         const data = await authService.decodeToken(token);
 
         await repository.updatePacient({
+            medic:data.id,
             identifier: req.params.identifier,
             name: req.body.name,
-            sexo:req.body.sexo,
+            sexo: req.body.sexo,
             age: req.body.age,
             active: req.body.active,
             objetivo: req.body.objetivo,
@@ -259,7 +260,7 @@ exports.createPacient = async (req, res, next) => {
         const data = await authService.decodeToken(token);
 
         //i need to check identifier to be unique
-        var identifier = (md5(req.body.name + global.SALT_KEY)).substring(0, 5);
+        var identifier = (md5(req.body.name + global.SALT_KEY)).substring(0, 6);
 
 
         //validando se o usuario existe
@@ -273,10 +274,8 @@ exports.createPacient = async (req, res, next) => {
                     patologia: req.body.patologia,
                     objetivo: req.body.objetivo,
                     identifier: identifier,
-                    medic: {
-                        id: data.id
-                    },
-                    toPlay: req.body.toPlay
+                    medic: data.id,
+                    games: req.body.games
                 },
                 id: data.id
             });

@@ -19,6 +19,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 // Carrega Models
 const Pacient = require('./models/pacient');
 const User = require('./models/user');
+const Games = require('./models/games');
 
 // Carrega rotas
 const index = require('./routes/index');

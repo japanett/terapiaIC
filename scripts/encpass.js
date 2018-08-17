@@ -3,7 +3,7 @@
 const fs = require('fs');
 const encService = require('../src/services/enc-service');
 
-var _fileToEnc = fs.readFileSync('../src/keys.json', 'utf8')
+var _fileToEnc = fs.readFileSync('./src/keys.json', 'utf8')
 
 var _password = process.argv.slice(2)[0] || '123G@bi123';
 
@@ -14,7 +14,7 @@ if (!_password) {
 
 } else {
   var cryptedInfo = encService.encrypt(_fileToEnc, _password);
-  fs.writeFile('../src/keys.enc', cryptedInfo, function (err) {
+  fs.writeFile('./src/keys.enc', cryptedInfo, function (err) {
     if (err)
       return console.log(err);
 

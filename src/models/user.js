@@ -24,40 +24,9 @@ const userSchema = new Schema({
         unique: true
     },
     pacients: [{
-        name: {
-            type: String,
-            required: [true, 'Field not specified']
-        },
-        toPlay: [{
-            gameID: {
-                type: Number,
-                required: false
-            },
-            config: {//this
-                type: String,
-                required: [false],
-                default: 0
-            },
-            ordem: {
-                type: Number,
-                required: false,
-                default: 1
-            },
-            idToPlay: { //this
-                type: String,
-                required: [false]
-            },
-            _id: false
-        }],
         identifier: {
             type: String,
-            required: [true, 'Field not specified'],
             unique: true
-        },
-        active: {
-            type: Boolean,
-            required: false,
-            default: true
         },
         _id: false
     }]

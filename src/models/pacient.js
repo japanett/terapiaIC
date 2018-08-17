@@ -13,10 +13,8 @@ const pacientSchema = new Schema({
         required: [true, 'Field not specified']
     },
     medic: {
-        id: {
-            type: String,
-            required: [true, 'Field not specified']
-        }
+        type: String,
+        required: [true, 'Field not specified']
     },
     sexo: {
         type: String,
@@ -33,87 +31,19 @@ const pacientSchema = new Schema({
     identifier: {
         type: String,
         required: [true, 'identifier not specified'],
-        // unique: true
     },
-    active: {//this
+    active: {
         type: Boolean,
         required: false,
         default: true
     },
-    toPlay: [{
-        gameID: {
-            type: Number,
-            required: false
-        },
-        config: {//this
-            type: String,
-            required: [false]
-        },
-        ordem: {
-            type: Number,
-            required: false,
-            default: 1
-        },
-        idToPlay: { //this
-            type: String,
+    games: [{
+        idToPlay: {
+            type: String,   
             required: [false]
         },
         _id: false
-    }],
-    games: {
-        gameMaca: [{
-            gameID: {
-                type: Number,
-                required: false,
-                default: 1
-            },
-            title: {
-                type: String,
-                required: false,
-            },
-            seconds: {
-                type: Number,
-                required: [true, 'Field not specified']
-            },
-            acertos: {
-                type: Number,
-                required: [true, 'Field not specified']
-            },
-            date: {
-                type: Date,
-                required: [true, 'Field not specified']
-            },
-            description: {
-                type: String,
-                required: false,
-                minimize: false
-            },
-            error: {
-                mao: {
-                    type: Number,
-                    required: false,
-                    default: 0
-                },
-                caixa: {
-                    type: Number,
-                    required: false,
-                    default: 0
-                }
-            },
-            idToPlay: { //this
-                type: String,
-                required: [false]
-            }
-        }]
-        // gameDois: [[game2Schema]]
-    }
-    //     // slug: { //   produto Cadeira Gamer = cadeira-gamer 
-    //     //     type: String,
-    //     //     required: false,
-    //     //     trim: true,
-    //     //     index: true,
-    //     //     unique: true
-    //     // },
+    }]
 });
 
 // const game2Schema = new Schema({
@@ -218,4 +148,4 @@ const pacientSchema = new Schema({
 
 // module.exports = mongoose.model('MacaSchema', macaSchema);
 // module.exports = mongoose.model('Game2Schema', game2Schema);
-module.exports = mongoose.model('PacientSchema', pacientSchema);
+module.exports = mongoose.model('pacientSchema', pacientSchema);

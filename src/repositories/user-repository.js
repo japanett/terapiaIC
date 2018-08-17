@@ -1,11 +1,13 @@
 'use strict';
 
 const mongoose = require('mongoose');
-const user = mongoose.model('userSchema');
-const pacient = mongoose.model('PacientSchema');
-
 const uuidv1 = require('uuid/v1');
 
+const user = mongoose.model('userSchema');
+const pacient = mongoose.model('pacientSchema');
+const game = mongoose.model('gameSchema');
+
+//OK
 exports.createPacient = async (data) => {
     var tempPacient = new pacient(data.pacient);
 
@@ -13,7 +15,9 @@ exports.createPacient = async (data) => {
 
     await user.findByIdAndUpdate(data.id, {
         $push: {
-            'pacients': data.pacient
+            pacients: {
+                identifier: data.pacient.identifier
+            }
         }
     }, {
             rawResult: true,
@@ -21,35 +25,33 @@ exports.createPacient = async (data) => {
         });
 }
 
+//OK
 exports.setPacientGame = async (data) => {
 
     var id = uuidv1();
 
-    await user.findOneAndUpdate({
-        'pacients.identifier': data.identifier
-    }, {
-            $push: {
-                'pacients.$.toPlay': { 
-                    gameID: data.toPlay,
-                    config: data.config,
-                    ordem: data.ordem,
-                    idToPlay: id
-                }
-            }
-        }, {
-            new: true,
-            rawResult: true
-        });
+    var title;
+    if (data.gameID === 1) {
+        title = 'Jogo da maca'
+    }
+    var __game = {
+        pacient: data.identifier,
+        title: title,
+        gameID: data.gameID,
+        config: data.config,
+        ordem: data.ordem,
+        medic: data.medic,
+        idToPlay: id
+    };
+    var _game = new game(__game);
 
+    await _game.save();
 
-    await pacient.findOneAndUpdate({ //WORKING
+    await pacient.findOneAndUpdate({
         identifier: data.identifier
     }, {
             $push: {
-                toPlay: {
-                    gameID: data.toPlay,
-                    config: data.config,
-                    ordem: data.ordem,
+                games: {
                     idToPlay: id
                 }
             }
@@ -59,34 +61,26 @@ exports.setPacientGame = async (data) => {
         });
 }
 
+// OK, fazer validação da existencias jogo
 exports.deletePacientGame = async (data) => {
-
-    await user.findOneAndUpdate({
-        'pacients.identifier': data.identifier
+    // await Promise.all([pacient.findByIdAndUpdate(data.pacient, {
+    //     $pull: { games: { 'idToPlay': data.gameid } }
+    // }, {
+    //         new: true,
+    //         rawResult: true
+    //     }), game.findOneAndRemove({ idToPlay: data.gameid })]);
+    pacient.findByIdAndUpdate(data.pacient, {
+        $pull: { games: { 'idToPlay': data.gameid } }
     }, {
-            $pull: {
-                'pacients.$.toPlay': { idToPlay: data.gameid }
-            }
-        }, {
             new: true,
             rawResult: true
-        });
-
-
-    await pacient.findOneAndUpdate({ 
-        identifier: data.identifier
-    }, {
-            $pull: {
-                toPlay: {
-                    idToPlay: data.gameid
-                }
-            }
-        }, {
-            new: true,
-            rawResult: true
+        })
+        .then(() => {
+            return game.findOneAndRemove({ idToPlay: data.gameid });
         });
 }
 
+//OK
 exports.update = async (data) => {
     await user.findByIdAndUpdate(data.id,
         {
@@ -99,53 +93,40 @@ exports.update = async (data) => {
             rawResult: true
         });
 }
-
+//OK
 exports.updatePacient = async (data) => {
-    await user.findOneAndUpdate({ 'pacients.identifier': data.identifier }, 
-    { $set: { 
-        'pacients.$.name': data.name, 
-        'pacients.$.active': data.active
-    } }, {
-        new: true,
-        rawResult: true
-    });
-
-    await pacient.findOneAndUpdate({ 
-        identifier: data.identifier
+    await pacient.findOneAndUpdate({ identifier: data.identifier, medic: data.medic }, {
+        $set: {
+            name: data.name,
+            age: data.age,
+            sexo: data.sexo,
+            active: data.active,
+            objetivo: data.objetivo,
+            patologia: data.patologia
+        }
     }, {
-            $set: {
-                name: data.name,
-                age: data.age,
-                
-                sexo: data.sexo,
-
-                active: data.active,
-                objetivo: data.objetivo,
-                patologia: data.patologia
-            }
-        }, {
             new: true,
             rawResult: true
         });
 }
-
+//OK
 exports.createUser = async (data) => {
     var tempUser = new user(data);
     await tempUser.save();
 }
-
+//OK
 exports.get = async (data) => {
     const res = await user.findById(data);
     return res;
 }
-
+//OK
 exports.getPacients = async (data) => {
-    const res = await pacient.find({ 'medic.id': data });
+    const res = await pacient.find({ medic: data });
     return res;
 }
-
+//OK
 exports.getPacient = async (data) => {
-    const res = await pacient.find({ 'medic.id': data.id, identifier: data.pacient_ident });
+    const res = await pacient.find({ medic: data.id, identifier: data.pacient_ident });
     return res;
 }
 

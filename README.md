@@ -5,7 +5,7 @@
 
 ## User endpoint
 
-#### Create new user
+OK #### Create new user
 ```http
 POST /api/user/create
 ```
@@ -25,7 +25,7 @@ POST /api/user/create
     "login": "etnapaj"
 }
 ```
-#### User authentication
+OK #### User authentication
 ```http
 POST /api/auth
 ```
@@ -64,7 +64,7 @@ PUT /api/user
     "success": true
 }
 ```
-#### Get user information
+OK #### Get user information
 ```http
 GET /api/user
 ```
@@ -120,7 +120,7 @@ GET /api/user
     "success": true
 }
 ```
-#### Delete user
+OK #### Delete user
 ```http
 DELETE /api/user/delete
 ```
@@ -136,7 +136,7 @@ DELETE /api/user/delete
     "success": true
 }
 ```
-#### Create pacient
+OK #### Create pacient
 ```http
 PUT /api/user/pacients
 ```
@@ -158,9 +158,9 @@ PUT /api/user/pacients
     "success": true
 }
 ```
-#### Add games to pacient's list
+OK #### Add games to pacient's list
 ```http
-PUT /api/user/pacients/games/77584(pacient identifier)
+PUT /api/user/pacients/games/:identifier
 ```
 ```json
 {
@@ -179,7 +179,7 @@ PUT /api/user/pacients/games/77584(pacient identifier)
 ```
 #### Delete pacient
 ```http
-DELETE /api/user/pacients/77584  (pacient identifier)
+DELETE /api/user/pacients/:identifier
 ```
 ```json
 {
@@ -193,19 +193,19 @@ DELETE /api/user/pacients/77584  (pacient identifier)
     "success": true
 }
 ```
-#### Update Pacient
+OK #### Update Pacient
 ```http
-PUT /api/user/pacients/6c60a(pacient identifier)
+PUT /api/user/pacients/:identifier
 ```
 ```json
 {
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg",
-  	"name":"marcos rio d ejaneiro",
+	"name":"dany targeryan",
     "sexo":"indefinido",
     "age": 24,
     "active": false,
-    "objetivo": "objetivo indefinido",
-    "patologia": "nao sei"
+    "objetivo": "be the queen of westeros",
+    "patologia": "domination"
 }
 ```
 ##### Response
@@ -215,12 +215,12 @@ PUT /api/user/pacients/6c60a(pacient identifier)
     "success": true
 }
 ```
-#### Get pacient information
+OK #### Get pacient information
 ```http
-GET /api/user/pacients/c2d3b(pacient identifier)
+GET /api/user/pacients/:identifier
 ```
 ```http
-GET /api/user/pacients/ (all pacients)
+GET /api/user/pacients/
 ```
 ```json
 {
@@ -292,18 +292,17 @@ GET /api/user/pacients/ (all pacients)
 ```
 #### FIX--Remove pacient game of toPlay list
 ```http
-PUT /api/user/pacients/games/delete/77584 (pacient identifier)
+PUT /api/user/pacients/games/:pacientid/:gameid
 ```
 ```json
 {
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg",
-    "gameid":"2826d780-a042-11e8-a216-7bd1cd177fea"
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg"
 }
 ```
 ##### Response
 ```json
 {
-    "message": "Removido jogo undefined do paciente: 775484",
+    "message": "Jogo removido",
     "success": true
 }
 ```

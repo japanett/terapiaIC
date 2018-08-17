@@ -14,7 +14,7 @@ router.put('/pacients', authService.authorize, controller.createPacient);
 router.get('/pacients', authService.authorize, controller.getPacients); //list of pacients
 router.get('/pacients/:identifier', authService.authorize, controller.getPacient);//single pacient
 router.put('/pacients/games/:identifier', authService.authorize, controller.setPacientGame);
-router.put('/pacients/games/delete/:identifier', authService.authorize, controller.deletePacientGame);
+router.put('/pacients/games/:pacientid/:gameid', authService.authorize, controller.deletePacientGame);
 router.put('/pacients/:identifier', authService.authorize, controller.updatePacient);
 router.delete('/pacients/:identifier', authService.authorize, controller.removePacient);
 

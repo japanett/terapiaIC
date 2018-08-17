@@ -1,6 +1,6 @@
 'use strict';
 const mongoose = require('mongoose');
-const pacient = mongoose.model('PacientSchema');
+const pacient = mongoose.model('pacientSchema');
 const user = mongoose.model('userSchema');
 
 exports.authenticate = async (data) => {
