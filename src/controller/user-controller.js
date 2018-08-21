@@ -362,7 +362,8 @@ exports.removePacient = async (req, res, next) => {
 
         // deletando pelo identifier do paciente
         await repository.removePacient({
-            identifier: req.params.identifier,
+            pacient: req.body.pacient,
+            identifier:req.params.identifier,
             id: data.id
         });
         res.status(200).send({

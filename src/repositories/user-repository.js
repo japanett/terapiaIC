@@ -63,12 +63,6 @@ exports.setPacientGame = async (data) => {
 
 // OK, fazer validação da existencias jogo
 exports.deletePacientGame = async (data) => {
-    // await Promise.all([pacient.findByIdAndUpdate(data.pacient, {
-    //     $pull: { games: { 'idToPlay': data.gameid } }
-    // }, {
-    //         new: true,
-    //         rawResult: true
-    //     }), game.findOneAndRemove({ idToPlay: data.gameid })]);
     pacient.findByIdAndUpdate(data.pacient, {
         $pull: { games: { 'idToPlay': data.gameid } }
     }, {
@@ -129,19 +123,18 @@ exports.getPacient = async (data) => {
     const res = await pacient.find({ medic: data.id, identifier: data.pacient_ident });
     return res;
 }
-
+//OK
 exports.delete = async (data) => {
     await user.findByIdAndRemove(data);
+    await pacient.remove({medic:data});
+    await game.remove({medic:data});
 }
 
+//OK
 exports.removePacient = async (data) => {
     //tratar o erro caso o usuario n exista, exemplo no createPacient
     await user.findByIdAndUpdate(data.id, {
-        $pull: {
-            'pacients': {
-                'identifier': data.identifier
-            }
-        }
+        $pull: { pacients: {'identifier': data.identifier } }
     }, {
             new: true,
             rawResult: true
@@ -149,6 +142,9 @@ exports.removePacient = async (data) => {
 
     await pacient.findOneAndRemove({
         identifier: data.identifier
+    });
+    await game.remove({
+        pacient: data.identifier
     });
     //http://mongoosejs.com/docs/subdocs.html
 }

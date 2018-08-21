@@ -25,8 +25,7 @@ const userSchema = new Schema({
     },
     pacients: [{
         identifier: {
-            type: String,
-            unique: true
+            type: String
         },
         _id: false
     }]
