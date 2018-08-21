@@ -2,6 +2,7 @@
 const mongoose = require('mongoose');
 const pacient = mongoose.model('pacientSchema');
 const user = mongoose.model('userSchema');
+const game = mongoose.model('gameSchema');
 
 exports.authenticate = async (data) => {
     const res = await pacient.findOne({
@@ -15,45 +16,30 @@ exports.get = async (data) => {
     return res;
 }
 
-exports.put = async (data) => {
-    //Remove o jogo da lista toPlay
-    // await user.findOneAndUpdate({
-    //     'pacients.identifier': data.identifier
-    // }, {
-    //         $pull: {
-    //             'pacients.$.toPlay': { gameID: data.gameID }
-    //         }
-    //     }, {
-    //         new: true,
-    //         rawResult: true
-    //     });
+exports.getGames = async (data) => {
+    const res = await game.find({ pacient: data });
+    return res;
+}
 
-    if (data.gameID === 1) {
-        await pacient.findOneAndUpdate({
-            identifier: data.identifier
-        }, {
-                $push: {
-                    'games.gameMaca': data.game
-                }
+exports.postGame = async (data) => {
+    await game.findOneAndUpdate({ idToPlay: data.idToPlay }, {
+        $set: {
+            date: data.date,
+            score: data.score,
+            error: data.error,
+            time: data.time,
+            played: true
+        }
+    }, {
+            new: true,
+            rawResult: true
+        })
+        .then(() => {
+            return pacient.findOneAndUpdate({ identifier: data.identifier }, {
+                $pull: { games: { 'idToPlay': data.idToPlay } }
             }, {
-                new: true,
-                rawResult: true
-            });
-        //Remove o jogo da lista toPlay
-        // await pacient.findByIdAndUpdate(data.pacient_id, {
-        //     $pull: {
-        //         'toPlay': {
-        //             'gameID': data.gameID
-        //         }
-        //     }
-        // }, {
-        //         new: true,
-        //         rawResult: true
-        //     });
-
-        return true
-    } else {
-        return false
-    }
-
+                    new: true,
+                    rawResult: true
+                });
+        });
 }

@@ -6,7 +6,8 @@ const controller = require('../controller/pacient-controller');
 const authService = require('../services/auth-service');
 
 router.post('/auth', controller.authenticate);
-router.put('/games', authService.authorize, controller.put);
+router.put('/games', authService.authorize, controller.postGame);
+router.get('/games', authService.authorize, controller.getGames);
 router.get('/', authService.authorize, controller.get);
 
 module.exports = router;

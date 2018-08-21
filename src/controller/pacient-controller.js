@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 
 const pacient = mongoose.model('pacientSchema');
 const userSchema = mongoose.model('userSchema');
+const game = mongoose.model('gameSchema');
 
 const authService = require('../services/auth-service');
 const repository = require('../repositories/pacient-repository');
@@ -60,7 +61,25 @@ exports.get = async (req, res, next) => {
     }
 }
 
-exports.put = async (req, res, next) => {
+exports.getGames = async (req, res, next) => {
+    try {
+        //recupera token
+        const token = req.body.token || req.query.token || req.headers['x-access-token'];
+
+        //decodifica token
+        const data = await authService.decodeToken(token);
+        var dataGames = await repository.getGames(data.identifier);
+
+        res.status(200).send({ data: dataGames, success: true });
+    } catch (e) {
+        res.status(500).send({
+            message: 'Failed process request',
+            success: false
+        });
+    }
+}
+
+exports.postGame = async (req, res, next) => {
     try {
         //token:{identifier,medic_id}
         //recupera token
@@ -68,42 +87,21 @@ exports.put = async (req, res, next) => {
         //decodifica token
         const data = await authService.decodeToken(token);
 
-        let temp = {
-            "gameID": req.body.gameID,
-            "title": null,
-            "seconds": req.body.seconds,
-            "date": Date.now(),
-            "acertos":req.body.acertos,
-            "description": null,
-            "error": {
-                "mao": req.body.error.mao,
-                "caixa": req.body.error.caixa
-            }
-        }
-        if (req.body.gameID === 1) {
-            temp.title = "Jogo da maçã";
-            temp.description = "Descrição do jogo da maçã";
-        }
-
-        const val = await repository.put({
+        await repository.postGame({
             pacient_id: data.pacient_id,
             identifier: data.identifier,
             medic_id: data.medic_id,
-            gameID: req.body.gameID,
-            game: temp,
-            idToPlay: req.body.idToPlay
+            idToPlay: req.body.idToPlay, //passar no body
+            date: Date.now(), //passar no body
+            score: req.body.acertos, //passar no body
+            error: req.body.erros, //passar no body
+            time: req.body.time //passar no body
         });
-        if (val) {
-            res.status(200).send({
-                message: 'Informações do jogo ' + temp.title + ' para o paciente ' + data.identifier + ' atualizada',
-                success: true
-            });
-        } else {
-            res.status(400).send({
-                message: 'Jogo inexistente na base de dados',
-                success: false
-            });
-        }
+
+        res.status(200).send({
+            message: 'Informações do jogo atualizado com sucesso ',
+            success: true
+        });
 
     } catch (e) {
         console.log(e);

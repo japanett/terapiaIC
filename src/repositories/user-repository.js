@@ -97,8 +97,7 @@ exports.updatePacient = async (data) => {
             active: data.active,
             objetivo: data.objetivo,
             patologia: data.patologia
-        }
-    }, {
+        }}, {
             new: true,
             rawResult: true
         });

@@ -339,15 +339,15 @@ GET /api/user/games/:pacientid
     "success": true
 }
 ```
-## User endpoint
+## Pacient endpoint
 
-#### Pacient authentication
+#### Authentication
 ```http
 POST /api/pacient/auth
 ```
 ```json
 {
-	"identifier":"cd404"
+	"identifier":"4c2eff"
 }
 ```
 ##### Response
@@ -357,8 +357,7 @@ POST /api/pacient/auth
     "success": true,
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYWNpZW50X2lkIjoiNWI2OGFlNTgyNDRjYmUwM2M4MjYwOTU5IiwibWVkaWNfaWQiOiI1YjY4YWRhZTI0NGNiZTAzYzgyNjA5NTgiLCJpZGVudGlmaWVyIjoiY2Q0MDQiLCJpYXQiOjE1MzM2ODk3MDAsImV4cCI6MTUzMzc3NjEwMH0.mvM1vQJGM_ENkk8DnOitS_Zn-WXCOWLTKJ2Noz20VBU",
     "data": {
-        "medic_id": "5b68adae244cbe03c8260958",
-        "identifier": "cd404"
+        "identifier": "4c2eff"
     }
 }
 ```
@@ -374,65 +373,77 @@ GET /api/pacient/
 ##### Response
 ```json
 {
-    "data":  {
-        "medic": {
-            "id": "5b73a0490af1fc31884e7c80"
-        },
-        "games": {
-               "gameMaca": []
-            },
+    "data": {
         "active": true,
-        "_id": "5b73a9500499502f08187d36",
-        "name": "larissa hildebrand sux",
+        "_id": "5b7b74d4135f2613f4feb88e",
+        "name": "danyyy targeryan",
         "age": 21,
         "sexo": "feminino",
         "patologia": "patologia exemplo2",
-        "objetivo": "ser um creme",
-        "identifier": "77584",
-        "toPlay": [
+        "objetivo": "recuperar o movimento da mao direita",
+        "identifier": "4c2eff",
+        "medic": "5b7b718e135f2613f4feb88c",
+        "games": [
             {
-                "ordem": 1,
-                "gameID": 1,
-                "config": "mao direita",
-                "idToPlay": "22b2d0b0-a042-11e8-a216-7bd1cd177fea"
-            },
-            {
-                "ordem": 2,
-                "gameID": 1,
-                "config": "mao esquerda",
-                "idToPlay": "25bd9fb0-a042-11e8-a216-7bd1cd177fea"
-            },
-            {
-                "ordem": 3,
-                "gameID": 1,
-                "config": "ambas",
-                "idToPlay": "2826d780-a042-11e8-a216-7bd1cd177fea"
+                "idToPlay": "ae83e440-a4e7-11e8-9515-1f7ad2d13f37"
             }
         ],
+        "__v": 0
     },
     "success": true
 }
 ```
-#### Play game (put game information)
+#### Get games
 ```http
-PUT /api/pacient/games
+GET /api/pacient/games
 ```
 ```json
 {
-	"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYWNpZW50X2lkIjoiNWI2OGFlNTgyNDRjYmUwM2M4MjYwOTU5IiwibWVkaWNfaWQiOiI1YjY4YWRhZTI0NGNiZTAzYzgyNjA5NTgiLCJpZGVudGlmaWVyIjoiY2Q0MDQiLCJpYXQiOjE1MzM4NjQ2MjMsImV4cCI6MTUzMzk1MTAyM30.RyDWo4Hmaw2VRqvzz0qhaWpBt_BGU7r--eq6yZ39qPE",
-	"gameID": 1,
-    "seconds": 123,
-    "acertos":25,
-    "error": {
-        "mao": 0,
-        "caixa": 2
-    }
+	"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYWNpZW50X2lkIjoiNWI3Yjc0YzkxMzVmMjYxM2Y0ZmViODhkIiwiaWRlbnRpZmllciI6ImNjOTg5NyIsImlhdCI6MTUzNDg4NjU0OSwiZXhwIjoxNTM0OTcyOTQ5fQ.MvIgxzS549SvLLgdaNucoYfDYigLqK7KxlwTj4AycgI",
 }
 ```
 ##### Response
 ```json
 {
-    "message": "Informações do jogo Jogo da maçã para o paciente cd404 atualizada",
+    "data": [
+        {
+            "date": "2018-08-21T21:34:40.680Z",
+            "score": 22,
+            "error": 3,
+            "time": 33,
+            "played": true,
+            "_id": "5b7b7518135f2613f4feb890",
+            "pacient": "4c2eff",
+            "title": "Jogo da maca",
+            "gameID": 1,
+            "config": "mao direita",
+            "ordem": 1,
+            "medic": "5b7b718e135f2613f4feb88c",
+            "idToPlay": "ae83e440-a4e7-11e8-9515-1f7ad2d13f37",
+            "__v": 0
+        }
+    ],
+    "success": true
+}
+```
+
+#### Play game (update game information)
+```http
+PUT /api/pacient/games
+```
+```json
+{
+	"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYWNpZW50X2lkIjoiNWI3Yjc0YzkxMzVmMjYxM2Y0ZmViODhkIiwiaWRlbnRpZmllciI6ImNjOTg5NyIsImlhdCI6MTUzNDg4NjU0OSwiZXhwIjoxNTM0OTcyOTQ5fQ.MvIgxzS549SvLLgdaNucoYfDYigLqK7KxlwTj4AycgI",
+	"acertos": 22,
+	"erros":3,
+	"time":33,
+	"idToPlay":"a4093e70-a4e7-11e8-9515-1f7ad2d13f37"
+}
+```
+##### Response
+```json
+{
+    "message": "Informações do jogo atualizado com sucesso",
     "success": true
 }
 ```
