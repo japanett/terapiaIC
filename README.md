@@ -1,4 +1,3 @@
-UPDATETHIS
 # API service for my Undergraduate Research project
 ## This project is intended to rehabilitate kids motor functions through virtual games, which are being developed by a physiotherapist and a group of students using Leap Motion. My part is to receive data from the game and display it to the physiotherapist through a mobile application that is being developed using Ionic Framework. 
 
@@ -6,7 +5,7 @@ UPDATETHIS
 
 ## User endpoint
 
-OK #### Create new user
+#### Create new user
 ```http
 POST /api/user/create
 ```
@@ -26,7 +25,7 @@ POST /api/user/create
     "login": "etnapaj"
 }
 ```
-OK #### User authentication
+#### User authentication
 ```http
 POST /api/auth
 ```
@@ -47,13 +46,13 @@ POST /api/auth
     }
 }
 ```
-OK #### Update user information
+#### Update user information
 ```http
 PUT /api/user
 ```
 ```json
 {
-"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg",
 	"name":"New Name",
 	"email":"n3W3M4aiL@gmail.com"
 }
@@ -65,7 +64,7 @@ PUT /api/user
     "success": true
 }
 ```
-OK #### Get user information
+#### Get user information
 ```http
 GET /api/user
 ```
@@ -85,43 +84,18 @@ GET /api/user
         "name": "Jhon Daenerys Snow",
         "pacients": [
             {
-                "active": false,
-                "toPlay": [],
-                "name": "marcos rio d ejaneiro",
-                "identifier": "6c60a"
+                "identifier": "cc9897"
             },
             {
-                "active": true,
-                "toPlay": [
-                    {
-                        "config": "mao direita",
-                        "ordem": 1,
-                        "gameID": 1,
-                        "idToPlay": "22b2d0b0-a042-11e8-a216-7bd1cd177fea"
-                    },
-                    {
-                        "config": "mao esquerda",
-                        "ordem": 2,
-                        "gameID": 1,
-                        "idToPlay": "25bd9fb0-a042-11e8-a216-7bd1cd177fea"
-                    },
-                    {
-                        "config": "ambas",
-                        "ordem": 3,
-                        "gameID": 1,
-                        "idToPlay": "2826d780-a042-11e8-a216-7bd1cd177fea"
-                    }
-                ],
-                "name": "larissa hildebrand sux",
-                "identifier": "77584"
+                "identifier": "4c2eff"
             }
-        ],
+        ],  
         "__v": 0
     },
     "success": true
 }
 ```
-OK #### Delete user
+#### Delete user
 ```http
 DELETE /api/user/delete
 ```
@@ -137,29 +111,29 @@ DELETE /api/user/delete
     "success": true
 }
 ```
-OK #### Create pacient
+#### Create pacient
 ```http
 PUT /api/user/pacients
 ```
 ```json
 {
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg",
-	"name":"larissa hildebrand sux",
+	"name":"jhon snow",
 	"age":21,
-	"sexo":"feminino",
+	"sexo":"masculino",
 	"patologia":"patologia exemplo2",
-	"objetivo": "ser um creme"
+	"objetivo": "recuperar o movimento da mao direita"
 }
 ```
 ##### Response
 ```json
 {
-    "message": "dany added pacient larissa hildebrand sux",
+    "message": "dany added pacient jhon snow",
     "pacient_identifier": "77584",
     "success": true
 }
 ```
-OK #### Add games to pacient's list
+#### Add games to pacient's list
 ```http
 PUT /api/user/pacients/games/:identifier
 ```
@@ -167,8 +141,8 @@ PUT /api/user/pacients/games/:identifier
 {
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg",
     "toPlay":1,
-    "config":"ambas",
-	"ordem":3
+	"config":"mao direita",
+	"ordem":1
 }
 ```
 ##### Response
@@ -194,7 +168,7 @@ DELETE /api/user/pacients/:identifier
     "success": true
 }
 ```
-OK #### Update Pacient
+#### Update Pacient
 ```http
 PUT /api/user/pacients/:identifier
 ```
@@ -206,7 +180,7 @@ PUT /api/user/pacients/:identifier
     "age": 24,
     "active": false,
     "objetivo": "be the queen of westeros",
-    "patologia": "domination"
+    "patologia": "idk"
 }
 ```
 ##### Response
@@ -216,12 +190,9 @@ PUT /api/user/pacients/:identifier
     "success": true
 }
 ```
-OK #### Get pacient information
+#### Get pacient information
 ```http
-GET /api/user/pacients/:identifier
-```
-```http
-GET /api/user/pacients/
+GET /api/user/pacients/?:identifier
 ```
 ```json
 {
@@ -233,56 +204,35 @@ GET /api/user/pacients/
 {
     "data": [
         {
-            "medic": {
-                "id": "5b73a0490af1fc31884e7c80"
-            },
-            "games": {
-                "gameMaca": []
-            },
-            "active": false,
-            "_id": "5b73a44d206c6d1e28788cd9",
-            "name": "marcos rio d ejaneiro",
-            "age": 24,
-            "sexo": "indefinido",
-            "patologia": "nao sei",
-            "objetivo": "objetivo indefinido",
-            "identifier": "6c60a",
-            "toPlay": [],
-            "__v": 0
-        },
-        {
-            "medic": {
-                "id": "5b73a0490af1fc31884e7c80"
-            },
-            "games": {
-                "gameMaca": []
-            },
             "active": true,
-            "_id": "5b73a9500499502f08187d36",
-            "name": "larissa hildebrand sux",
+            "_id": "5b7b74c9135f2613f4feb88d",
+            "name": "jhon snow danyyy",
             "age": 21,
             "sexo": "feminino",
             "patologia": "patologia exemplo2",
-            "objetivo": "ser um creme",
-            "identifier": "77584",
-            "toPlay": [
+            "objetivo": "recuperar o movimento da mao direita",
+            "identifier": "cc9897",
+            "medic": "5b7b718e135f2613f4feb88c",
+            "games": [
                 {
-                    "ordem": 1,
-                    "gameID": 1,
-                    "config": "mao direita",
-                    "idToPlay": "22b2d0b0-a042-11e8-a216-7bd1cd177fea"
-                },
+                    "idToPlay": "a4093e70-a4e7-11e8-9515-1f7ad2d13f37"
+                }
+            ],
+            "__v": 0
+        },
+        {
+            "active": true,
+            "_id": "5b7b74d4135f2613f4feb88e",
+            "name": "danyyy targeryan",
+            "age": 21,
+            "sexo": "feminino",
+            "patologia": "patologia exemplo2",
+            "objetivo": "recuperar o movimento da mao direita",
+            "identifier": "4c2eff",
+            "medic": "5b7b718e135f2613f4feb88c",
+            "games": [
                 {
-                    "ordem": 2,
-                    "gameID": 1,
-                    "config": "mao esquerda",
-                    "idToPlay": "25bd9fb0-a042-11e8-a216-7bd1cd177fea"
-                },
-                {
-                    "ordem": 3,
-                    "gameID": 1,
-                    "config": "ambas",
-                    "idToPlay": "2826d780-a042-11e8-a216-7bd1cd177fea"
+                    "idToPlay": "ae83e440-a4e7-11e8-9515-1f7ad2d13f37"
                 }
             ],
             "__v": 0
@@ -291,7 +241,7 @@ GET /api/user/pacients/
     "success": true
 }
 ```
-#### FIX--Remove pacient game of toPlay list
+#### Remove pacient game
 ```http
 PUT /api/user/pacients/games/:pacientid/:gameid
 ```
@@ -307,7 +257,88 @@ PUT /api/user/pacients/games/:pacientid/:gameid
     "success": true
 }
 ```
-
+##### Get games
+```http
+GET /api/user/games
+```
+```json
+{
+"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg"
+}
+```
+##### Response
+```json
+{
+    "data": [
+        {
+            "date": null,
+            "score": null,
+            "error": null,
+            "time": null,
+            "played": false,
+            "_id": "5b7b7577135f2613f4feb892",
+            "pacient": "acaf3f",
+            "title": "Jogo da maca",
+            "gameID": 1,
+            "config": "mao direita",
+            "ordem": 1,
+            "medic": "5b7b715c135f2613f4feb88a",
+            "idToPlay": "e7323cb0-a4e7-11e8-9515-1f7ad2d13f37",
+            "__v": 0
+        },
+        {
+            "date": null,
+            "score": null,
+            "error": null,
+            "time": null,
+            "played": false,
+            "_id": "5b7b75c5135f2613f4feb894",
+            "pacient": "b9463f",
+            "title": "Jogo da maca",
+            "gameID": 1,
+            "config": "mao direita",
+            "ordem": 1,
+            "medic": "5b7b715c135f2613f4feb88a",
+            "idToPlay": "159bf370-a4e8-11e8-9515-1f7ad2d13f37",
+            "__v": 0
+        }
+    ],
+    "success": true
+}
+```
+##### Get pacient games
+```http
+GET /api/user/games/:pacientid
+```
+```json
+{
+"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg"
+}
+```
+##### Response
+```json
+{
+    "data": [
+        {
+            "date": null,
+            "score": null,
+            "error": null,
+            "time": null,
+            "played": false,
+            "_id": "5b7b7577135f2613f4feb892",
+            "pacient": "acaf3f",
+            "title": "Jogo da maca",
+            "gameID": 1,
+            "config": "mao direita",
+            "ordem": 1,
+            "medic": "5b7b715c135f2613f4feb88a",
+            "idToPlay": "e7323cb0-a4e7-11e8-9515-1f7ad2d13f37",
+            "__v": 0
+        }
+    ],
+    "success": true
+}
+```
 ## User endpoint
 
 #### Pacient authentication
@@ -404,6 +435,7 @@ PUT /api/pacient/games
     "message": "Informações do jogo Jogo da maçã para o paciente cd404 atualizada",
     "success": true
 }
+```
 
 ## User(medic) functionalities:
 - CREATE pacient

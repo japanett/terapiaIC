@@ -378,3 +378,39 @@ exports.removePacient = async (req, res, next) => {
         });
     }
 }
+exports.getGames = async (req, res, next) => {
+    try {
+        //recupera token
+        const token = req.body.token || req.query.token || req.headers['x-access-token'];
+
+        //decodifica token
+        const data = await authService.decodeToken(token);
+
+        var dataPacients = await repository.getGames(data.id);
+
+        res.status(200).send({ data: dataPacients, success: true });
+    } catch (e) {
+        res.status(500).send({
+            message: 'Failed process request',
+            success: false
+        });
+    }
+}
+exports.getPacientGames = async (req, res, next) => {
+    try {
+        //recupera token
+        const token = req.body.token || req.query.token || req.headers['x-access-token'];
+
+        //decodifica token
+        const data = await authService.decodeToken(token);
+
+        var dataPacients = await repository.getPacientGames({medic:data.id, pacient:req.params.id});
+
+        res.status(200).send({ data: dataPacients, success: true });
+    } catch (e) {
+        res.status(500).send({
+            message: 'Failed process request',
+            success: false
+        });
+    }
+}
