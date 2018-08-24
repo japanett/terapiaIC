@@ -135,16 +135,6 @@ exports.createUser = async (req, res, next) => {
             name: name
         });
 
-
-        // const msg = {
-        //     to: req.body.email,
-        //     from: 'APP Terapeuta',
-        //     subject: 'APP Terapeuta, Bem vindo(a) ' + req.body.name.first,
-        //     // text: 'TEEESTand easy to do anywhere, even with Node.js',
-        //     html: '<strong>and easy to do anywhere, even with Node.js</strong>',
-        // };
-        // await sgMail.send(msg);
-        // console('terapeuta criado');
         res.status(201).send({
             message: 'Terapeuta ' + req.body.name + ' criado.',
             success: true,
@@ -161,28 +151,32 @@ exports.createUser = async (req, res, next) => {
 }
 
 exports.setPacientGame = async (req, res, next) => {
-    // paciente vai receber o idToPlay do jogo
-    // salvar o jogo com o id do paciente, medico, config, ordem, gameID
-    // title vai passar de acordo com o gameID
     try {
         //token:{login,id}
-        //recupera token
         const token = req.body.token || req.query.token || req.headers['x-access-token'];
-        //decodifica token
         const data = await authService.decodeToken(token);
 
-        await repository.setPacientGame({
-            identifier: req.params.identifier,
-            gameID: req.body.toPlay,
-            config: req.body.config,
-            ordem: req.body.ordem,
-            medic: data.id
-        });
+        let exists = await repository.getGameId(req.body.toPlay);
 
-        res.status(200).send({
-            message: 'Adicionado jogos para o Paciente: ' + req.params.identifier,
-            success: true
-        });
+        if (exists) {
+            res.status(406).send('Jogo já foi criado para o paciente');
+        } else {
+            await repository.setPacientGame({
+                identifier: req.params.identifier,
+                gameID: req.body.toPlay,
+                config: req.body.config,
+                medic: data.id
+            });
+            //config:
+            //mao esquerda = 1
+            //mao direita = 2
+            //mao cruzada = 3
+            res.status(200).send({
+                message: 'Adicionado jogos para o Paciente: ' + req.params.identifier,
+                success: true
+            });
+
+        }
     } catch (e) {
         console.log(e);
         res.status(500).send({
@@ -228,7 +222,7 @@ exports.updatePacient = async (req, res, next) => {
         const data = await authService.decodeToken(token);
 
         await repository.updatePacient({
-            medic:data.id,
+            medic: data.id,
             identifier: req.params.identifier,
             name: req.body.name,
             sexo: req.body.sexo,
@@ -363,7 +357,7 @@ exports.removePacient = async (req, res, next) => {
         // deletando pelo identifier do paciente
         await repository.removePacient({
             pacient: req.body.pacient,
-            identifier:req.params.identifier,
+            identifier: req.params.identifier,
             id: data.id
         });
         res.status(200).send({
@@ -404,7 +398,7 @@ exports.getPacientGames = async (req, res, next) => {
         //decodifica token
         const data = await authService.decodeToken(token);
 
-        var dataPacients = await repository.getPacientGames({medic:data.id, pacient:req.params.id});
+        var dataPacients = await repository.getPacientGames({ medic: data.id, pacient: req.params.id });
 
         res.status(200).send({ data: dataPacients, success: true });
     } catch (e) {

@@ -26,11 +26,7 @@ exports.authenticate = async (req, res, next) => {
 
         res.status(200).send({
             token: token,
-            success: true,
-            data: {
-                login: user.login,
-                id: user._id
-            }
+            success: true
         });
     } catch (e) {
         res.status(500).send({

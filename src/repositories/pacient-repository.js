@@ -17,7 +17,7 @@ exports.get = async (data) => {
 }
 
 exports.getGames = async (data) => {
-    const res = await game.find({ pacient: data });
+    const res = await game.find({ pacient: data, played: false });
     return res;
 }
 

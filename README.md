@@ -39,11 +39,7 @@ POST /api/auth
 ```json
 {
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg",
-    "success": true,
-    "data": {
-        "login": "dany",
-        "id": "5b5a8a00af3a90114cbb00ee"
-    }
+    "success": true
 }
 ```
 #### Update user information
@@ -141,8 +137,7 @@ PUT /api/user/pacients/games/:identifier
 {
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg",
     "toPlay":1,
-	"config":"mao direita",
-	"ordem":1
+	"config":"1,2,3"
 }
 ```
 ##### Response
@@ -280,8 +275,7 @@ GET /api/user/games
             "pacient": "acaf3f",
             "title": "Jogo da maca",
             "gameID": 1,
-            "config": "mao direita",
-            "ordem": 1,
+            "config": "1,2,3",
             "medic": "5b7b715c135f2613f4feb88a",
             "idToPlay": "e7323cb0-a4e7-11e8-9515-1f7ad2d13f37",
             "__v": 0
@@ -296,8 +290,7 @@ GET /api/user/games
             "pacient": "b9463f",
             "title": "Jogo da maca",
             "gameID": 1,
-            "config": "mao direita",
-            "ordem": 1,
+            "config": "2,1,3",
             "medic": "5b7b715c135f2613f4feb88a",
             "idToPlay": "159bf370-a4e8-11e8-9515-1f7ad2d13f37",
             "__v": 0
@@ -329,8 +322,7 @@ GET /api/user/games/:pacientid
             "pacient": "acaf3f",
             "title": "Jogo da maca",
             "gameID": 1,
-            "config": "mao direita",
-            "ordem": 1,
+            "config": "1,2,3",
             "medic": "5b7b715c135f2613f4feb88a",
             "idToPlay": "e7323cb0-a4e7-11e8-9515-1f7ad2d13f37",
             "__v": 0
@@ -393,7 +385,7 @@ GET /api/pacient/
     "success": true
 }
 ```
-#### Get games
+#### Get games (played: false)
 ```http
 GET /api/pacient/games
 ```
@@ -407,17 +399,16 @@ GET /api/pacient/games
 {
     "data": [
         {
-            "date": "2018-08-21T21:34:40.680Z",
-            "score": 22,
-            "error": 3,
-            "time": 33,
-            "played": true,
+            "date": null,
+            "score": null,
+            "error": null,
+            "time": null,
+            "played": false,
             "_id": "5b7b7518135f2613f4feb890",
             "pacient": "4c2eff",
             "title": "Jogo da maca",
             "gameID": 1,
-            "config": "mao direita",
-            "ordem": 1,
+            "config": "1,2,3",
             "medic": "5b7b718e135f2613f4feb88c",
             "idToPlay": "ae83e440-a4e7-11e8-9515-1f7ad2d13f37",
             "__v": 0
@@ -447,23 +438,6 @@ PUT /api/pacient/games
     "success": true
 }
 ```
-
-## User(medic) functionalities:
-- CREATE pacient
-- GET his own data
-- GET pacients list
-- GET single pacient data
-- UPDATE user data
-- UPDATE pacient data
-- Set a game on the pacient's toPlay list
-- Remove a game of the pacient's toPlay list
-- DELETE pacient
-- DELETE account
-
-## Pacient functionalities:
-- POST game information (play game)
-- GET pacient data
-
 
 ## To do:
 - Clean code

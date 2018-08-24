@@ -39,7 +39,6 @@ exports.setPacientGame = async (data) => {
         title: title,
         gameID: data.gameID,
         config: data.config,
-        ordem: data.ordem,
         medic: data.medic,
         idToPlay: id
     };
@@ -97,7 +96,8 @@ exports.updatePacient = async (data) => {
             active: data.active,
             objetivo: data.objetivo,
             patologia: data.patologia
-        }}, {
+        }
+    }, {
             new: true,
             rawResult: true
         });
@@ -145,6 +145,11 @@ exports.removePacient = async (data) => {
     await game.remove({
         pacient: data.identifier
     });
+}
+
+exports.getGameId = async (data) => {
+    const res = await game.findOne({ gameID: data, played: false });
+    return res;
 }
 
 exports.getGames = async (data) => {

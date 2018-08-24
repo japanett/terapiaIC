@@ -52,10 +52,6 @@ const gameSchema = new Schema({
         type:Boolean,
         required: false,
         default: false
-    },
-    ordem: {
-        type: Number,
-        required: false
     }
 });
 
