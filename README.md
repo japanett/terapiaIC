@@ -13,7 +13,7 @@ POST /api/user/create
 {
 	"name":"Jhon Daenerys Snow",
 	"login":"dany",
-	"password":"6@Nine",
+	"password":"6@Six",
 	"email":"daenerys@targaryan.net"
 }
 ```
@@ -32,7 +32,7 @@ POST /api/auth
 ```json
 {
 	"login":"dany",
-	"password":"6@Nine"
+	"password":"6@Six"
 }
 ```
 ##### Response
