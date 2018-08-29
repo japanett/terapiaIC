@@ -91,11 +91,19 @@ exports.postGame = async (req, res, next) => {
             pacient_id: data.pacient_id,
             identifier: data.identifier,
             medic_id: data.medic_id,
-            idToPlay: req.body.idToPlay, //passar no body
-            date: Date.now(), //passar no body
-            score: req.body.acertos, //passar no body
-            error: req.body.erros, //passar no body
-            time: req.body.time //passar no body
+            idToPlay: req.body.idToPlay,
+            date: Date.now(),
+            score: {
+                esquerda: req.body.score.esquerda,
+                direita: req.body.score.direita,
+                cruzada: req.body.score.cruzada
+            },
+            error: {
+                esquerda: req.body.erros.esquerda,
+                direita: req.body.erros.direita,
+                cruzada: req.body.erros.cruzada
+            },
+            time: req.body.time
         });
 
         res.status(200).send({

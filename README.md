@@ -267,8 +267,16 @@ GET /api/user/games
     "data": [
         {
             "date": null,
-            "score": null,
-            "error": null,
+            "score": {
+                "esquerda": null,
+                "direita": null,
+                "cruzada": null
+            },
+            "error": { 
+                "esquerda": null,
+                "direita": null,
+                "cruzada": null
+            },
             "time": null,
             "played": false,
             "_id": "5b7b7577135f2613f4feb892",
@@ -282,8 +290,16 @@ GET /api/user/games
         },
         {
             "date": null,
-            "score": null,
-            "error": null,
+            "score": {
+                "esquerda": null,
+                "direita": null,
+                "cruzada": null
+            },
+            "error": { 
+                "esquerda": null,
+                "direita": null,
+                "cruzada": null
+            },
             "time": null,
             "played": false,
             "_id": "5b7b75c5135f2613f4feb894",
@@ -314,8 +330,17 @@ GET /api/user/games/:pacientid
     "data": [
         {
             "date": null,
-            "score": null,
-            "error": null,
+            "score": {
+                "esquerda": null,
+                "direita": null,
+                "cruzada": null
+            },
+            "error": { 
+                "esquerda": null,
+                "direita": null,
+                "cruzada": null
+
+            },
             "time": null,
             "played": false,
             "_id": "5b7b7577135f2613f4feb892",
@@ -400,8 +425,16 @@ GET /api/pacient/games
     "data": [
         {
             "date": null,
-            "score": null,
-            "error": null,
+            "score": {
+                "esquerda": null,
+                "direita": null,
+                "cruzada": null
+            },
+            "error": { 
+                "esquerda": null,
+                "direita": null,
+                "cruzada": null
+            },
             "time": null,
             "played": false,
             "_id": "5b7b7518135f2613f4feb890",
@@ -425,9 +458,17 @@ PUT /api/pacient/games
 ```json
 {
 	"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYWNpZW50X2lkIjoiNWI3Yjc0YzkxMzVmMjYxM2Y0ZmViODhkIiwiaWRlbnRpZmllciI6ImNjOTg5NyIsImlhdCI6MTUzNDg4NjU0OSwiZXhwIjoxNTM0OTcyOTQ5fQ.MvIgxzS549SvLLgdaNucoYfDYigLqK7KxlwTj4AycgI",
-	"acertos": 22,
-	"erros":3,
-	"time":33,
+	"score": {
+        "esquerda":8,
+        "direita":5,
+        "cruzada":2
+    },
+	"erros":{
+        "esquerda":2,
+        "direita":10,
+        "cruzada":20
+    },
+	"time":180,
 	"idToPlay":"a4093e70-a4e7-11e8-9515-1f7ad2d13f37"
 }
 ```
@@ -438,6 +479,11 @@ PUT /api/pacient/games
     "success": true
 }
 ```
+
+## Observations
+- mao esquerda = 1
+- mao direita = 2
+- mao cruzada = 3
 
 ## To do:
 - Clean code

@@ -25,8 +25,16 @@ exports.postGame = async (data) => {
     await game.findOneAndUpdate({ idToPlay: data.idToPlay }, {
         $set: {
             date: data.date,
-            score: data.score,
-            error: data.error,
+            score: {
+                esquerda: data.score.esquerda,
+                direita:data.score.direita,
+                cruzada:data.score.cruzada
+            },
+            error: {
+                esquerda: data.error.esquerda,
+                direita:data.error.direita,
+                cruzada:data.error.cruzada
+            },
             time: data.time,
             played: true
         }

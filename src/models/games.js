@@ -26,14 +26,38 @@ const gameSchema = new Schema({
         default: null
     },
     score: {
+      esquerda:{
         type: Number,
         required: false,
         default: null
+      },
+      direita:{
+        type: Number,
+        required: false,
+        default: null
+      },
+      cruzada:{
+        type: Number,
+        required: false,
+        default: null
+      }
     },
     error: {
-        type: Number,
-        required: false,
-        default: null
+        esquerda:{
+          type: Number,
+          required: false,
+          default: null
+        },
+        direita:{
+          type: Number,
+          required: false,
+          default: null
+        },
+        cruzada:{
+          type: Number,
+          required: false,
+          default: null
+        }
     },
     idToPlay: { //this
         type: String,

@@ -159,7 +159,10 @@ exports.setPacientGame = async (req, res, next) => {
         let exists = await repository.getGameId(req.body.toPlay);
 
         if (exists) {
-            res.status(406).send('Jogo já foi criado para o paciente');
+            res.status(406).send({
+                message: 'Jogo já foi criado para o paciente',
+                success: false
+            });
         } else {
             await repository.setPacientGame({
                 identifier: req.params.identifier,
@@ -167,10 +170,6 @@ exports.setPacientGame = async (req, res, next) => {
                 config: req.body.config,
                 medic: data.id
             });
-            //config:
-            //mao esquerda = 1
-            //mao direita = 2
-            //mao cruzada = 3
             res.status(200).send({
                 message: 'Adicionado jogos para o Paciente: ' + req.params.identifier,
                 success: true
