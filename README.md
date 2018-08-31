@@ -487,9 +487,9 @@ PUT /api/pacient/games
 
 ## To do:
 - Clean code
+- Refactor code (to use promises)
 - Bug hunting
 
 ## Fix:
 - (Create user) Sending email even when the request response != 201
 - A user can delete another user's pacient
-- Remove pacient game to play(not working)
