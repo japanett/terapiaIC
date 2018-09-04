@@ -11,6 +11,13 @@ const repository = require('../repositories/pacient-repository');
 
 exports.authenticate = async (req, res, next) => {
     try {
+        let pacientPromise
+        repository.authenticatePromise(req.body.identifier)
+            .then(function (resp) {
+                pacientPromise = resp
+            })
+        console.log(pacientPromise)
+        
         const pacient = await repository.authenticate(req.body.identifier);
         if (!pacient) {
             res.status(404).send({
