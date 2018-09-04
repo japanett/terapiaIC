@@ -15,8 +15,8 @@ exports.authenticate = async (req, res, next) => {
         repository.authenticatePromise(req.body.identifier)
             .then(function (resp) {
                 pacientPromise = resp
+                console.log(pacientPromise)
             })
-        console.log(pacientPromise)
         
         const pacient = await repository.authenticate(req.body.identifier);
         if (!pacient) {
