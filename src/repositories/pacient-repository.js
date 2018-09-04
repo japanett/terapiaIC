@@ -24,6 +24,12 @@ exports.get = async (data) => {
     return res;
 }
 
+exports.getPromise = (data) => {
+    return new Promise(function (resolve, reject) {
+        resolve(pacient.findById(data))
+    })
+}
+
 exports.getGames = async (data) => {
     const res = await game.find({ pacient: data, played: false });
     return res;
