@@ -11,6 +11,14 @@ exports.authenticate = async (data) => {
     return res;
 }
 
+exports.authenticatePromise = (data) => {
+    return new Promise(function (resolve, reject) {
+        resolve(pacient.findOne({
+            identifier: data
+        }))
+    })
+}
+
 exports.get = async (data) => {
     const res = await pacient.findById(data);
     return res;
