@@ -35,6 +35,12 @@ exports.getGames = async (data) => {
     return res;
 }
 
+exports.getGamesPromise = (data) => {
+    return new Promise(function (resolve, reject) {
+        resolve(game.find({ pacient: data, played: false }))
+    })
+}
+
 exports.postGame = async (data) => {
     await game.findOneAndUpdate({ idToPlay: data.idToPlay }, {
         $set: {
