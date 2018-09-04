@@ -1,5 +1,5 @@
 # API service for my Undergraduate Research project
-## This project is intended to rehabilitate kids motor functions through virtual games, which are being developed by a physiotherapist and a group of students using Leap Motion. My part is to receive data from the game and display it to the physiotherapist through a mobile application that is being developed using Ionic Framework. 
+## This project intends to rehabilitate children's motor functions suffering from cerebral palsy through virtual games. This project is being developed by a physiotherapist and a group of students using Leap Motion. My part is to receive data from the game and display it to the physiotherapist through a mobile application that is being developed using Ionic Framework. 
 
 ## Documentation
 
