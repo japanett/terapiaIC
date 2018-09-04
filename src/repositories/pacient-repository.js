@@ -35,13 +35,13 @@ exports.postGame = async (data) => {
             date: data.date,
             score: {
                 esquerda: data.score.esquerda,
-                direita:data.score.direita,
-                cruzada:data.score.cruzada
+                direita: data.score.direita,
+                cruzada: data.score.cruzada
             },
             error: {
                 esquerda: data.error.esquerda,
-                direita:data.error.direita,
-                cruzada:data.error.cruzada
+                direita: data.error.direita,
+                cruzada: data.error.cruzada
             },
             time: data.time,
             played: true
