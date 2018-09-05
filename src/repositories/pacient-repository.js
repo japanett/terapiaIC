@@ -11,14 +11,34 @@ exports.authenticate = async (data) => {
     return res;
 }
 
+exports.authenticatePromise = (data) => {
+    return new Promise(function (resolve, reject) {
+        resolve(pacient.findOne({
+            identifier: data
+        }))
+    })
+}
+
 exports.get = async (data) => {
     const res = await pacient.findById(data);
     return res;
 }
 
+exports.getPromise = (data) => {
+    return new Promise(function (resolve, reject) {
+        resolve(pacient.findById(data))
+    })
+}
+
 exports.getGames = async (data) => {
     const res = await game.find({ pacient: data, played: false });
     return res;
+}
+
+exports.getGamesPromise = (data) => {
+    return new Promise(function (resolve, reject) {
+        resolve(game.find({ pacient: data, played: false }))
+    })
 }
 
 exports.postGame = async (data) => {
@@ -27,13 +47,13 @@ exports.postGame = async (data) => {
             date: data.date,
             score: {
                 esquerda: data.score.esquerda,
-                direita:data.score.direita,
-                cruzada:data.score.cruzada
+                direita: data.score.direita,
+                cruzada: data.score.cruzada
             },
             error: {
                 esquerda: data.error.esquerda,
-                direita:data.error.direita,
-                cruzada:data.error.cruzada
+                direita: data.error.direita,
+                cruzada: data.error.cruzada
             },
             time: data.time,
             played: true
