@@ -66,7 +66,6 @@ exports.getPacient = async (req, res, next) => {
     }
 }
 
-//Ao fazer o update do user, sempre pedir a senha e enviar no body
 exports.update = async (req, res, next) => {
     try {
         //token:{login,id}
@@ -156,7 +155,7 @@ exports.setPacientGame = async (req, res, next) => {
         const token = req.body.token || req.query.token || req.headers['x-access-token'];
         const data = await authService.decodeToken(token);
 
-        let exists = await repository.getGameId(req.body.toPlay);
+        let exists = await repository.getGameId({ gameID: req.body.toPlay, identifier: req.params.identifier });
 
         if (exists) {
             res.status(406).send({
