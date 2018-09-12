@@ -8,7 +8,7 @@ global.EMAIL_TMPL_CREATE_PACIENT = '<h2>Olá, username</h2><br><h2>Você acabou 
 var encPwd = '123G@bi123';
 var encData = fs.readFileSync('./src/keys.enc', 'utf8')
 var decData = encService.decrypt(encData, encPwd);
-
+console.log(decData);
 try {
   var prodData = JSON.parse(decData);
 } catch (e) {
