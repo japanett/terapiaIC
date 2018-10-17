@@ -4,46 +4,50 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const pacientSchema = new Schema({
-    name: {
-        type: String,
-        required: [true, 'Field not specified']
+  name: {
+    type: String,
+    required: [true, 'Field not specified']
+  },
+  age: {
+    type: Number,
+    required: [true, 'Field not specified']
+  },
+  medic: {
+    type: String,
+    required: [true, 'Field not specified']
+  },
+  sexo: {
+    type: String,
+    required: false
+  },
+  patologia: {
+    type: String,
+    required: false
+  },
+  objetivo: {
+    type: String,
+    required: false
+  },
+  identifier: {
+    type: String,
+    required: [true, 'identifier not specified'],
+  },
+  active: {
+    type: Boolean,
+    required: false,
+    default: true
+  },
+  games: [{
+    gameID: {
+      type: String,
+      required: [false]
     },
-    age: {
-        type: Number,
-        required: [true, 'Field not specified']
+    config: { //
+      type: String,
+      required: false
     },
-    medic: {
-        type: String,
-        required: [true, 'Field not specified']
-    },
-    sexo: {
-        type: String,
-        required: false
-    },
-    patologia: {
-        type: String,
-        required: false
-    },
-    objetivo: {
-        type: String,
-        required: false
-    },
-    identifier: {
-        type: String,
-        required: [true, 'identifier not specified'],
-    },
-    active: {
-        type: Boolean,
-        required: false,
-        default: true
-    },
-    games: [{
-        idToPlay: {
-            type: String,   
-            required: [false]
-        },
-        _id: false
-    }]
+    _id: false
+  }]
 });
 
 // const game2Schema = new Schema({

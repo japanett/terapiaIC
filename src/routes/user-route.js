@@ -13,7 +13,7 @@ router.get('/', authService.authorize, controller.get);
 router.put('/pacients', authService.authorize, controller.createPacient);
 router.get('/pacients', authService.authorize, controller.getPacients);
 router.get('/pacients/:identifier', authService.authorize, controller.getPacient);
-router.get('/games', authService.authorize, controller.getGames);
+router.get('/games', authService.authorize, controller.getGames);//remove this
 router.get('/games/:id', authService.authorize, controller.getPacientGames);
 router.put('/pacients/games/:identifier', authService.authorize, controller.setPacientGame);
 router.put('/pacients/games/:pacientid/:gameid', authService.authorize, controller.deletePacientGame);
