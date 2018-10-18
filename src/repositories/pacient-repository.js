@@ -17,24 +17,17 @@ exports.get = async (data) => {
   return res;
 }
 
-exports.getGames = async (data) => {
-  const res = await pacient.findOne({
-    identifier: data
-  });
-  return res;
-};
-
 exports.postGame = async (data) => {
   var title;
-  if (data.gameID == 1) {
-    title = 'Jogo da maca';
-  }
-  else if (data.gameID == 2) {
-    title = 'Jogo do robo';
-  }
-  else if (data.gameID == 3) {
-    title = 'Jogo do Alecsander';
-  };
+  if (data.gameID === 1)
+    title = 'Jogo da Mercearia';
+
+  else if (data.gameID === 2)
+    title = 'Invasão Espacial';
+
+  else if (data.gameID === 3)
+    title = 'Bola na Caixa';
+    
   var __game = {
     pacient: data.identifier,
     title: title,

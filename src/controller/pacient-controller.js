@@ -61,23 +61,23 @@ exports.get = async (req, res, next) => {
   }
 }
 
-exports.getGames = async (req, res, next) => {
-  try {
-    //recupera token
-    const token = req.body.token || req.query.token || req.headers['x-access-token'];
+// exports.getGames = async (req, res, next) => {
+//   try {
+//     //recupera token
+//     const token = req.body.token || req.query.token || req.headers['x-access-token'];
 
-    //decodifica token
-    const data = await authService.decodeToken(token);
-    var dataGames = await repository.getGames(data.identifier);
+//     //decodifica token
+//     const data = await authService.decodeToken(token);
+//     var dataGames = await repository.getGames(data.identifier);
 
-    res.status(200).send({ data: dataGames, success: true });
-  } catch (e) {
-    res.status(500).send({
-      message: 'Failed process request',
-      success: false
-    });
-  }
-}
+//     res.status(200).send({ data: dataGames, success: true });
+//   } catch (e) {
+//     res.status(500).send({
+//       message: 'Failed process request',
+//       success: false
+//     });
+//   }
+// }
 
 exports.postGame = async (req, res, next) => {
   try {

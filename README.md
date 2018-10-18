@@ -3,6 +3,92 @@
 
 ## Documentation
 
+## Pacient endpoint
+
+#### Authentication
+```http
+POST /api/pacient/auth
+```
+```json
+{
+	"identifier":"4c2eff"
+}
+```
+##### Response
+```json
+{
+    "message": "Paciente paciente de teste logado",
+    "success": true,
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYWNpZW50X2lkIjoiNWI2OGFlNTgyNDRjYmUwM2M4MjYwOTU5IiwibWVkaWNfaWQiOiI1YjY4YWRhZTI0NGNiZTAzYzgyNjA5NTgiLCJpZGVudGlmaWVyIjoiY2Q0MDQiLCJpYXQiOjE1MzM2ODk3MDAsImV4cCI6MTUzMzc3NjEwMH0.mvM1vQJGM_ENkk8DnOitS_Zn-WXCOWLTKJ2Noz20VBU",
+    "data": {
+        "identifier": "4c2eff"
+    }
+}
+```
+#### Get Pacient
+```http
+GET /api/pacient/
+```
+```json
+{
+    "x-access-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYWNpZW50X2lkIjoiNWI2OGFlNTgyNDRjYmUwM2M4MjYwOTU5IiwibWVkaWNfaWQiOiI1YjY4YWRhZTI0NGNiZTAzYzgyNjA5NTgiLCJpZGVudGlmaWVyIjoiY2Q0MDQiLCJpYXQiOjE1MzM4NTk0MzAsImV4cCI6MTUzMzk0NTgzMH0.Zq4ICbaTamUMUb5PiBR-9PVgminOI_CxUw4J_Fpn1qw"
+}
+```
+##### Response
+```json
+{
+    "data": {
+        "active": true,
+        "_id": "5bc785c54110140046e71ead",
+        "name": "Daenrys targeryan",
+        "age": 19,
+        "sexo": "feminino",
+        "patologia": "Too hot dragon",
+        "objetivo": "Be the queen of westeros",
+        "identifier": "742ef2",
+        "medic": "5bc774959f38ab00301c3f68",
+        "games": [
+            {
+                "gameID": "3",
+                "config": "1,2,3",
+                "title": "Bola na Caixa"
+            }
+        ],
+        "__v": 0
+    },
+    "success": true
+}
+```
+#### Play game
+```http
+PUT /api/pacient/games
+```
+```json
+{
+	"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYWNpZW50X2lkIjoiNWJjNzg1YzU0MTEwMTQwMDQ2ZTcxZWFkIiwiaWRlbnRpZmllciI6Ijc0MmVmMiIsImlhdCI6MTUzOTgyMTQzOCwiZXhwIjoxNTM5OTA3ODM4fQ.ZEadUaCky1aLtMS5PltIg-zgBkE067mvmrgJ9yOpMqo",
+	"config":"1,2,3",
+	"score": {
+		"esquerda":2,
+		"direita": 3,
+		"cruzada": 5
+	},
+	"erros":{
+		"esquerda":3,
+		"direita": 4,
+		"cruzada": 6
+	},
+	"time":180,
+	"gameID":1
+}
+```
+##### Response
+```json
+{
+    "message": "",
+    "success": true
+}
+```
+
 ## User endpoint
 
 #### Create new user
@@ -137,13 +223,31 @@ PUT /api/user/pacients/games/:identifier
 {
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg",
     "toPlay":1,
-	"config":"1,2,3"
+	  "config":"1,2,3"
 }
 ```
 ##### Response
 ```json
 {
     "message": "Adicionado jogos para o Paciente: 77584",
+    "success": true
+}
+```
+#### Update Pacient Game Config
+```http
+PUT /api/user/games/:pacientId
+```
+```json
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg",
+    "gameID":1,
+	"config":"3,2,1"
+}
+```
+##### Response
+```json
+{
+    "message": "Jogo atualizado",
     "success": true
 }
 ```
@@ -200,36 +304,39 @@ GET /api/user/pacients/?:identifier
     "data": [
         {
             "active": true,
-            "_id": "5b7b74c9135f2613f4feb88d",
-            "name": "jhon snow danyyy",
-            "age": 21,
+            "_id": "5bc785c54110140046e71ead",
+            "name": "Daenrys targeryan",
+            "age": 19,
             "sexo": "feminino",
-            "patologia": "patologia exemplo2",
-            "objetivo": "recuperar o movimento da mao direita",
-            "identifier": "cc9897",
-            "medic": "5b7b718e135f2613f4feb88c",
+            "patologia": "Too hot dragon",
+            "objetivo": "Be the queen of westeros",
+            "identifier": "742ef2",
+            "medic": "5bc774959f38ab00301c3f68",
             "games": [
                 {
-                    "idToPlay": "a4093e70-a4e7-11e8-9515-1f7ad2d13f37"
+                    "gameID": "2",
+                    "config": "1,2,3",
+                    "title": "Invasão Espacial"
+                },
+                {
+                    "gameID": "1",
+                    "config": "1,2,3",
+                    "title": "Jogo da Mercearia"
                 }
             ],
             "__v": 0
         },
         {
             "active": true,
-            "_id": "5b7b74d4135f2613f4feb88e",
-            "name": "danyyy targeryan",
-            "age": 21,
-            "sexo": "feminino",
-            "patologia": "patologia exemplo2",
-            "objetivo": "recuperar o movimento da mao direita",
-            "identifier": "4c2eff",
-            "medic": "5b7b718e135f2613f4feb88c",
-            "games": [
-                {
-                    "idToPlay": "ae83e440-a4e7-11e8-9515-1f7ad2d13f37"
-                }
-            ],
+            "_id": "5bc78fc6301d7300722b6fd1",
+            "name": "Jhon Snow targeryan",
+            "age": 19,
+            "sexo": "masculino",
+            "patologia": "Too hot dragon",
+            "objetivo": "Be the queen of westeros",
+            "identifier": "4963a4",
+            "medic": "5bc774959f38ab00301c3f68",
+            "games": [],
             "__v": 0
         }
     ],
@@ -238,7 +345,7 @@ GET /api/user/pacients/?:identifier
 ```
 #### Remove pacient game
 ```http
-PUT /api/user/pacients/games/:pacientid/:gameid
+PUT /api/user/:pacientid/games/:gameID
 ```
 ```json
 {
@@ -252,72 +359,9 @@ PUT /api/user/pacients/games/:pacientid/:gameid
     "success": true
 }
 ```
-##### Get games
-```http
-GET /api/user/games
-```
-```json
-{
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg"
-}
-```
-##### Response
-```json
-{
-    "data": [
-        {
-            "date": null,
-            "score": {
-                "esquerda": null,
-                "direita": null,
-                "cruzada": null
-            },
-            "error": { 
-                "esquerda": null,
-                "direita": null,
-                "cruzada": null
-            },
-            "time": null,
-            "played": false,
-            "_id": "5b7b7577135f2613f4feb892",
-            "pacient": "acaf3f",
-            "title": "Jogo da maca",
-            "gameID": 1,
-            "config": "1,2,3",
-            "medic": "5b7b715c135f2613f4feb88a",
-            "idToPlay": "e7323cb0-a4e7-11e8-9515-1f7ad2d13f37",
-            "__v": 0
-        },
-        {
-            "date": null,
-            "score": {
-                "esquerda": null,
-                "direita": null,
-                "cruzada": null
-            },
-            "error": { 
-                "esquerda": null,
-                "direita": null,
-                "cruzada": null
-            },
-            "time": null,
-            "played": false,
-            "_id": "5b7b75c5135f2613f4feb894",
-            "pacient": "b9463f",
-            "title": "Jogo da maca",
-            "gameID": 1,
-            "config": "2,1,3",
-            "medic": "5b7b715c135f2613f4feb88a",
-            "idToPlay": "159bf370-a4e8-11e8-9515-1f7ad2d13f37",
-            "__v": 0
-        }
-    ],
-    "success": true
-}
-```
 ##### Get pacient games
 ```http
-GET /api/user/games/:pacientid
+GET /api/user/:identifier/games
 ```
 ```json
 {
@@ -329,153 +373,26 @@ GET /api/user/games/:pacientid
 {
     "data": [
         {
-            "date": null,
             "score": {
-                "esquerda": null,
-                "direita": null,
-                "cruzada": null
+                "esquerda": 2,
+                "direita": 3,
+                "cruzada": 5
             },
-            "error": { 
-                "esquerda": null,
-                "direita": null,
-                "cruzada": null
-
+            "error": {
+                "esquerda": 3,
+                "direita": 4,
+                "cruzada": 6
             },
-            "time": null,
-            "played": false,
-            "_id": "5b7b7577135f2613f4feb892",
-            "pacient": "acaf3f",
-            "title": "Jogo da maca",
-            "gameID": 1,
+            "date": "2018-10-18T00:01:04.685Z",
+            "time": 180,
+            "_id": "5bc7cd40199b27003ef33692",
+            "pacient": "742ef2",
+            "title": "Bola na Caixa",
+            "gameID": 3,
             "config": "1,2,3",
-            "medic": "5b7b715c135f2613f4feb88a",
-            "idToPlay": "e7323cb0-a4e7-11e8-9515-1f7ad2d13f37",
             "__v": 0
         }
     ],
-    "success": true
-}
-```
-## Pacient endpoint
-
-#### Authentication
-```http
-POST /api/pacient/auth
-```
-```json
-{
-	"identifier":"4c2eff"
-}
-```
-##### Response
-```json
-{
-    "message": "Paciente paciente de teste logado",
-    "success": true,
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYWNpZW50X2lkIjoiNWI2OGFlNTgyNDRjYmUwM2M4MjYwOTU5IiwibWVkaWNfaWQiOiI1YjY4YWRhZTI0NGNiZTAzYzgyNjA5NTgiLCJpZGVudGlmaWVyIjoiY2Q0MDQiLCJpYXQiOjE1MzM2ODk3MDAsImV4cCI6MTUzMzc3NjEwMH0.mvM1vQJGM_ENkk8DnOitS_Zn-WXCOWLTKJ2Noz20VBU",
-    "data": {
-        "identifier": "4c2eff"
-    }
-}
-```
-#### Get Pacient information
-```http
-GET /api/pacient/
-```
-```json
-{
-    "x-access-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYWNpZW50X2lkIjoiNWI2OGFlNTgyNDRjYmUwM2M4MjYwOTU5IiwibWVkaWNfaWQiOiI1YjY4YWRhZTI0NGNiZTAzYzgyNjA5NTgiLCJpZGVudGlmaWVyIjoiY2Q0MDQiLCJpYXQiOjE1MzM4NTk0MzAsImV4cCI6MTUzMzk0NTgzMH0.Zq4ICbaTamUMUb5PiBR-9PVgminOI_CxUw4J_Fpn1qw"
-}
-```
-##### Response
-```json
-{
-    "data": {
-        "active": true,
-        "_id": "5b7b74d4135f2613f4feb88e",
-        "name": "danyyy targeryan",
-        "age": 21,
-        "sexo": "feminino",
-        "patologia": "patologia exemplo2",
-        "objetivo": "recuperar o movimento da mao direita",
-        "identifier": "4c2eff",
-        "medic": "5b7b718e135f2613f4feb88c",
-        "games": [
-            {
-                "idToPlay": "ae83e440-a4e7-11e8-9515-1f7ad2d13f37"
-            }
-        ],
-        "__v": 0
-    },
-    "success": true
-}
-```
-#### Get games (played: false)
-```http
-GET /api/pacient/games
-```
-```json
-{
-	"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYWNpZW50X2lkIjoiNWI3Yjc0YzkxMzVmMjYxM2Y0ZmViODhkIiwiaWRlbnRpZmllciI6ImNjOTg5NyIsImlhdCI6MTUzNDg4NjU0OSwiZXhwIjoxNTM0OTcyOTQ5fQ.MvIgxzS549SvLLgdaNucoYfDYigLqK7KxlwTj4AycgI",
-}
-```
-##### Response
-```json
-{
-    "data": [
-        {
-            "date": null,
-            "score": {
-                "esquerda": null,
-                "direita": null,
-                "cruzada": null
-            },
-            "error": { 
-                "esquerda": null,
-                "direita": null,
-                "cruzada": null
-            },
-            "time": null,
-            "played": false,
-            "_id": "5b7b7518135f2613f4feb890",
-            "pacient": "4c2eff",
-            "title": "Jogo da maca",
-            "gameID": 1,
-            "config": "1,2,3",
-            "medic": "5b7b718e135f2613f4feb88c",
-            "idToPlay": "ae83e440-a4e7-11e8-9515-1f7ad2d13f37",
-            "__v": 0
-        }
-    ],
-    "success": true
-}
-```
-
-#### Play game (update game information)
-```http
-PUT /api/pacient/games
-```
-```json
-{
-	"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYWNpZW50X2lkIjoiNWI3Yjc0YzkxMzVmMjYxM2Y0ZmViODhkIiwiaWRlbnRpZmllciI6ImNjOTg5NyIsImlhdCI6MTUzNDg4NjU0OSwiZXhwIjoxNTM0OTcyOTQ5fQ.MvIgxzS549SvLLgdaNucoYfDYigLqK7KxlwTj4AycgI",
-	"score": {
-        "esquerda":8,
-        "direita":5,
-        "cruzada":2
-    },
-	"erros":{
-        "esquerda":2,
-        "direita":10,
-        "cruzada":20
-    },
-	"time":180,
-	"idToPlay":"a4093e70-a4e7-11e8-9515-1f7ad2d13f37"
-}
-```
-##### Response
-```json
-{
-    "message": "Informações do jogo atualizado com sucesso",
     "success": true
 }
 ```

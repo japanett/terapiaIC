@@ -370,17 +370,17 @@ exports.removePacient = async (req, res, next) => {
     });
   }
 }
-exports.getGames = async (req, res, next) => {
+exports.updatePacientGame = async (req, res, next) => {
   try {
     //recupera token
     const token = req.body.token || req.query.token || req.headers['x-access-token'];
 
     //decodifica token
     const data = await authService.decodeToken(token);
-
-    var dataPacients = await repository.getGames(data.id);
-
-    res.status(200).send({ data: dataPacients, success: true });
+    await repository.updatePacientGame({ config: req.body.config, id: data.id, gameID: req.body.gameID, pacientId: req.params.pacientId })
+      .then(() => {
+        res.status(200).send({ message: 'Jogo atualizado', success: true });
+      });
   } catch (e) {
     res.status(500).send({
       message: 'Failed process request',
@@ -396,7 +396,7 @@ exports.getPacientGames = async (req, res, next) => {
     //decodifica token
     const data = await authService.decodeToken(token);
 
-    var dataPacients = await repository.getPacientGames({pacient: req.params.id });
+    var dataPacients = await repository.getPacientGames({ pacient: req.params.id });
 
     res.status(200).send({ data: dataPacients, success: true });
   } catch (e) {

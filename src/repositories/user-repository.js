@@ -7,7 +7,6 @@ const user = mongoose.model('userSchema');
 const pacient = mongoose.model('pacientSchema');
 const game = mongoose.model('gameSchema');
 
-
 exports.createPacient = async (data) => {
   var tempPacient = new pacient(data.pacient);
 
@@ -32,13 +31,13 @@ exports.setPacientGame = async (data) => {
 
   var title;
   if (data.gameID === 1) {
-    title = 'Jogo da maca'
+    title = 'Jogo da Mercearia'
   }
   else if (data.gameID === 2) {
-    title = 'Jogo do robo'
+    title = 'Invasão Espacial'
   }
   else if (data.gameID === 3) {
-    title = 'Jogo do Alecsander'
+    title = 'Bola na Caixa'
   }
   var __game = {
     pacient: data.identifier,
@@ -57,7 +56,8 @@ exports.setPacientGame = async (data) => {
       $push: {
         games: {
           gameID: data.gameID,
-          config: data.config
+          config: data.config,
+          title: title
         }
       }
     }, {
@@ -68,6 +68,36 @@ exports.setPacientGame = async (data) => {
 
 exports.removePacientGame = async (data) => {
   await pacient.update({ _id: data.pacient }, { "$pull": { "games": { "gameID": data.gameid } } }, { safe: true });
+}
+
+exports.updatePacientGame = async (data) => {
+  await pacient.update({ _id: data.pacientId }, { "$pull": { "games": { "gameID": data.gameID } } }, { safe: true })
+    .then(() => {
+      var title;
+      if (data.gameID === 1)
+        title = 'Jogo da Mercearia';
+
+      else if (data.gameID === 2)
+        title = 'Invasão Espacial';
+
+      else if (data.gameID === 3)
+        title = 'Bola na Caixa';
+
+      return pacient.findOneAndUpdate({
+        _id: data.pacientId
+      }, {
+          $push: {
+            games: {
+              gameID: data.gameID,
+              config: data.config,
+              title: title
+            }
+          }
+        }, {
+          new: true,
+          rawResult: true
+        });
+    });
 }
 
 exports.update = async (data) => {
@@ -147,11 +177,7 @@ exports.getGameId = async (data) => {
   return res;
 }
 
-exports.getGames = async (data) => {
-  const res = await game.find({ medic: data });
-  return res;
-}
 exports.getPacientGames = async (data) => {
-  const res = await game.find({ pacient: data.pacient});
+  const res = await game.find({ pacient: data.pacient });
   return res;
 }

@@ -40,9 +40,13 @@ const pacientSchema = new Schema({
   games: [{
     gameID: {
       type: String,
-      required: [false]
+      required: [true]
     },
     config: { //
+      type: String,
+      required: false
+    },
+    title: { //
       type: String,
       required: false
     },
