@@ -17,9 +17,8 @@ try {
 
 //"mongodb://172.17.0.2:27017/terapia"
 module.exports = {
-  // connectionString: prodData.connectionString,
-  connectionString:'mongodb://172.17.0.2:27017/terapia',
+  connectionString: prodData.connectionString,
+  // connectionString:'mongodb://172.17.0.2:27017/terapia',
   sendgridKey: prodData.sendgridKey,
   containerConnectionString: prodData.containerConnectionString
-  //mongodb://127.0.0.1:27017
 }
