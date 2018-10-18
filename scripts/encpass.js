@@ -3,23 +3,25 @@
 const fs = require('fs');
 const encService = require('../src/services/enc-service');
 
-var _fileToEnc = fs.readFileSync('./src/keys.json', 'utf8')
+var _fileToEnc = fs.readFileSync('./src/keys.json', 'utf8');
 
-var _password = process.argv.slice(2)[0] || '123G@bi123';
-var encData = fs.readFileSync('./src/keys.enc', 'utf8')
-var decData = encService.decrypt(encData, _password);
-console.log(decData);
-// if (!_password) {
+var _password = process.argv.slice(2)[0]; //|| '123G@bi123';
 
-//   console.log('Informe o parametro senha para criptografia!');
-//   console.log('encpass.js [password]');
+var encData = fs.readFileSync('./src/keys.enc', 'utf8');
+console.log(_fileToEnc.toString());
+// var decData = encService.decrypt(encData, _password);
 
-// } else {
-//   var cryptedInfo = encService.encrypt(_fileToEnc, _password);
-//   fs.writeFile('./src/keys.enc', cryptedInfo, function (err) {
-//     if (err)
-//       return console.log(err);
+if (!_password) {
 
-//     console.log('Arquivo criptografado com sucesso!');
-//   });
-// }
+  console.log('Informe o parametro senha para criptografia!');
+  console.log('encpass.js [password]');
+
+} else {
+  var cryptedInfo = encService.encrypt(_fileToEnc, _password);
+  fs.writeFile('./src/keys.enc', cryptedInfo, function (err) {
+    if (err)
+      return console.log(err);
+
+    console.log('Arquivo criptografado com sucesso!');
+  });
+}
