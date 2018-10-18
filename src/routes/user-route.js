@@ -13,10 +13,10 @@ router.get('/', authService.authorize, controller.get);
 router.put('/pacients', authService.authorize, controller.createPacient);
 router.get('/pacients', authService.authorize, controller.getPacients);
 router.get('/pacients/:identifier', authService.authorize, controller.getPacient);
-router.get('/games', authService.authorize, controller.getGames);
-router.get('/games/:id', authService.authorize, controller.getPacientGames);
+router.get('/:id/games', authService.authorize, controller.getPacientGames);
 router.put('/pacients/games/:identifier', authService.authorize, controller.setPacientGame);
-router.put('/pacients/games/:pacientid/:gameid', authService.authorize, controller.deletePacientGame);
+router.put('/:pacientid/games/:gameid', authService.authorize, controller.deletePacientGame);
+router.put('/games/:pacientId', authService.authorize, controller.updatePacientGame);
 router.put('/pacients/:identifier', authService.authorize, controller.updatePacient);
 router.delete('/pacients/:identifier', authService.authorize, controller.removePacient);
 
