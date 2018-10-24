@@ -165,7 +165,7 @@ exports.setPacientGame = async (req, res, next) => {
     } else {
       await repository.setPacientGame({
         identifier: req.params.identifier,
-        gameID: req.body.toPlay,
+        gameID: parseInt(req.body.toPlay),
         config: req.body.config,
         medic: data.id
       });
@@ -195,7 +195,7 @@ exports.deletePacientGame = async (req, res, next) => {
     await repository.removePacientGame({
       medic: data.id,
       pacient: req.params.pacientid,
-      gameid: req.params.gameid
+      gameid: parseInt(req.params.gameid)
     });
 
     res.status(200).send({
@@ -377,7 +377,7 @@ exports.updatePacientGame = async (req, res, next) => {
 
     //decodifica token
     const data = await authService.decodeToken(token);
-    await repository.updatePacientGame({ config: req.body.config, id: data.id, gameID: req.body.gameID, pacientId: req.params.pacientId })
+    await repository.updatePacientGame({ config: req.body.config, id: data.id, gameID: parseInt(req.body.gameID), pacientId: req.params.pacientId })
       .then(() => {
         res.status(200).send({ message: 'Jogo atualizado', success: true });
       });
