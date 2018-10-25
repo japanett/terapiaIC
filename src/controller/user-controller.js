@@ -155,8 +155,8 @@ exports.setPacientGame = async (req, res, next) => {
     const token = req.body.token || req.query.token || req.headers['x-access-token'];
     const data = await authService.decodeToken(token);
 
-    let exists = await repository.getGameId({ gameID: req.body.toPlay, identifier: req.params.identifier });
-
+    // let exists = await repository.getGameId({ gameID: req.body.toPlay, identifier: req.params.identifier });
+    let exists = false;
     if (exists) {
       res.status(406).send({
         message: 'Jogo já foi criado para o paciente',
