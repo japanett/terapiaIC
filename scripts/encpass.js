@@ -3,9 +3,13 @@
 const fs = require('fs');
 const encService = require('../src/services/enc-service');
 
-var _fileToEnc = fs.readFileSync('./src/keys.json', 'utf8')
+var _fileToEnc = fs.readFileSync('./src/keys.json', 'utf8');
 
-var _password = process.argv.slice(2)[0] || '123G@bi123';
+var _password = process.argv.slice(2)[0]; //|| '123G@bi123';
+
+var encData = fs.readFileSync('./src/keys.enc', 'utf8');
+console.log(_fileToEnc.toString());
+// var decData = encService.decrypt(encData, _password);
 
 if (!_password) {
 
