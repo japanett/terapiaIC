@@ -215,7 +215,7 @@ PUT /api/user/pacients
     "success": true
 }
 ```
-#### Add games to pacient's list
+#### Add games to pacient's list //DONE - ADDED TIME
 ```http
 PUT /api/user/pacients/games/:identifier
 ```
@@ -223,7 +223,8 @@ PUT /api/user/pacients/games/:identifier
 {
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg",
     "toPlay":1,
-	  "config":"1,2,3"
+    "config":"1,2,3",
+    "time":"540"
 }
 ```
 ##### Response
@@ -233,7 +234,7 @@ PUT /api/user/pacients/games/:identifier
     "success": true
 }
 ```
-#### Update Pacient Game Config
+#### Update Pacient Game Config //DONE - ADDED TIME
 ```http
 PUT /api/user/games/:pacientId
 ```
@@ -241,7 +242,8 @@ PUT /api/user/games/:pacientId
 {
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg",
     "gameID":1,
-	"config":"3,2,1"
+    "config":"3,2,1",
+    "time":"540"
 }
 ```
 ##### Response
@@ -403,9 +405,8 @@ GET /api/user/:identifier/games
 - mao cruzada = 3
 
 ## To do:
-- Clean code
-- Refactor code (to use promises)
-- Bug hunting
+- Bug hunt
+- Optimize the code
 
 ## Fix:
 - (Create user) Sending email even when the request response != 201

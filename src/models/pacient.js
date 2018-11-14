@@ -50,6 +50,11 @@ const pacientSchema = new Schema({
       type: String,
       required: false
     },
+    time: { //
+      type: String,
+      required: false,
+      default: ""
+    },
     _id: false
   }]
 });

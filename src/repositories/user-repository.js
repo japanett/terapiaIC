@@ -1,7 +1,6 @@
 'use strict';
 
 const mongoose = require('mongoose');
-const uuidv1 = require('uuid/v1');
 
 const user = mongoose.model('userSchema');
 const pacient = mongoose.model('pacientSchema');
@@ -27,8 +26,6 @@ exports.createPacient = async (data) => {
 
 exports.setPacientGame = async (data) => {
 
-  var id = uuidv1();
-
   var title;
   if (data.gameID === 1) {
     title = 'Jogo da Mercearia'
@@ -39,17 +36,6 @@ exports.setPacientGame = async (data) => {
   else if (data.gameID === 3) {
     title = 'Bola na Caixa'
   }
-  var __game = {
-    pacient: data.identifier,
-    title: title,
-    gameID: data.gameID,
-    config: data.config,
-    medic: data.medic,
-  };
-  // var _game = new game(__game);
-
-  // await _game.save();
-
   await pacient.findOneAndUpdate({
     identifier: data.identifier
   }, {
@@ -57,7 +43,8 @@ exports.setPacientGame = async (data) => {
         games: {
           gameID: data.gameID,
           config: data.config,
-          title: title
+          title: title,
+          time: data.time
         }
       }
     }, {
@@ -90,7 +77,8 @@ exports.updatePacientGame = async (data) => {
             games: {
               gameID: data.gameID,
               config: data.config,
-              title: title
+              title: title,
+              time: data.time
             }
           }
         }, {
@@ -156,7 +144,6 @@ exports.delete = async (data) => {
 }
 
 exports.removePacient = async (data) => {
-  //tratar o erro caso o usuario n exista, exemplo no createPacient
   await user.findByIdAndUpdate(data.id, {
     $pull: { pacients: { 'identifier': data.identifier } }
   }, {

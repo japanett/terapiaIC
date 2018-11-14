@@ -1,6 +1,6 @@
 'use strict';
 
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 const md5 = require('md5');
 const emailService = require('../services/email-service');
 const authService = require('../services/auth-service');
@@ -139,7 +139,6 @@ exports.createUser = async (req, res, next) => {
       success: true,
       login: req.body.login
     });
-    // console.log('*Usuário "%s" criado \npassword: %s', login, realpwd);
   } catch (e) {
     console.log(e);
     res.status(500).send({
@@ -156,25 +155,19 @@ exports.setPacientGame = async (req, res, next) => {
     const data = await authService.decodeToken(token);
 
     // let exists = await repository.getGameId({ gameID: req.body.toPlay, identifier: req.params.identifier });
-    let exists = false;
-    if (exists) {
-      res.status(406).send({
-        message: 'Jogo já foi criado para o paciente',
-        success: false
-      });
-    } else {
-      await repository.setPacientGame({
-        identifier: req.params.identifier,
-        gameID: parseInt(req.body.toPlay),
-        config: req.body.config,
-        medic: data.id
-      });
-      res.status(200).send({
-        message: 'Adicionado jogos para o Paciente: ' + req.params.identifier,
-        success: true
-      });
+    await repository.setPacientGame({
+      identifier: req.params.identifier,
+      gameID: parseInt(req.body.toPlay),
+      config: req.body.config,
+      medic: data.id,
+      time: req.body.time
+    });
+    res.status(200).send({
+      message: 'Adicionado jogos para o Paciente: ' + req.params.identifier,
+      success: true
+    });
 
-    }
+
   } catch (e) {
     console.log(e);
     res.status(500).send({
@@ -253,8 +246,6 @@ exports.createPacient = async (req, res, next) => {
 
     //i need to check identifier to be unique
     var identifier = (md5(req.body.name + global.SALT_KEY)).substring(0, 6);
-
-
     //validando se o usuario existe
     var validate = await repository.get(data.id);
     if (validate) {
@@ -377,7 +368,7 @@ exports.updatePacientGame = async (req, res, next) => {
 
     //decodifica token
     const data = await authService.decodeToken(token);
-    await repository.updatePacientGame({ config: req.body.config, id: data.id, gameID: parseInt(req.body.gameID), pacientId: req.params.pacientId })
+    await repository.updatePacientGame({ config: req.body.config, time: req.body.time, id: data.id, gameID: parseInt(req.body.gameID), pacientId: req.params.pacientId })
       .then(() => {
         res.status(200).send({ message: 'Jogo atualizado', success: true });
       });
