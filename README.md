@@ -215,7 +215,7 @@ PUT /api/user/pacients
     "success": true
 }
 ```
-#### Add games to pacient's list //DONE - ADDED TIME
+#### Add games to pacient's list
 ```http
 PUT /api/user/pacients/games/:identifier
 ```
@@ -234,7 +234,7 @@ PUT /api/user/pacients/games/:identifier
     "success": true
 }
 ```
-#### Update Pacient Game Config //DONE - ADDED TIME
+#### Update Pacient Game Config
 ```http
 PUT /api/user/games/:pacientId
 ```
