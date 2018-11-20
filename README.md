@@ -1,5 +1,11 @@
 # API service for my Undergraduate Research project
-## This project is intended to rehabilitate kids motor functions through virtual games, which are being developed by a physiotherapist and a group of students using Leap Motion. My part is to receive data from the game and display it to the physiotherapist through a mobile application that is being developed using Ionic Framework. 
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/japanett/clashAPI/master/app.png">
+</p>
+
+I also developed the Front-End (Ionic 3). That this API feeds. 
+It's repository is right <a href="https://github.com/japanett/appTerapia" target="_blank">here</a>.
 
 ## Documentation
 
