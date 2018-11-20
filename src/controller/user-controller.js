@@ -1,6 +1,5 @@
 'use strict';
 
-// const mongoose = require('mongoose');
 const md5 = require('md5');
 const emailService = require('../services/email-service');
 const authService = require('../services/auth-service');
