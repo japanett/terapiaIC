@@ -57,7 +57,14 @@ GET /api/pacient/
             {
                 "gameID": "3",
                 "config": "1,2,3",
-                "title": "Bola na Caixa"
+                "title": "Bola na Caixa",
+                "time":""
+            },
+            {
+                "gameID": "1",
+                "config": "1,2,3,T",
+                "title": "Jogo da Mercearia",
+                "time":"540"
             }
         ],
         "__v": 0
