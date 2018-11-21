@@ -5,6 +5,8 @@ const router = express.Router();
 const controller = require('../controller/user-controller');
 const authService = require('../services/auth-service');
 
+router.get('/report', authService.authorize, controller.generateReport);
+
 router.post('/create', controller.createUser);
 router.delete('/delete', authService.authorize, controller.delete);
 router.put('/', authService.authorize, controller.update);

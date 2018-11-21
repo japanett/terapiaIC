@@ -1,5 +1,11 @@
 # API service for my Undergraduate Research project
-## This project is intended to rehabilitate kids motor functions through virtual games, which are being developed by a physiotherapist and a group of students using Leap Motion. My part is to receive data from the game and display it to the physiotherapist through a mobile application that is being developed using Ionic Framework. 
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/japanett/clashAPI/master/app.png">
+</p>
+
+I also developed the Front-End (Ionic 3). That this API feeds. 
+It's repository is right <a href="https://github.com/japanett/appTerapia" target="_blank">here</a>.
 
 ## Documentation
 
@@ -51,7 +57,14 @@ GET /api/pacient/
             {
                 "gameID": "3",
                 "config": "1,2,3",
-                "title": "Bola na Caixa"
+                "title": "Bola na Caixa",
+                "time":""
+            },
+            {
+                "gameID": "1",
+                "config": "1,2,3,T",
+                "title": "Jogo da Mercearia",
+                "time":"540"
             }
         ],
         "__v": 0
@@ -223,7 +236,8 @@ PUT /api/user/pacients/games/:identifier
 {
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg",
     "toPlay":1,
-	  "config":"1,2,3"
+    "config":"1,2,3",
+    "time":"540"
 }
 ```
 ##### Response
@@ -241,7 +255,8 @@ PUT /api/user/games/:pacientId
 {
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg",
     "gameID":1,
-	"config":"3,2,1"
+    "config":"3,2,1",
+    "time":"540"
 }
 ```
 ##### Response
@@ -403,9 +418,8 @@ GET /api/user/:identifier/games
 - mao cruzada = 3
 
 ## To do:
-- Clean code
-- Refactor code (to use promises)
-- Bug hunting
+- Bug hunt
+- Optimize the code
 
 ## Fix:
 - (Create user) Sending email even when the request response != 201

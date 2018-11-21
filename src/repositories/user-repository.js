@@ -1,8 +1,8 @@
 'use strict';
 
 const mongoose = require('mongoose');
-const uuidv1 = require('uuid/v1');
 
+const csvService = require('../services/csv-service');
 const user = mongoose.model('userSchema');
 const pacient = mongoose.model('pacientSchema');
 const game = mongoose.model('gameSchema');
@@ -24,10 +24,83 @@ exports.createPacient = async (data) => {
     });
 }
 
+exports.generateReport = function (data) {
+  return new Promise((resolve, reject) => {
+    let _user;
+    user.findById(data)
+      .then((__user) => {
+        _user = __user;
+        return pacient.find({ medic: _user._id })
+      })
+      .then((pacients) => {
+        // _identifiers = pacients.map(x => x.identifier);
+        return _getGamesCSV(pacients);
+      })
+      .then((csvJsonObject) => {
+        return csvService.sendReport(_user, csvJsonObject);
+      })
+      .then((filePath) => {
+        resolve(filePath);
+      })
+      .catch(e => console.log(e));
+  });
+}
+
+function _getGamesCSV(pacients) {
+  return new Promise((resolve, reject) => {
+    let promises = [];
+    let _games = [];
+    let _pacients = pacients;
+    _pacients.forEach((pacient) => {
+      let _pacient = pacient;
+      promises.push(
+        game.find({ pacient: _pacient.identifier })
+          .then((games) => {
+            games.forEach((game) => {
+              let _filtered = _filterGameAndPacient(_pacient, game);
+              _games.push(_filtered);
+            });
+          })
+          .catch(e => reject(e))
+      );
+    });
+
+    Promise.all(promises)
+      .then(() => {
+        resolve(_games);
+      })
+      .catch((e) => {
+        reject(e);
+      })
+  });
+}
+
+var _filterGameAndPacient = function (pacient, game) {
+  let _date = game.date;
+  let _dataSP = _date.setHours(_date.getHours() - 2);
+
+  let _filtered = {
+    nome: pacient.name,
+    sexo: pacient.sexo,
+    idade: pacient.age,
+    patologia: pacient.patologia,
+    objetivo: pacient.objetivo,
+    nome_jogo: game.title,
+    config: game.config,
+    data_jogo: _date.toLocaleDateString(),
+    hora_jogo: _date.toLocaleTimeString(),
+    tempo: game.time,
+    score_mao_direita: game.score.direita,
+    score_mao_esquerda: game.score.esquerda,
+    score_mao_cruzada: game.score.cruzada,
+    erro_mao_direita: game.error.direita,
+    erro_mao_esquerda: game.error.esquerda,
+    erro_mao_cruzada: game.error.cruzada,
+  };
+  return _filtered;
+}
 
 exports.setPacientGame = async (data) => {
-
-  var id = uuidv1();
 
   var title;
   if (data.gameID === 1) {
@@ -39,17 +112,6 @@ exports.setPacientGame = async (data) => {
   else if (data.gameID === 3) {
     title = 'Bola na Caixa'
   }
-  var __game = {
-    pacient: data.identifier,
-    title: title,
-    gameID: data.gameID,
-    config: data.config,
-    medic: data.medic,
-  };
-  // var _game = new game(__game);
-
-  // await _game.save();
-
   await pacient.findOneAndUpdate({
     identifier: data.identifier
   }, {
@@ -57,7 +119,8 @@ exports.setPacientGame = async (data) => {
         games: {
           gameID: data.gameID,
           config: data.config,
-          title: title
+          title: title,
+          time: data.time
         }
       }
     }, {
@@ -90,7 +153,8 @@ exports.updatePacientGame = async (data) => {
             games: {
               gameID: data.gameID,
               config: data.config,
-              title: title
+              title: title,
+              time: data.time
             }
           }
         }, {
@@ -156,7 +220,6 @@ exports.delete = async (data) => {
 }
 
 exports.removePacient = async (data) => {
-  //tratar o erro caso o usuario n exista, exemplo no createPacient
   await user.findByIdAndUpdate(data.id, {
     $pull: { pacients: { 'identifier': data.identifier } }
   }, {

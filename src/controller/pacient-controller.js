@@ -1,11 +1,5 @@
 'use strict';
 
-const mongoose = require('mongoose');
-
-const pacient = mongoose.model('pacientSchema');
-const userSchema = mongoose.model('userSchema');
-const game = mongoose.model('gameSchema');
-
 const authService = require('../services/auth-service');
 const repository = require('../repositories/pacient-repository');
 
@@ -61,30 +55,10 @@ exports.get = async (req, res, next) => {
   }
 }
 
-// exports.getGames = async (req, res, next) => {
-//   try {
-//     //recupera token
-//     const token = req.body.token || req.query.token || req.headers['x-access-token'];
-
-//     //decodifica token
-//     const data = await authService.decodeToken(token);
-//     var dataGames = await repository.getGames(data.identifier);
-
-//     res.status(200).send({ data: dataGames, success: true });
-//   } catch (e) {
-//     res.status(500).send({
-//       message: 'Failed process request',
-//       success: false
-//     });
-//   }
-// }
-
 exports.postGame = async (req, res, next) => {
   try {
-    //token:{identifier,medic_id}
-    //recupera token
     const token = req.body.token || req.query.token || req.headers['x-access-token'];
-    //decodifica token
+
     const data = await authService.decodeToken(token);
     await repository.postGame({
       identifier: data.identifier,
@@ -110,7 +84,6 @@ exports.postGame = async (req, res, next) => {
     });
 
   } catch (e) {
-    // console.log(e);
     res.status(500).send({
       message: 'Failed process request',
       success: false

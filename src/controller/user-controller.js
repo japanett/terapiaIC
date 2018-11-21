@@ -1,17 +1,13 @@
 'use strict';
 
-const mongoose = require('mongoose');
 const md5 = require('md5');
 const emailService = require('../services/email-service');
 const authService = require('../services/auth-service');
 const repository = require('../repositories/user-repository');
 
-exports.get = async (req, res, next) => {
+exports.get = async (req, res) => {
   try {
-    //recupera token
     const token = req.body.token || req.query.token || req.headers['x-access-token'];
-
-    //decodifica token
     const data = await authService.decodeToken(token);
 
     var datalogin = await repository.get(data.id);
@@ -25,7 +21,27 @@ exports.get = async (req, res, next) => {
   }
 }
 
-exports.getPacients = async (req, res, next) => {
+
+exports.generateReport = async (req, res) => {
+  try {
+    const token = req.body.token || req.query.token || req.headers['x-access-token'];
+
+    const data = await authService.decodeToken(token);
+    const report = await repository.generateReport(data.id);
+
+    if (!!report)
+      res.status(200).send({ message: 'CSV ENVIADO COM SUCESSO', success: true });
+    else
+      res.status(503).send({ message: 'CSV GENERATION ERROR', success: false });
+  } catch (e) {
+    res.status(500).send({
+      message: 'Failed process request',
+      success: false
+    });
+  }
+}
+
+exports.getPacients = async (req, res) => {
   try {
     //recupera token
     const token = req.body.token || req.query.token || req.headers['x-access-token'];
@@ -44,7 +60,7 @@ exports.getPacients = async (req, res, next) => {
   }
 }
 
-exports.getPacient = async (req, res, next) => {
+exports.getPacient = async (req, res) => {
   try {
     //recupera token
     const token = req.body.token || req.query.token || req.headers['x-access-token'];
@@ -66,7 +82,7 @@ exports.getPacient = async (req, res, next) => {
   }
 }
 
-exports.update = async (req, res, next) => {
+exports.update = async (req, res) => {
   try {
     //token:{login,id}
     //recupera token
@@ -93,7 +109,7 @@ exports.update = async (req, res, next) => {
   }
 }
 
-exports.createUser = async (req, res, next) => {
+exports.createUser = async (req, res) => {
   console.log('logging user create');
   console.log(req.body);
   try {
@@ -139,7 +155,6 @@ exports.createUser = async (req, res, next) => {
       success: true,
       login: req.body.login
     });
-    // console.log('*Usuário "%s" criado \npassword: %s', login, realpwd);
   } catch (e) {
     console.log(e);
     res.status(500).send({
@@ -149,32 +164,26 @@ exports.createUser = async (req, res, next) => {
   }
 }
 
-exports.setPacientGame = async (req, res, next) => {
+exports.setPacientGame = async (req, res) => {
   try {
     //token:{login,id}
     const token = req.body.token || req.query.token || req.headers['x-access-token'];
     const data = await authService.decodeToken(token);
 
     // let exists = await repository.getGameId({ gameID: req.body.toPlay, identifier: req.params.identifier });
-    let exists = false;
-    if (exists) {
-      res.status(406).send({
-        message: 'Jogo já foi criado para o paciente',
-        success: false
-      });
-    } else {
-      await repository.setPacientGame({
-        identifier: req.params.identifier,
-        gameID: parseInt(req.body.toPlay),
-        config: req.body.config,
-        medic: data.id
-      });
-      res.status(200).send({
-        message: 'Adicionado jogos para o Paciente: ' + req.params.identifier,
-        success: true
-      });
+    await repository.setPacientGame({
+      identifier: req.params.identifier,
+      gameID: parseInt(req.body.toPlay),
+      config: req.body.config,
+      medic: data.id,
+      time: req.body.time
+    });
+    res.status(200).send({
+      message: 'Adicionado jogos para o Paciente: ' + req.params.identifier,
+      success: true
+    });
 
-    }
+
   } catch (e) {
     console.log(e);
     res.status(500).send({
@@ -184,7 +193,7 @@ exports.setPacientGame = async (req, res, next) => {
   }
 }
 
-exports.deletePacientGame = async (req, res, next) => {
+exports.deletePacientGame = async (req, res) => {
   try {
     //token:{login,id}
     //recupera token
@@ -211,7 +220,7 @@ exports.deletePacientGame = async (req, res, next) => {
   }
 }
 
-exports.updatePacient = async (req, res, next) => {
+exports.updatePacient = async (req, res) => {
   try {
     //token:{login,id}
     //recupera token
@@ -243,7 +252,7 @@ exports.updatePacient = async (req, res, next) => {
   }
 }
 
-exports.createPacient = async (req, res, next) => {
+exports.createPacient = async (req, res) => {
   try {
     //token:{login,id}
     //recupera token
@@ -253,8 +262,6 @@ exports.createPacient = async (req, res, next) => {
 
     //i need to check identifier to be unique
     var identifier = (md5(req.body.name + global.SALT_KEY)).substring(0, 6);
-
-
     //validando se o usuario existe
     var validate = await repository.get(data.id);
     if (validate) {
@@ -322,7 +329,7 @@ exports.createPacient = async (req, res, next) => {
   }
 }
 
-exports.delete = async (req, res, next) => {
+exports.delete = async (req, res) => {
   try {
     //recupera token
     const token = req.body.token || req.query.token || req.headers['x-access-token'];
@@ -344,7 +351,7 @@ exports.delete = async (req, res, next) => {
   }
 }
 
-exports.removePacient = async (req, res, next) => {
+exports.removePacient = async (req, res) => {
   try {
     //recupera token
     const token = req.body.token || req.query.token || req.headers['x-access-token'];
@@ -370,14 +377,14 @@ exports.removePacient = async (req, res, next) => {
     });
   }
 }
-exports.updatePacientGame = async (req, res, next) => {
+exports.updatePacientGame = async (req, res) => {
   try {
     //recupera token
     const token = req.body.token || req.query.token || req.headers['x-access-token'];
 
     //decodifica token
     const data = await authService.decodeToken(token);
-    await repository.updatePacientGame({ config: req.body.config, id: data.id, gameID: parseInt(req.body.gameID), pacientId: req.params.pacientId })
+    await repository.updatePacientGame({ config: req.body.config, time: req.body.time, id: data.id, gameID: parseInt(req.body.gameID), pacientId: req.params.pacientId })
       .then(() => {
         res.status(200).send({ message: 'Jogo atualizado', success: true });
       });
@@ -388,7 +395,7 @@ exports.updatePacientGame = async (req, res, next) => {
     });
   }
 }
-exports.getPacientGames = async (req, res, next) => {
+exports.getPacientGames = async (req, res) => {
   try {
     //recupera token
     const token = req.body.token || req.query.token || req.headers['x-access-token'];
