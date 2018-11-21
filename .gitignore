@@ -1,4 +1,3 @@
 node_modules/
 /src/*.json
 /src/*.enc
-/src/services/csv/*

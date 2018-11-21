@@ -15,6 +15,9 @@ exports.sendReport = function (user, csvJsonObjects) {
 
 function _generateCSV(user, csvJsonObjects) {
   return new Promise((resolve, reject) => {
+    if (fs.existsSync(filePath))
+      fs.unlinkSync(filePath);
+
     const csvWriter = createCsvWriter({
       path: filePath,
       header: [
@@ -40,8 +43,7 @@ function _generateCSV(user, csvJsonObjects) {
 
     var _records = [];
     var _userEmail = user.email;
-    if (fs.existsSync(filePath))
-      fs.unlinkSync(filePath);
+
 
     csvJsonObjects.forEach(obj => {
       let _line = {};
