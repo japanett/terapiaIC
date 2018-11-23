@@ -4,7 +4,7 @@
   <img src="https://raw.githubusercontent.com/japanett/clashAPI/master/app.png">
 </p>
 
-I also developed the Front-End (Ionic 3). That this API feeds. 
+I also developed the Front-End (Ionic 3) that this API feeds. 
 It's repository is right <a href="https://github.com/japanett/appTerapia" target="_blank">here</a>.
 
 ## Documentation
@@ -139,6 +139,22 @@ POST /api/auth
 {
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg",
     "success": true
+}
+```
+#### Export DB to CSV
+```http
+GET /api/user/report
+```
+```json
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg"
+}
+```
+##### Response
+```json
+{
+    "message": "CSV ENVIADO COM SUCESSO",
+    "success": true,
 }
 ```
 #### Update user information

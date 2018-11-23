@@ -1,3 +1,4 @@
 node_modules/
 /src/*.json
 /src/*.enc
+package-lock.json
