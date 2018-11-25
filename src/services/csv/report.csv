@@ -1,14 +1,16 @@
 NOME;SEXO;IDADE;PATOLOGIA;OBJETIVO;NOME_JOGO;CONFIGURACAO;DATA_JOGO;HORA_JOGO;TEMPO_JOGO;SCORE_MAO_DIREITA;SCORE_MAO_ESQUERDA;SCORE_MAO_CRUZADA;ERRO_MAO_DIREITA;ERRO_MAO_ESQUERDA;ERRO_MAO_CRUZADA
-teste ap;feminino;23;tc;ap;Jogo da Mercearia;1,2,3,T;2018-11-19;00:24:18;400;3;2;5;4;3;6
-teste ap;feminino;23;tc;ap;Jogo da Mercearia;1,2,3,T;2018-11-19;00:24:34;400;33;22;54;46;35;67
-teste ap;feminino;23;tc;ap;Invasão Espacial;2;2018-11-19;00:25:01;300;33;22;54;46;35;67
-teste ap;feminino;23;tc;ap;Invasão Espacial;2;2018-11-19;00:25:05;100;33;22;54;46;35;67
-teste ap;feminino;23;tc;ap;Bola na Caixa;1,2,3;2018-11-20;21:47:35;180;3;2;5;4;3;6
-teste ap;feminino;23;tc;ap;Bola na Caixa;1,2,3;2018-11-20;22:10:36;180;3;20000;5;4;3;6
-teste ap;feminino;23;tc;ap;Bola na Caixa;1,2,3;2018-11-21;00:00:04;180;3;1000000;5;4;3;6
-teste ap;feminino;23;tc;ap;Bola na Caixa;1,2,3;2018-11-21;00:01:14;180;3;1000000;5;4;3;6
-teste ap;feminino;23;tc;ap;Bola na Caixa;1,2,3;2018-11-21;01:16:41;180;3;99999;5;4;3;6
-teste ap;feminino;23;tc;ap;Bola na Caixa;1,2,3;2018-11-21;01:23:26;180;3;777;5;4;3;6
-jhon snow3451;masculino;193451;patologia3451;objetivo3451;Invasão Espacial;2;2018-11-19;00:32:00;100;33;22;54;46;35;67
-jhon snow3451;masculino;193451;patologia3451;objetivo3451;Jogo da Mercearia;2;2018-11-19;00:32:13;200;3;2;5;4;3;6
-jhon snow3451;masculino;193451;patologia3451;objetivo3451;Jogo da Mercearia;2;2018-11-19;11:15:35;200;3;2;5;4;3;6
+teste ap;feminino;23;tc;ap;Jogo da Mercearia;Mão Esquerda,Mão Direita,Cruzado,T;2018-11-19;00:24:18;400;3;2;5;4;3;6
+teste ap;feminino;23;tc;ap;Jogo da Mercearia;Mão Esquerda,Mão Direita,Cruzado,T;2018-11-19;00:24:34;400;33;22;54;46;35;67
+teste ap;feminino;23;tc;ap;Invasão Espacial;Mão Direita;2018-11-19;00:25:01;300;33;22;54;46;35;67
+teste ap;feminino;23;tc;ap;Invasão Espacial;Mão Direita;2018-11-19;00:25:05;100;33;22;54;46;35;67
+teste ap;feminino;23;tc;ap;Bola na Caixa;Mão Esquerda,Mão Direita,Cruzado;2018-11-20;21:47:35;180;3;2;5;4;3;6
+teste ap;feminino;23;tc;ap;Bola na Caixa;Mão Esquerda,Mão Direita,Cruzado;2018-11-20;22:10:36;180;3;20000;5;4;3;6
+teste ap;feminino;23;tc;ap;Bola na Caixa;Mão Esquerda,Mão Direita,Cruzado;2018-11-21;00:00:04;180;3;1000000;5;4;3;6
+teste ap;feminino;23;tc;ap;Bola na Caixa;Mão Esquerda,Mão Direita,Cruzado;2018-11-21;00:01:14;180;3;1000000;5;4;3;6
+teste ap;feminino;23;tc;ap;Bola na Caixa;Mão Esquerda,Mão Direita,Cruzado;2018-11-21;01:16:41;180;3;99999;5;4;3;6
+teste ap;feminino;23;tc;ap;Bola na Caixa;Mão Esquerda,Mão Direita,Cruzado;2018-11-21;01:23:26;180;3;777;5;4;3;6
+jhon snow3451;masculino;193451;patologia3451;objetivo3451;Invasão Espacial;Mão Direita;2018-11-19;00:32:00;100;33;22;54;46;35;67
+jhon snow3451;masculino;193451;patologia3451;objetivo3451;Jogo da Mercearia;Mão Direita;2018-11-19;00:32:13;200;3;2;5;4;3;6
+jhon snow3451;masculino;193451;patologia3451;objetivo3451;Jogo da Mercearia;Mão Direita;2018-11-19;11:15:35;200;3;2;5;4;3;6
+jhon snow3451;masculino;193451;patologia3451;objetivo3451;Bola na Caixa;Mão Esquerda,Mão Direita,Cruzado;2018-11-25;17:23:23;180;3;12345;5;4;3;6
+jhon snow3451;masculino;193451;patologia3451;objetivo3451;Bola na Caixa;Mão Esquerda,Mão Direita,Cruzado, F;2018-11-25;18:31:54;180;3;12345;5;4;3;6

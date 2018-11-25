@@ -78,6 +78,10 @@ function _getGamesCSV(pacients) {
 var _filterGameAndPacient = function (pacient, game) {
   let _date = game.date;
   let _dataSP = _date.setHours(_date.getHours() - 2);
+  let _config = game.config
+                .replace('2', 'Mão Direita')
+                .replace('1', 'Mão Esquerda')
+                .replace('3', 'Cruzado');
 
   let _filtered = {
     nome: pacient.name,
@@ -86,7 +90,7 @@ var _filterGameAndPacient = function (pacient, game) {
     patologia: pacient.patologia,
     objetivo: pacient.objetivo,
     nome_jogo: game.title,
-    config: game.config,
+    config: _config,
     data_jogo: _date.toLocaleDateString(),
     hora_jogo: _date.toLocaleTimeString(),
     tempo: game.time,
