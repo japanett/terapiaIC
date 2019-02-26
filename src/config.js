@@ -15,7 +15,7 @@ try {
   // var decData = fs.readFileSync('./src/keys.json', 'utf8');
 
   var prodData = {
-    connectionString: "mongodb://192.168.0.13:27017/terapia",
+    connectionString: "mongodb://192.168.0.13:32770/terapia",
     sendgridKey: "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",
     containerConnectionString: "TBD"
   };
