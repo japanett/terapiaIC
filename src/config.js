@@ -12,10 +12,15 @@ var encPwd = '123G@bi123';
 
 try {
   // Delete this to run in production
-  var decData = fs.readFileSync('./src/keys.json', 'utf8');
+  // var decData = fs.readFileSync('./src/keys.json', 'utf8');
 
-  var prodData = JSON.parse(decData);
-  console.log(prodData);
+  var prodData = {
+    connectionString: "mongodb://192.168.0.13:27017/terapia",
+    sendgridKey: "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",
+    containerConnectionString: "TBD"
+  };
+  // var prodData = JSON.parse(decData);
+  console.log(prodData)
 } catch (e) {
   console.error('Missing encrypt password file, Is the crypto secret correct?');
 }
