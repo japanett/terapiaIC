@@ -21,7 +21,6 @@ exports.get = async (req, res) => {
   }
 }
 
-
 exports.generateReport = async (req, res) => {
   try {
     const token = req.body.token || req.query.token || req.headers['x-access-token'];
@@ -170,13 +169,13 @@ exports.setPacientGame = async (req, res) => {
     const token = req.body.token || req.query.token || req.headers['x-access-token'];
     const data = await authService.decodeToken(token);
 
-    // let exists = await repository.getGameId({ gameID: req.body.toPlay, identifier: req.params.identifier });
     await repository.setPacientGame({
       identifier: req.params.identifier,
       gameID: parseInt(req.body.toPlay),
       config: req.body.config,
       medic: data.id,
-      time: req.body.time
+      time: req.body.time,
+      imersiveMode: req.body.imersiveMode
     });
     res.status(200).send({
       message: 'Adicionado jogos para o Paciente: ' + req.params.identifier,
@@ -384,7 +383,14 @@ exports.updatePacientGame = async (req, res) => {
 
     //decodifica token
     const data = await authService.decodeToken(token);
-    await repository.updatePacientGame({ config: req.body.config, time: req.body.time, id: data.id, gameID: parseInt(req.body.gameID), pacientId: req.params.pacientId })
+    await repository.updatePacientGame({
+      config: req.body.config,
+      time: req.body.time,
+      id: data.id,
+      gameID: parseInt(req.body.gameID),
+      pacientId: req.params.pacientId,
+      imersiveMode: req.body.imersiveMode
+    })
       .then(() => {
         res.status(200).send({ message: 'Jogo atualizado', success: true });
       });
@@ -395,6 +401,7 @@ exports.updatePacientGame = async (req, res) => {
     });
   }
 }
+
 exports.getPacientGames = async (req, res) => {
   try {
     //recupera token
@@ -406,6 +413,69 @@ exports.getPacientGames = async (req, res) => {
     var dataPacients = await repository.getPacientGames({ pacient: req.params.id });
 
     res.status(200).send({ data: dataPacients, success: true });
+  } catch (e) {
+    res.status(500).send({
+      message: 'Failed process request',
+      success: false
+    });
+  }
+}
+
+exports.getPacientGame = async (req, res) => {
+  try {
+    const token = req.body.token || req.query.token || req.headers['x-access-token'];
+    const data = await authService.decodeToken(token);
+    const gameId = req.params.gameId;
+    const pacientIdentifier = req.params.id;
+
+    let dataPacientGame = await repository.getPacientGame({
+      gameId: gameId,
+      identifier: pacientIdentifier
+    });
+
+    res.status(200).send({ data: dataPacientGame, success: true });
+  } catch (e) {
+    res.status(500).send({
+      message: 'Failed process request',
+      success: false
+    });
+  }
+}
+
+exports.deletePacientGameReport = async (req, res) => {
+  try {
+    const token = req.body.token || req.query.token || req.headers['x-access-token'];
+    const data = await authService.decodeToken(token);
+    const gameId = req.params.gameId;
+
+    const gameDeleted = await repository.deletePacientGameReport(gameId);
+
+    if (gameDeleted)
+      res.status(200).send({ game: gameDeleted, message: 'Report deleted successfully', success: true });
+    if (!gameDeleted)
+      res.status(204).send();
+  } catch (e) {
+    res.status(500).send({
+      message: 'Failed process request',
+      success: false
+    });
+  }
+}
+
+exports.setGameReportObservation = async (req, res) => {
+  try {
+    const token = req.body.token || req.query.token || req.headers['x-access-token'];
+    const data = await authService.decodeToken(token);
+    const gameId = req.params.gameId;
+    const observation = req.body.observation;
+
+    await repository.setGameReportObservation({
+      id: gameId,
+      observation: observation
+    })
+      .then(() => {
+        res.status(202).send({ message: 'Game observation updated!', success: true });
+      });
   } catch (e) {
     res.status(500).send({
       message: 'Failed process request',

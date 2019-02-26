@@ -9,7 +9,7 @@ It's repository is right <a href="https://github.com/japanett/appTerapia" target
 
 ## Documentation
 
-## Pacient endpoint
+## Pacient endpoint update and check these endpoints //https://www.youtube.com/watch?v=QkGR14TUkWM
 
 #### Authentication
 ```http
@@ -246,14 +246,15 @@ PUT /api/user/pacients
 ```
 #### Add games to pacient's list
 ```http
-PUT /api/user/pacients/games/:identifier
+PUT /api/user/pacients/games/:pacientIdentifier
 ```
 ```json
 {
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg",
     "toPlay":1,
     "config":"1,2,3",
-    "time":"540"
+    "time":"540",
+    "imersiveMode":true
 }
 ```
 ##### Response
@@ -265,14 +266,15 @@ PUT /api/user/pacients/games/:identifier
 ```
 #### Update Pacient Game Config
 ```http
-PUT /api/user/games/:pacientId
+PUT /api/user/games/:pacientIdentifier
 ```
 ```json
 {
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg",
     "gameID":1,
     "config":"3,2,1",
-    "time":"540"
+    "time":"540",
+    "imersiveMode":false
 }
 ```
 ##### Response
@@ -345,11 +347,15 @@ GET /api/user/pacients/?:identifier
             "medic": "5bc774959f38ab00301c3f68",
             "games": [
                 {
+                    "time": "300",
+                    "imersiveMode": true,
                     "gameID": "2",
                     "config": "1,2,3",
                     "title": "Invasão Espacial"
                 },
                 {
+                    "time": "300",
+                    "imersiveMode": false,
                     "gameID": "1",
                     "config": "1,2,3",
                     "title": "Jogo da Mercearia"
@@ -374,9 +380,9 @@ GET /api/user/pacients/?:identifier
     "success": true
 }
 ```
-#### Remove pacient game
+#### Remove pacient game of list to play
 ```http
-PUT /api/user/:pacientid/games/:gameID
+PUT /api/user/:pacientidentifier/games/:gameID
 ```
 ```json
 {
@@ -390,7 +396,7 @@ PUT /api/user/:pacientid/games/:gameID
     "success": true
 }
 ```
-##### Get pacient games
+##### Get pacient's played games report
 ```http
 GET /api/user/:identifier/games
 ```
@@ -421,21 +427,54 @@ GET /api/user/:identifier/games
             "title": "Bola na Caixa",
             "gameID": 3,
             "config": "1,2,3",
+            "imersiveMode": true,
+            "observation":"observacao feita pelo medico"
             "__v": 0
         }
     ],
     "success": true
 }
 ```
-
+##### Delete game report
+```http
+DELETE /api/user/:pacientIdentifier/games/:gameId
+```
+```json
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg"
+}
+```
+##### Response
+```json
+{
+    "success": true
+}
+```
+#### Set game report observation
+```http
+PATCH /api/user/:pacientIdentifier/games/:gameId
+```
+```json
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg",
+    "observation":"teste mudanca"   
+}
+```
+##### Response
+```json
+{
+    "message": "Game observation updated",
+    "success": true
+}
+```
 ## Observations
 - mao esquerda = 1
 - mao direita = 2
 - mao cruzada = 3
 
 ## To do:
+- Refactor and redesign everything, this s*** is ugly
 - Bug hunt
-- Optimize the code
 
 ## Fix:
 - (Create user) Sending email even when the request response != 201

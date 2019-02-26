@@ -17,7 +17,7 @@ const userSchema = new Schema({
         type: String,
         required: [true, 'password not specified !']
     },
-    email: { // dps precisa fazer a verificação (@exemplo.com) com regex?
+    email: {
         type: String,
         required: [true, 'email not specified'],
         trim: true,

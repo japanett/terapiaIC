@@ -79,9 +79,9 @@ var _filterGameAndPacient = function (pacient, game) {
   let _date = game.date;
   let _dataSP = _date.setHours(_date.getHours() - 2);
   let _config = game.config
-                .replace('2', 'Mão Direita')
-                .replace('1', 'Mão Esquerda')
-                .replace('3', 'Cruzado');
+    .replace('2', 'Mão Direita')
+    .replace('1', 'Mão Esquerda')
+    .replace('3', 'Cruzado');
 
   let _filtered = {
     nome: pacient.name,
@@ -124,7 +124,8 @@ exports.setPacientGame = async (data) => {
           gameID: data.gameID,
           config: data.config,
           title: title,
-          time: data.time
+          time: data.time,
+          imersiveMode: data.imersiveMode
         }
       }
     }, {
@@ -158,7 +159,8 @@ exports.updatePacientGame = async (data) => {
               gameID: data.gameID,
               config: data.config,
               title: title,
-              time: data.time
+              time: data.time,
+              imersiveMode: data.imersiveMode
             }
           }
         }, {
@@ -247,4 +249,31 @@ exports.getGameId = async (data) => {
 exports.getPacientGames = async (data) => {
   const res = await game.find({ pacient: data.pacient });
   return res;
+}
+
+exports.getPacientGame = async (data) => {
+  const res = await game.findOne({ _id: data.gameId, pacient: data.identifier });
+  return res;
+}
+
+
+exports.deletePacientGameReport = function (gameId) {
+  return new Promise((resolve, reject) => {
+    game.findByIdAndRemove(gameId)
+      .then((removedGame) => {
+        return resolve(removedGame);
+      })
+      .catch((data) => {
+        return reject(false);
+      })
+  })
+}
+
+exports.setGameReportObservation = async (data) => {
+  await game.findByIdAndUpdate(data.id,
+    {
+      $set: {
+        observation: data.observation
+      }
+    });
 }
