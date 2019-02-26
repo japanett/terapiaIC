@@ -7,19 +7,13 @@ global.EMAIL_TMPL_CREATE_PACIENT = '<h2>Olá, username</h2><br><h2>Você acabou 
 
 var encPwd = '123G@bi123';
 // Uncomment this to run in production
-// var encData = fs.readFileSync('./src/keys.enc', 'utf8');
-// var decData = encService.decrypt(encData, encPwd);
+var encData = fs.readFileSync('./src/keys.enc', 'utf8');
+var decData = encService.decrypt(encData, encPwd);
 
 try {
-  // Delete this to run in production
-  // var decData = fs.readFileSync('./src/keys.json', 'utf8');
+  var decData = fs.readFileSync('./src/keys.json', 'utf8');
 
-  var prodData = {
-    connectionString: "mongodb://192.168.0.13:32770/terapia",
-    sendgridKey: "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",
-    containerConnectionString: "TBD"
-  };
-  // var prodData = JSON.parse(decData);
+  var prodData = JSON.parse(decData);
   console.log(prodData)
 } catch (e) {
   console.error('Missing encrypt password file, Is the crypto secret correct?');
