@@ -9,7 +9,7 @@ It's repository is right <a href="https://github.com/japanett/appTerapia" target
 
 ## Documentation
 
-## Pacient endpoint update and check these endpoints //https://www.youtube.com/watch?v=QkGR14TUkWM
+## Pacient endpoints
 
 #### Authentication
 ```http
@@ -58,13 +58,15 @@ GET /api/pacient/
                 "gameID": "3",
                 "config": "1,2,3",
                 "title": "Bola na Caixa",
-                "time":""
+                "time":"",
+                "imersiveMode": true,
             },
             {
                 "gameID": "1",
                 "config": "1,2,3,T",
                 "title": "Jogo da Mercearia",
-                "time":"540"
+                "time":"540",
+                "imersiveMode": false,
             }
         ],
         "__v": 0
@@ -91,7 +93,8 @@ PUT /api/pacient/games
 		"cruzada": 6
 	},
 	"time":180,
-	"gameID":1
+    "gameID":1,
+    "imersiveMode": false,
 }
 ```
 ##### Response

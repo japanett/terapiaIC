@@ -1,9 +1,7 @@
 'use strict';
 const mongoose = require('mongoose');
 const pacient = mongoose.model('pacientSchema');
-const user = mongoose.model('userSchema');
 const game = mongoose.model('gameSchema');
-const uuidv1 = require('uuid/v1');
 
 exports.authenticate = async (data) => {
   const res = await pacient.findOne({
@@ -34,6 +32,7 @@ exports.postGame = async (data) => {
     gameID: data.gameID,
     config: data.config,
     date: data.date,
+    imersiveMode: data.imersiveMode,
     score: {
       esquerda: data.score.esquerda,
       direita: data.score.direita,

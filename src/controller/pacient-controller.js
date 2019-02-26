@@ -34,7 +34,7 @@ exports.authenticate = async (req, res, next) => {
       success: false
     });
   }
-} 
+}
 
 exports.get = async (req, res, next) => {
   try {
@@ -62,8 +62,9 @@ exports.postGame = async (req, res, next) => {
     const data = await authService.decodeToken(token);
     await repository.postGame({
       identifier: data.identifier,
-      config:req.body.config,
+      config: req.body.config,
       gameID: req.body.gameID,
+      imersiveMode: req.body.imersiveMode,
       date: Date.now(),
       score: {
         esquerda: req.body.score.esquerda,
