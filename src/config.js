@@ -6,12 +6,11 @@ global.EMAIL_TMPL_CREATE_USER = 'Olá, <strong>name</strong><br>Você acabou de 
 global.EMAIL_TMPL_CREATE_PACIENT = '<h2>Olá, username</h2><br><h2>Você acabou de cadastrar um paciente !</h2><br>Seguem os dados do mesmo: <br><br><strong>Identificador</strong>: identifier<br><strong>Nome</strong>: namepaciente<br><strong>Sexo</strong>: sexopaciente<br><strong>Idade</strong>: idadepaciente<br><strong>Patologia</strong>: patologiapaciente<br><strong>Objetivo</strong>: objetivopaciente<br><br><h3><u style="color:blue;">Lembrando que o paciente irá utilizar o Identificador para se logar no jogo !</u></h3>';
 
 var encPwd = '123G@bi123';
-// Uncomment this to run in production
-var encData = fs.readFileSync('./src/keys.enc', 'utf8');
-var decData = encService.decrypt(encData, encPwd);
 
 try {
-  var decData = fs.readFileSync('./src/keys.json', 'utf8');
+  var encData = fs.readFileSync('./src/keys.enc', 'utf8');
+  var decData = encService.decrypt(encData, encPwd);
+  // var decData = fs.readFileSync('./src/keys.json', 'utf8');
 
   // var prodData = {
   //   connectionString: "mongodb://admin:admin123@ds223542.mlab.com:23542/terapiaic",
