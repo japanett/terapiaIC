@@ -14,8 +14,6 @@ try {
 
   // var prodData = {
   //   connectionString: "mongodb://admin:admin123@ds223542.mlab.com:23542/terapiaic",
-  //   sendgridKey: "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",
-  //   containerConnectionString: "TBD"
   // };
   var prodData = JSON.parse(decData);
   console.log(prodData)
