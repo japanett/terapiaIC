@@ -77,7 +77,8 @@ function _getGamesCSV(pacients) {
 
 var _filterGameAndPacient = function (pacient, game) {
   let _date = game.date;
-  let _dataSP = _date.setHours(_date.getHours() - 2);
+  // let _dataSP = _date.setHours(_date.getHours() - 2);
+  let _translateImserviseMode = game.imersiveMode ? 'Ativado' : 'Desativado';
   let _config = game.config
     .replace('2', 'Mão Direita')
     .replace('1', 'Mão Esquerda')
@@ -90,7 +91,9 @@ var _filterGameAndPacient = function (pacient, game) {
     patologia: pacient.patologia,
     objetivo: pacient.objetivo,
     nome_jogo: game.title,
+    observation: game.observation,
     config: _config,
+    imersiveMode: _translateImserviseMode,
     data_jogo: _date.toLocaleDateString(),
     hora_jogo: _date.toLocaleTimeString(),
     tempo: game.time,

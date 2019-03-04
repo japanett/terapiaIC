@@ -2,8 +2,8 @@
 
 exports.get = (req, res, next) => {
     res.status(200).send({
-        title: "API Lab Games VR",
-        version: "Versão: 2.0.1",
+        title: "API Games VR",
+        version: "Versão: 2.0.2",
         author: 'Gabriel Kenzo Hirata Camargo'
     });
 }

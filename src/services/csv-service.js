@@ -27,7 +27,9 @@ function _generateCSV(user, csvJsonObjects) {
         { id: 'patologia', title: 'PATOLOGIA' },
         { id: 'objetivo', title: 'OBJETIVO' },
         { id: 'nome_jogo', title: 'NOME_JOGO' },
+        { id: 'observation', title: 'OBSERVAÇÃO' },
         { id: 'config', title: 'CONFIGURACAO' },
+        { id: 'imersiveMode', title: 'MODO IMERSIVO' },
         { id: 'data_jogo', title: 'DATA_JOGO' },
         { id: 'hora_jogo', title: 'HORA_JOGO' },
         { id: 'tempo', title: 'TEMPO_JOGO' },
@@ -54,7 +56,9 @@ function _generateCSV(user, csvJsonObjects) {
       _line.patologia = obj.patologia;
       _line.objetivo = obj.objetivo;
       _line.nome_jogo = obj.nome_jogo;
+      _line.observation = obj.observation;
       _line.config = obj.config;
+      _line.imersiveMode = obj.imersiveMode;
       _line.data_jogo = obj.data_jogo;
       _line.hora_jogo = obj.hora_jogo;
       _line.tempo = obj.tempo;
