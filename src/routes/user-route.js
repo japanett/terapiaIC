@@ -8,10 +8,11 @@ const authService = require('../services/auth-service');
 router.get('/report', authService.authorize, controller.generateReport);
 
 router.post('/create', controller.createUser);
-router.get('/recover-password', controller.recoverPassword);
+router.get('/:email/recover-password', controller.recoverPassword);
 
 router.delete('/delete', authService.authorize, controller.delete);
 router.put('/', authService.authorize, controller.update);
+router.patch('/change-password', authService.authorize, controller.changePassword);
 router.get('/', authService.authorize, controller.get);
 
 router.post('/pacients', authService.authorize, controller.createPacient);

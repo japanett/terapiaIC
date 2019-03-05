@@ -22,16 +22,35 @@ exports.get = async (req, res) => {
   }
 }
 
+exports.changePassword = async (req, res) => {
+  try {
+    const token = req.body.token || req.query.token || req.headers['x-access-token'];
+    const data = await authService.decodeToken(token);
+
+    const newPassword = encService.encrypt(req.body.password, global.KEY);
+
+    const user = await repository.changePassword(newPassword, data);
+
+    return res.status(200).send({ data: user }); 
+
+  } catch (e) {
+    console.log(e);
+    res.status(500).send({
+      message: 'Failed process request',
+      success: false
+    });
+  }
+}
+
 exports.recoverPassword = async (req, res) => {
   try {
-    const email = req.body.email;
-    const recoveredPassword = await repository.recoverPassword(email, global.KEY);
-
-    if (!!recoveredPassword) {
+    const email = req.params.email;
+    const recovered = await repository.recoverPassword(email, global.KEY);
+    if (recovered.pwd) {
       let subject = ('GamesVR Recuperação de senha');
 
-      let body = recoveredPassword;
-  
+      let body = 'Login: ' + recovered.login + '<br><br>Senha: ' + recovered.pwd;
+
       emailService.sendEMAIL(
         email,
         subject,
@@ -39,8 +58,9 @@ exports.recoverPassword = async (req, res) => {
       );
     }
 
-    res.status(200).send({ data: recoveredPassword, success: true });
+    res.status(200).send({ data: recovered, success: true });
   } catch (e) {
+    console.log(e);
     res.status(500).send({
       message: 'Failed process request',
       success: false
@@ -141,10 +161,8 @@ exports.createUser = async (req, res) => {
   try {
     var name = req.body.name;
     var login = req.body.login;
-    var realpwd = req.body.password;
+    var encPwd = encService.encrypt(req.body.password, global.KEY);
     var email = req.body.email;
-
-    var tempPassword = encService.encrypt(realpwd, global.KEY);
 
     var subject = ('Bem vindo(a) name !').replace('name', name);
 
@@ -156,7 +174,7 @@ exports.createUser = async (req, res) => {
     var index2 = [
       name,
       login,
-      realpwd
+      req.body.password
     ];
     var body = global.EMAIL_TMPL_CREATE_USER;
     for (var i = 0; i < index.length; i++) {
@@ -171,7 +189,7 @@ exports.createUser = async (req, res) => {
 
     await repository.createUser({
       login: login,
-      password: tempPassword,
+      password: encPwd,
       email: email,
       name: name
     });

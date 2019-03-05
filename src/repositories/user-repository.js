@@ -25,19 +25,32 @@ exports.createPacient = async (data) => {
     });
 }
 
-
 exports.recoverPassword = function (data, key) {
   return new Promise((resolve, reject) => {
     user.findOne({ email: data })
       .then((_user) => {
         let decPassword = encService.decrypt(_user.password, key);
-        
-        resolve(decPassword);
+
+        resolve({ pwd: decPassword, login: _user.login });
       })
       .catch(e => reject(e))
   })
 }
 
+exports.changePassword = function (newPassword, data) {
+  return new Promise((resolve, reject) => {
+
+    user.findByIdAndUpdate(data.id, {
+      $set: {
+        password: newPassword
+      }
+    })
+      .then((_user) => {
+        resolve(_user);
+      })
+      .catch(e => reject(e))
+  });
+}
 
 exports.generateReport = function (data) {
   return new Promise((resolve, reject) => {

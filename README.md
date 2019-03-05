@@ -7,7 +7,9 @@
 I also developed the Front-End (Ionic 3) that this API feeds. 
 It's repository is right <a href="https://github.com/japanett/appTerapia" target="_blank">here</a>.
 
-## Documentation
+## Endpoints:
+Terapeuta
+- POST /api/auth
 
 ## Pacient endpoints
 
