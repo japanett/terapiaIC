@@ -27,6 +27,18 @@ exports.recoverPassword = async (req, res) => {
     const email = req.body.email;
     const recoveredPassword = await repository.recoverPassword(email, global.KEY);
 
+    if (!!recoveredPassword) {
+      let subject = ('GamesVR Recuperação de senha');
+
+      let body = recoveredPassword;
+  
+      emailService.sendEMAIL(
+        email,
+        subject,
+        body
+      );
+    }
+
     res.status(200).send({ data: recoveredPassword, success: true });
   } catch (e) {
     res.status(500).send({
