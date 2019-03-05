@@ -1,8 +1,8 @@
 'use strict';
 
-var algorithm = 'aes-256-ctr';
+const algorithm = 'aes-128-cbc';
 
-var crypto = require('crypto');
+const crypto = require('crypto');
 
 exports.encrypt = function (text, password){
   var cipher = crypto.createCipher(algorithm, password);

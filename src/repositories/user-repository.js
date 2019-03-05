@@ -3,6 +3,7 @@
 const mongoose = require('mongoose');
 
 const csvService = require('../services/csv-service');
+const encService = require('../services/enc-service');
 const user = mongoose.model('userSchema');
 const pacient = mongoose.model('pacientSchema');
 const game = mongoose.model('gameSchema');
@@ -23,6 +24,21 @@ exports.createPacient = async (data) => {
       new: true
     });
 }
+
+
+exports.recoverPassword = function (data, key) {
+  return new Promise((resolve, reject) => {
+    console.log(data);
+    user.findOne({ email: data })
+      .then((_user) => {
+        let decPassword = encService.decrypt(_user.password, key);
+        
+        resolve(decPassword);
+      })
+      .catch(e => reject(e))
+  })
+}
+
 
 exports.generateReport = function (data) {
   return new Promise((resolve, reject) => {

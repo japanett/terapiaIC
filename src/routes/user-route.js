@@ -8,15 +8,17 @@ const authService = require('../services/auth-service');
 router.get('/report', authService.authorize, controller.generateReport);
 
 router.post('/create', controller.createUser);
+router.get('/recover-password', controller.recoverPassword);
+
 router.delete('/delete', authService.authorize, controller.delete);
 router.put('/', authService.authorize, controller.update);
 router.get('/', authService.authorize, controller.get);
 
-router.put('/pacients', authService.authorize, controller.createPacient);
+router.post('/pacients', authService.authorize, controller.createPacient);
 router.get('/pacients', authService.authorize, controller.getPacients);
 router.get('/pacients/:identifier', authService.authorize, controller.getPacient);
 
-router.get('/:id/games', authService.authorize, controller.getPacientGames);
+router.get('/pacients/:id/games', authService.authorize, controller.getPacientGames);
 router.get('/:id/games/:gameId', authService.authorize, controller.getPacientGame);
 router.delete('/:id/games/:gameId', authService.authorize, controller.deletePacientGameReport);
 router.patch('/:id/games/:gameId', authService.authorize, controller.setGameReportObservation);

@@ -1,6 +1,7 @@
 'use strict';
 
 const md5 = require('md5');
+const encService = require('../services/enc-service');
 const emailService = require('../services/email-service');
 const authService = require('../services/auth-service');
 const repository = require('../repositories/user-repository');
@@ -13,6 +14,20 @@ exports.get = async (req, res) => {
     var datalogin = await repository.get(data.id);
 
     res.status(200).send({ data: datalogin, success: true });
+  } catch (e) {
+    res.status(500).send({
+      message: 'Failed process request',
+      success: false
+    });
+  }
+}
+
+exports.recoverPassword = async (req, res) => {
+  try {
+    const email = req.body.email;
+    const recoveredPassword = await repository.recoverPassword(email, global.KEY);
+
+    res.status(200).send({ data: recoveredPassword, success: true });
   } catch (e) {
     res.status(500).send({
       message: 'Failed process request',
@@ -117,7 +132,7 @@ exports.createUser = async (req, res) => {
     var realpwd = req.body.password;
     var email = req.body.email;
 
-    var tempPassword = md5(realpwd + global.SALT_KEY);
+    var tempPassword = encService.encrypt(realpwd, global.KEY);
 
     var subject = ('Bem vindo(a) name !').replace('name', name);
 
@@ -254,7 +269,6 @@ exports.updatePacient = async (req, res) => {
 exports.createPacient = async (req, res) => {
   try {
     //token:{login,id}
-    //recupera token
     const token = req.body.token || req.query.token || req.headers['x-access-token'];
     //decodifica token
     const data = await authService.decodeToken(token);

@@ -227,7 +227,7 @@ DELETE /api/user/delete
 ```
 #### Create pacient
 ```http
-PUT /api/user/pacients
+POST /api/user/pacients
 ```
 ```json
 {
@@ -401,7 +401,7 @@ PUT /api/user/:pacientidentifier/games/:gameID
 ```
 ##### Get pacient's played games report
 ```http
-GET /api/user/:identifier/games
+GET /api/user/pacients/:identifier/games
 ```
 ```json
 {
