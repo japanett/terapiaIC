@@ -8,8 +8,40 @@ I also developed the Front-End (Ionic 3) that this API feeds.
 It's repository is right <a href="https://github.com/japanett/appTerapia" target="_blank">here</a>.
 
 ## Endpoints:
+
+Admin
+- POST api/admin/login
+- PATCH api/admin/users/reset-passwords
+- GET api/admin/users
+
+Paciente
+- GET api/pacient
+- POST api/pacient/auth
+- PUT api/pacient/games
+
 Terapeuta
-- POST /api/auth
+- POST api/auth
+- GET api/user
+- PUT api/user
+- POST api/user/create
+- DELETE api/user/delete
+- PATCH api/user/change-password
+- GET api/user/:email/recover-password
+
+- POST api/user/pacients
+- GET api/user/pacients/:id/games
+- GET api/user/pacients/?:identifier
+- PUT api/user/pacients/:identifier
+- DELETE api/user/pacient/:identifier
+
+- GET api/user/:id/games/:id
+- PATCH api/user/:id/games/:id
+- DELETE api/user/:id/games/:id
+
+- PUT api/user/games/pacientId
+- PUT api/user/:pacientId/games/:id
+- PUT api/user/pacients/games/:identifier
+
 
 ## Pacient endpoints
 
