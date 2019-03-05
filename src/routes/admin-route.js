@@ -5,6 +5,6 @@ const router = express.Router();
 const controller = require('../controller/admin-controller');
 const authService = require('../services/auth-service');
 
-router.put('/reset-passwords', controller.resetPwd);
+router.put('/reset-passwords', controller.resetAllPasswords);
 
 module.exports = router;

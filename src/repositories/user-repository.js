@@ -28,7 +28,6 @@ exports.createPacient = async (data) => {
 
 exports.recoverPassword = function (data, key) {
   return new Promise((resolve, reject) => {
-    console.log(data);
     user.findOne({ email: data })
       .then((_user) => {
         let decPassword = encService.decrypt(_user.password, key);
