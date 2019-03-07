@@ -1,7 +1,7 @@
 # API service for my Undergraduate Research project
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/japanett/clashAPI/master/app.png">
+  <img src="https://raw.githubusercontent.com/japanett/clashAPI/master/app_v2.png">
 </p>
 
 I also developed the Front-End (Ionic 3) that this API feeds. 
