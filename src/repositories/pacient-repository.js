@@ -16,16 +16,30 @@ exports.get = async (data) => {
 }
 
 exports.postGame = async (data) => {
-  var title;
-  if (data.gameID === 1)
-    title = 'Jogo da Mercearia';
+  let title;
 
-  else if (data.gameID === 2)
-    title = 'Invasão Espacial';
+  switch (data.gameID) {
+    case 1:
+      title = 'Jogo da Mercearia';
+      break;
 
-  else if (data.gameID === 3)
-    title = 'Bola na Caixa';
-    
+    case 2:
+      title = 'Invasão Espacial';
+      break;
+
+    case 3:
+      title = 'Bola na Caixa';
+      break;
+
+    case 4:
+      title = 'Bloquinho';
+      break;
+
+    default:
+      throw Error('GameID not specified!!!!');
+      break;
+  };
+  
   var __game = {
     pacient: data.identifier,
     title: title,

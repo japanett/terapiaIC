@@ -136,17 +136,30 @@ var _filterGameAndPacient = function (pacient, game) {
 }
 
 exports.setPacientGame = async (data) => {
+  let title;
 
-  var title;
-  if (data.gameID === 1) {
-    title = 'Jogo da Mercearia'
-  }
-  else if (data.gameID === 2) {
-    title = 'Invasão Espacial'
-  }
-  else if (data.gameID === 3) {
-    title = 'Bola na Caixa'
-  }
+  switch (data.gameID) {
+    case 1:
+      title = 'Jogo da Mercearia';
+      break;
+
+    case 2:
+      title = 'Invasão Espacial';
+      break;
+
+    case 3:
+      title = 'Bola na Caixa';
+      break;
+
+    case 4:
+      title = 'Bloquinho';
+      break;
+
+    default:
+      throw Error('GameID not specified!!!!');
+      break;
+  };
+
   await pacient.findOneAndUpdate({
     identifier: data.identifier
   }, {
@@ -172,15 +185,29 @@ exports.removePacientGame = async (data) => {
 exports.updatePacientGame = async (data) => {
   await pacient.update({ _id: data.pacientId }, { "$pull": { "games": { "gameID": data.gameID } } }, { safe: true })
     .then(() => {
-      var title;
-      if (data.gameID === 1)
-        title = 'Jogo da Mercearia';
+      let title;
 
-      else if (data.gameID === 2)
-        title = 'Invasão Espacial';
+      switch (data.gameID) {
+        case 1:
+          title = 'Jogo da Mercearia';
+          break;
 
-      else if (data.gameID === 3)
-        title = 'Bola na Caixa';
+        case 2:
+          title = 'Invasão Espacial';
+          break;
+
+        case 3:
+          title = 'Bola na Caixa';
+          break;
+
+        case 4:
+          title = 'Bloquinho';
+          break;
+
+        default:
+          throw Error('GameID not specified!!!!');
+          break;
+      };
 
       return pacient.findOneAndUpdate({
         _id: data.pacientId

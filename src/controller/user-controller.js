@@ -131,9 +131,7 @@ exports.getPacient = async (req, res) => {
 exports.update = async (req, res) => {
   try {
     //token:{login,id}
-    //recupera token
     const token = req.body.token || req.query.token || req.headers['x-access-token'];
-    //decodifica token
     const data = await authService.decodeToken(token);
 
     await repository.update({
