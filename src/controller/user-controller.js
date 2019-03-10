@@ -276,6 +276,8 @@ exports.updatePacient = async (req, res) => {
       name: req.body.name,
       sexo: req.body.sexo,
       age: req.body.age,
+      mao_dominante: req.body.mao_dominante,
+      gmfcs: req.body.gmfcs,
       active: req.body.active,
       objetivo: req.body.objetivo,
       patologia: req.body.patologia
@@ -311,6 +313,8 @@ exports.createPacient = async (req, res) => {
           name: req.body.name,
           age: req.body.age,
           sexo: req.body.sexo,
+          mao_dominante: req.body.mao_dominante,
+          gmfcs: req.body.gmfcs,
           patologia: req.body.patologia,
           objetivo: req.body.objetivo,
           identifier: identifier,

@@ -120,6 +120,8 @@ var _filterGameAndPacient = function (pacient, game) {
     objetivo: pacient.objetivo,
     nome_jogo: game.title,
     observation: game.observation,
+    mao_dominante: game.mao_dominante,
+    gmfcs: game.gmfcs,
     config: _config,
     imersiveMode: _translateImserviseMode,
     data_jogo: _date.toLocaleDateString(),
@@ -249,7 +251,9 @@ exports.updatePacient = async (data) => {
       sexo: data.sexo,
       active: data.active,
       objetivo: data.objetivo,
-      patologia: data.patologia
+      patologia: data.patologia,
+      mao_dominante: data.mao_dominante,
+      gmfcs: data.gmfcs
     }
   }, {
       new: true,

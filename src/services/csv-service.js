@@ -26,6 +26,8 @@ function _generateCSV(user, csvJsonObjects) {
         { id: 'idade', title: 'IDADE' },
         { id: 'patologia', title: 'PATOLOGIA' },
         { id: 'objetivo', title: 'OBJETIVO' },
+        { id: 'mao_dominante', title: 'MAO DOMINANTE' },
+        { id: 'gmfcs', title: 'NIVEL GMFCS' },
         { id: 'nome_jogo', title: 'NOME_JOGO' },
         { id: 'observation', title: 'OBSERVAÇÃO' },
         { id: 'config', title: 'CONFIGURACAO' },
@@ -55,6 +57,8 @@ function _generateCSV(user, csvJsonObjects) {
       _line.idade = obj.idade;
       _line.patologia = obj.patologia;
       _line.objetivo = obj.objetivo;
+      _line.mao_dominante = obj.mao_dominante;
+      _line.gmfcs = obj.gmfcs;
       _line.nome_jogo = obj.nome_jogo;
       _line.observation = obj.observation;
       _line.config = obj.config;
@@ -74,6 +78,7 @@ function _generateCSV(user, csvJsonObjects) {
     csvWriter.writeRecords(_records)
       .then(() => {
         var data = fs.readFileSync(filePath, 'utf8')
+        console.log('1');
         emailService.sendCSV(_userEmail, data);
         resolve('OK');
       })
