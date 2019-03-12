@@ -51,7 +51,6 @@ function _generateCSV(user, csvJsonObjects) {
 
     csvJsonObjects.forEach(obj => {
       let _line = {};
-
       _line.nome = obj.nome;
       _line.sexo = obj.sexo;
       _line.idade = obj.idade;
@@ -77,8 +76,7 @@ function _generateCSV(user, csvJsonObjects) {
     });
     csvWriter.writeRecords(_records)
       .then(() => {
-        var data = fs.readFileSync(filePath, 'utf8')
-        console.log('1');
+        var data = fs.readFileSync(filePath, 'utf8');
         emailService.sendCSV(_userEmail, data);
         resolve('OK');
       })
