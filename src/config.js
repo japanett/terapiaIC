@@ -10,14 +10,14 @@ var encPwd = '123G@bi123';
 
 try {
   var encData = fs.readFileSync('./src/keys.enc', 'utf8');
-  var decData = encService.decryptOld(encData, encPwd);
+  var decData = encService.decrypt(encData, encPwd);
   // var decData = fs.readFileSync('./src/keys.json', 'utf8');
 
   // var prodData = {
   //   connectionString: "mongodb://admin:admin123@ds223542.mlab.com:23542/terapiaic",
   // };
+  console.log(decData);
   var prodData = JSON.parse(decData);
-  console.log(prodData)
 } catch (e) {
   console.error('Missing encrypt password file, Is the crypto secret correct?');
 }
