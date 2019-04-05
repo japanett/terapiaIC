@@ -23,7 +23,7 @@ try {
 }
 
 module.exports = {
-  connectionString: 'mongodb://192.168.0.13:32768/terapia',
+  connectionString: 'mongodb://admin:admin123@ds223542.mlab.com:23542/terapiaic',
   sendgridKey: prodData.sendgridKey,
   containerConnectionString: prodData.containerConnectionString
 }
