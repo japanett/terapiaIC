@@ -12,11 +12,7 @@ try {
   var encData = fs.readFileSync('./src/keys.enc', 'utf8');
   var decData = encService.decrypt(encData, encPwd);
   // var decData = fs.readFileSync('./src/keys.json', 'utf8');
-
-  // var prodData = {
-  //   connectionString: "mongodb://admin:admin123@ds223542.mlab.com:23542/terapiaic",
-  // };
-  console.log(decData);
+  
   var prodData = JSON.parse(decData);
 } catch (e) {
   console.error('Missing encrypt password file, Is the crypto secret correct?');

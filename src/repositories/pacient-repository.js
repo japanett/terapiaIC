@@ -35,11 +35,15 @@ exports.postGame = async (data) => {
       title = 'Bloquinho';
       break;
 
+    case 5:
+      title = 'Pontes';
+      break;
+
     default:
       throw Error('GameID not specified!!!!');
       break;
   };
-  
+
   var __game = {
     pacient: data.identifier,
     title: title,

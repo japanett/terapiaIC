@@ -37,10 +37,10 @@ function _generateCSV(user, csvJsonObjects) {
         { id: 'tempo', title: 'TEMPO_JOGO' },
         { id: 'score_mao_direita', title: 'SCORE_MAO_DIREITA' },
         { id: 'score_mao_esquerda', title: 'SCORE_MAO_ESQUERDA' },
-        { id: 'score_mao_cruzada', title: 'SCORE_MAO_CRUZADA' },
+        { id: 'score_mao_cruzada', title: 'SCORE_MAO_ALTERNADA' },
         { id: 'erro_mao_direita', title: 'ERRO_MAO_DIREITA' },
         { id: 'erro_mao_esquerda', title: 'ERRO_MAO_ESQUERDA' },
-        { id: 'erro_mao_cruzada', title: 'ERRO_MAO_CRUZADA' }
+        { id: 'erro_mao_cruzada', title: 'ERRO_MAO_ALTERNADA' }
       ],
       fieldDelimiter: ';'
     });

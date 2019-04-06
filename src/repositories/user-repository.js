@@ -110,7 +110,7 @@ var _filterGameAndPacient = function (pacient, game) {
   let _config = game.config
     .replace('2', 'Mão Direita')
     .replace('1', 'Mão Esquerda')
-    .replace('3', 'Cruzado');
+    .replace('3', 'Alternada');
 
   let _filtered = {
     nome: pacient.name,
@@ -155,6 +155,10 @@ exports.setPacientGame = async (data) => {
 
     case 4:
       title = 'Bloquinho';
+      break;
+
+    case 5:
+      title = 'Pontes';
       break;
 
     default:
@@ -204,6 +208,10 @@ exports.updatePacientGame = async (data) => {
 
         case 4:
           title = 'Bloquinho';
+          break;
+
+        case 5:
+          title = 'Pontes';
           break;
 
         default:
