@@ -19,7 +19,7 @@ try {
 }
 
 module.exports = {
-  connectionString: 'mongodb://admin:admin123@ds223542.mlab.com:23542/terapiaic',
+  connectionString: 'mongodb://admin:admin123@ds035290.mlab.com:35290/gamesvr',
   sendgridKey: prodData.sendgridKey,
   containerConnectionString: prodData.containerConnectionString
 }
