@@ -56,13 +56,9 @@ exports.get = async (req, res, next) => {
 }
 
 exports.postGame = async (req, res, next) => {
-  try {
-    
-    console.log('== CONTROLLER POST GAME ==');
-    console.log(req.body);
-    
+  try {    
     const token = req.body.token || req.query.token || req.headers['x-access-token'];
-        
+
     const data = await authService.decodeToken(token);
     await repository.postGame({
       identifier: data.identifier,
