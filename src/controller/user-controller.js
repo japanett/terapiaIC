@@ -445,7 +445,7 @@ exports.updatePacientGame = async (req, res) => {
       message: 'Failed process request',
       success: false
     });
-  }CRUZADACRUZADA
+  }
 }
 
 exports.getPacientGames = async (req, res) => {
