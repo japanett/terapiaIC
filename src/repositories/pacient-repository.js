@@ -18,6 +18,8 @@ exports.get = async (data) => {
 exports.postGame = async (data) => {
   let title;
 
+  console.log('== repositorie ==');
+
   switch (data.gameID) {
     case 1:
       title = 'Jogo da Mercearia';
@@ -63,6 +65,8 @@ exports.postGame = async (data) => {
     },
     time: data.time,
   };
+  console.log('== repositorie2 ==');
+  console.log(__game);
   var _game = new game(__game);
 
   await _game.save();
