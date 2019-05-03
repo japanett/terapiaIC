@@ -15,7 +15,7 @@ exports.sendEMAIL = async (to, subject, body) => {
     };
 
     await sendgrid.send(msg);
-}
+};
 
 exports.sendCSV = async (to, data) => {
     const msg = {
@@ -23,7 +23,7 @@ exports.sendCSV = async (to, data) => {
         from: 'no.reply.app.terapia@gmail.com',
         subject: 'Relatório das Sessões dos jogos',
         text: 'APP Games VR',
-        html: 'Olá, seggue em anexo o Relatório do APP Games VR',
+        html: 'Olá, segue em anexo o Relatório do APP Games VR',
         attachments: [
             {
               content: new Buffer(data).toString('base64'),
@@ -37,4 +37,4 @@ exports.sendCSV = async (to, data) => {
     await sendgrid.send(msg, function (err, jsn) {
         if (err) { console.log(err); }
     });
-}
+};
