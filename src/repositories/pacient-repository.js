@@ -1,9 +1,7 @@
 'use strict';
 const mongoose = require('mongoose');
 const pacient = mongoose.model('pacientSchema');
-const user = mongoose.model('userSchema');
 const game = mongoose.model('gameSchema');
-const uuidv1 = require('uuid/v1');
 
 exports.authenticate = async (data) => {
   const res = await pacient.findOne({
@@ -18,22 +16,41 @@ exports.get = async (data) => {
 }
 
 exports.postGame = async (data) => {
-  var title;
-  if (data.gameID === 1)
-    title = 'Jogo da Mercearia';
+  let title;
 
-  else if (data.gameID === 2)
-    title = 'Invasão Espacial';
+  switch (data.gameID) {
+    case 1:
+      title = 'Jogo da Mercearia';
+      break;
 
-  else if (data.gameID === 3)
-    title = 'Bola na Caixa';
-    
+    case 2:
+      title = 'Invasão Espacial';
+      break;
+
+    case 3:
+      title = 'Bola na Caixa';
+      break;
+
+    case 4:
+      title = 'Bloquinho';
+      break;
+
+    case 5:
+      title = 'Pontes';
+      break;
+
+    default:
+      throw Error('GameID not specified!!!!');
+      break;
+  };
+
   var __game = {
     pacient: data.identifier,
     title: title,
     gameID: data.gameID,
     config: data.config,
     date: data.date,
+    imersiveMode: data.imersiveMode,
     score: {
       esquerda: data.score.esquerda,
       direita: data.score.direita,

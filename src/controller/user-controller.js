@@ -1,6 +1,7 @@
 'use strict';
 
 const md5 = require('md5');
+const encService = require('../services/enc-service');
 const emailService = require('../services/email-service');
 const authService = require('../services/auth-service');
 const repository = require('../repositories/user-repository');
@@ -21,6 +22,51 @@ exports.get = async (req, res) => {
   }
 }
 
+exports.changePassword = async (req, res) => {
+  try {
+    const token = req.body.token || req.query.token || req.headers['x-access-token'];
+    const data = await authService.decodeToken(token);
+
+    const newPassword = encService.encrypt(req.body.password, global.KEY);
+
+    const user = await repository.changePassword(newPassword, data);
+
+    return res.status(200).send({ data: user }); 
+
+  } catch (e) {
+    console.log(e);
+    res.status(500).send({
+      message: 'Failed process request',
+      success: false
+    });
+  }
+}
+
+exports.recoverPassword = async (req, res) => {
+  try {
+    const email = req.params.email;
+    const recovered = await repository.recoverPassword(email, global.KEY);
+    if (recovered.pwd) {
+      let subject = ('GamesVR Recuperação de senha');
+
+      let body = 'Login: ' + recovered.login + '<br><br>Senha: ' + recovered.pwd;
+
+      emailService.sendEMAIL(
+        email,
+        subject,
+        body
+      );
+    }
+
+    res.status(200).send({ data: recovered, success: true });
+  } catch (e) {
+    console.log(e);
+    res.status(500).send({
+      message: 'Failed process request',
+      success: false
+    });
+  }
+}
 
 exports.generateReport = async (req, res) => {
   try {
@@ -85,9 +131,7 @@ exports.getPacient = async (req, res) => {
 exports.update = async (req, res) => {
   try {
     //token:{login,id}
-    //recupera token
     const token = req.body.token || req.query.token || req.headers['x-access-token'];
-    //decodifica token
     const data = await authService.decodeToken(token);
 
     await repository.update({
@@ -115,10 +159,8 @@ exports.createUser = async (req, res) => {
   try {
     var name = req.body.name;
     var login = req.body.login;
-    var realpwd = req.body.password;
+    var encPwd = encService.encrypt(req.body.password, global.KEY);
     var email = req.body.email;
-
-    var tempPassword = md5(realpwd + global.SALT_KEY);
 
     var subject = ('Bem vindo(a) name !').replace('name', name);
 
@@ -130,7 +172,7 @@ exports.createUser = async (req, res) => {
     var index2 = [
       name,
       login,
-      realpwd
+      req.body.password
     ];
     var body = global.EMAIL_TMPL_CREATE_USER;
     for (var i = 0; i < index.length; i++) {
@@ -145,7 +187,7 @@ exports.createUser = async (req, res) => {
 
     await repository.createUser({
       login: login,
-      password: tempPassword,
+      password: encPwd,
       email: email,
       name: name
     });
@@ -170,13 +212,13 @@ exports.setPacientGame = async (req, res) => {
     const token = req.body.token || req.query.token || req.headers['x-access-token'];
     const data = await authService.decodeToken(token);
 
-    // let exists = await repository.getGameId({ gameID: req.body.toPlay, identifier: req.params.identifier });
     await repository.setPacientGame({
       identifier: req.params.identifier,
       gameID: parseInt(req.body.toPlay),
       config: req.body.config,
       medic: data.id,
-      time: req.body.time
+      time: req.body.time,
+      imersiveMode: req.body.imersiveMode
     });
     res.status(200).send({
       message: 'Adicionado jogos para o Paciente: ' + req.params.identifier,
@@ -234,6 +276,8 @@ exports.updatePacient = async (req, res) => {
       name: req.body.name,
       sexo: req.body.sexo,
       age: req.body.age,
+      mao_dominante: req.body.mao_dominante,
+      gmfcs: req.body.gmfcs,
       active: req.body.active,
       objetivo: req.body.objetivo,
       patologia: req.body.patologia
@@ -255,7 +299,6 @@ exports.updatePacient = async (req, res) => {
 exports.createPacient = async (req, res) => {
   try {
     //token:{login,id}
-    //recupera token
     const token = req.body.token || req.query.token || req.headers['x-access-token'];
     //decodifica token
     const data = await authService.decodeToken(token);
@@ -270,6 +313,8 @@ exports.createPacient = async (req, res) => {
           name: req.body.name,
           age: req.body.age,
           sexo: req.body.sexo,
+          mao_dominante: req.body.mao_dominante,
+          gmfcs: req.body.gmfcs,
           patologia: req.body.patologia,
           objetivo: req.body.objetivo,
           identifier: identifier,
@@ -384,7 +429,14 @@ exports.updatePacientGame = async (req, res) => {
 
     //decodifica token
     const data = await authService.decodeToken(token);
-    await repository.updatePacientGame({ config: req.body.config, time: req.body.time, id: data.id, gameID: parseInt(req.body.gameID), pacientId: req.params.pacientId })
+    await repository.updatePacientGame({
+      config: req.body.config,
+      time: req.body.time,
+      id: data.id,
+      gameID: parseInt(req.body.gameID),
+      pacientId: req.params.pacientId,
+      imersiveMode: req.body.imersiveMode
+    })
       .then(() => {
         res.status(200).send({ message: 'Jogo atualizado', success: true });
       });
@@ -395,6 +447,7 @@ exports.updatePacientGame = async (req, res) => {
     });
   }
 }
+
 exports.getPacientGames = async (req, res) => {
   try {
     //recupera token
@@ -406,6 +459,69 @@ exports.getPacientGames = async (req, res) => {
     var dataPacients = await repository.getPacientGames({ pacient: req.params.id });
 
     res.status(200).send({ data: dataPacients, success: true });
+  } catch (e) {
+    res.status(500).send({
+      message: 'Failed process request',
+      success: false
+    });
+  }
+}
+
+exports.getPacientGame = async (req, res) => {
+  try {
+    const token = req.body.token || req.query.token || req.headers['x-access-token'];
+    const data = await authService.decodeToken(token);
+    const gameId = req.params.gameId;
+    const pacientIdentifier = req.params.id;
+
+    let dataPacientGame = await repository.getPacientGame({
+      gameId: gameId,
+      identifier: pacientIdentifier
+    });
+
+    res.status(200).send({ data: dataPacientGame, success: true });
+  } catch (e) {
+    res.status(500).send({
+      message: 'Failed process request',
+      success: false
+    });
+  }
+}
+
+exports.deletePacientGameReport = async (req, res) => {
+  try {
+    const token = req.body.token || req.query.token || req.headers['x-access-token'];
+    const data = await authService.decodeToken(token);
+    const gameId = req.params.gameId;
+
+    const gameDeleted = await repository.deletePacientGameReport(gameId);
+
+    if (gameDeleted)
+      res.status(200).send({ game: gameDeleted, message: 'Report deleted successfully', success: true });
+    if (!gameDeleted)
+      res.status(204).send();
+  } catch (e) {
+    res.status(500).send({
+      message: 'Failed process request',
+      success: false
+    });
+  }
+}
+
+exports.setGameReportObservation = async (req, res) => {
+  try {
+    const token = req.body.token || req.query.token || req.headers['x-access-token'];
+    const data = await authService.decodeToken(token);
+    const gameId = req.params.gameId;
+    const observation = req.body.observation;
+
+    await repository.setGameReportObservation({
+      id: gameId,
+      observation: observation
+    })
+      .then(() => {
+        res.status(202).send({ message: 'Game observation updated!', success: true });
+      });
   } catch (e) {
     res.status(500).send({
       message: 'Failed process request',

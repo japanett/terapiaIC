@@ -26,17 +26,21 @@ function _generateCSV(user, csvJsonObjects) {
         { id: 'idade', title: 'IDADE' },
         { id: 'patologia', title: 'PATOLOGIA' },
         { id: 'objetivo', title: 'OBJETIVO' },
+        { id: 'mao_dominante', title: 'MAO DOMINANTE' },
+        { id: 'gmfcs', title: 'NIVEL GMFCS' },
         { id: 'nome_jogo', title: 'NOME_JOGO' },
+        { id: 'observation', title: 'OBSERVAÇÃO' },
         { id: 'config', title: 'CONFIGURACAO' },
+        { id: 'imersiveMode', title: 'MODO IMERSIVO' },
         { id: 'data_jogo', title: 'DATA_JOGO' },
         { id: 'hora_jogo', title: 'HORA_JOGO' },
         { id: 'tempo', title: 'TEMPO_JOGO' },
         { id: 'score_mao_direita', title: 'SCORE_MAO_DIREITA' },
         { id: 'score_mao_esquerda', title: 'SCORE_MAO_ESQUERDA' },
-        { id: 'score_mao_cruzada', title: 'SCORE_MAO_CRUZADA' },
+        { id: 'score_mao_cruzada', title: 'SCORE_MAO_ALTERNADA' },
         { id: 'erro_mao_direita', title: 'ERRO_MAO_DIREITA' },
         { id: 'erro_mao_esquerda', title: 'ERRO_MAO_ESQUERDA' },
-        { id: 'erro_mao_cruzada', title: 'ERRO_MAO_CRUZADA' }
+        { id: 'erro_mao_cruzada', title: 'ERRO_MAO_ALTERNADA' }
       ],
       fieldDelimiter: ';'
     });
@@ -47,14 +51,17 @@ function _generateCSV(user, csvJsonObjects) {
 
     csvJsonObjects.forEach(obj => {
       let _line = {};
-
       _line.nome = obj.nome;
       _line.sexo = obj.sexo;
       _line.idade = obj.idade;
       _line.patologia = obj.patologia;
       _line.objetivo = obj.objetivo;
+      _line.mao_dominante = obj.mao_dominante;
+      _line.gmfcs = obj.gmfcs;
       _line.nome_jogo = obj.nome_jogo;
+      _line.observation = obj.observation;
       _line.config = obj.config;
+      _line.imersiveMode = obj.imersiveMode;
       _line.data_jogo = obj.data_jogo;
       _line.hora_jogo = obj.hora_jogo;
       _line.tempo = obj.tempo;
@@ -69,7 +76,7 @@ function _generateCSV(user, csvJsonObjects) {
     });
     csvWriter.writeRecords(_records)
       .then(() => {
-        var data = fs.readFileSync(filePath, 'utf8')
+        var data = fs.readFileSync(filePath, 'utf8');
         emailService.sendCSV(_userEmail, data);
         resolve('OK');
       })

@@ -1,15 +1,49 @@
 # API service for my Undergraduate Research project
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/japanett/clashAPI/master/app.png">
+  <img src="https://raw.githubusercontent.com/japanett/clashAPI/master/app_v2.png">
 </p>
 
-I also developed the Front-End (Ionic 3). That this API feeds. 
+I also developed the Front-End (Ionic 3) that this API feeds. 
 It's repository is right <a href="https://github.com/japanett/appTerapia" target="_blank">here</a>.
 
-## Documentation
+## Endpoints:
 
-## Pacient endpoint
+Admin
+- POST api/admin/login
+- PATCH api/admin/users/reset-passwords
+- GET api/admin/users
+
+Paciente
+- GET api/pacient
+- POST api/pacient/auth
+- PUT api/pacient/games
+
+Terapeuta
+- POST api/auth
+- GET api/user
+- PUT api/user
+- POST api/user/create
+- DELETE api/user/delete
+- PATCH api/user/change-password
+- GET api/user/:email/recover-password
+
+- POST api/user/pacients
+- GET api/user/pacients/:id/games
+- GET api/user/pacients/?:identifier
+- PUT api/user/pacients/:identifier
+- DELETE api/user/pacient/:identifier
+
+- GET api/user/:id/games/:id
+- PATCH api/user/:id/games/:id
+- DELETE api/user/:id/games/:id
+
+- PUT api/user/games/pacientId
+- PUT api/user/:pacientId/games/:id
+- PUT api/user/pacients/games/:identifier
+
+
+## Pacient endpoints
 
 #### Authentication
 ```http
@@ -58,13 +92,15 @@ GET /api/pacient/
                 "gameID": "3",
                 "config": "1,2,3",
                 "title": "Bola na Caixa",
-                "time":""
+                "time":"",
+                "imersiveMode": true,
             },
             {
                 "gameID": "1",
                 "config": "1,2,3,T",
                 "title": "Jogo da Mercearia",
-                "time":"540"
+                "time":"540",
+                "imersiveMode": false,
             }
         ],
         "__v": 0
@@ -91,7 +127,8 @@ PUT /api/pacient/games
 		"cruzada": 6
 	},
 	"time":180,
-	"gameID":1
+    "gameID":1,
+    "imersiveMode": false,
 }
 ```
 ##### Response
@@ -139,6 +176,22 @@ POST /api/auth
 {
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg",
     "success": true
+}
+```
+#### Export DB to CSV
+```http
+GET /api/user/report
+```
+```json
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg"
+}
+```
+##### Response
+```json
+{
+    "message": "CSV ENVIADO COM SUCESSO",
+    "success": true,
 }
 ```
 #### Update user information
@@ -208,7 +261,7 @@ DELETE /api/user/delete
 ```
 #### Create pacient
 ```http
-PUT /api/user/pacients
+POST /api/user/pacients
 ```
 ```json
 {
@@ -230,14 +283,15 @@ PUT /api/user/pacients
 ```
 #### Add games to pacient's list
 ```http
-PUT /api/user/pacients/games/:identifier
+PUT /api/user/pacients/games/:pacientIdentifier
 ```
 ```json
 {
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg",
     "toPlay":1,
     "config":"1,2,3",
-    "time":"540"
+    "time":"540",
+    "imersiveMode":true
 }
 ```
 ##### Response
@@ -249,14 +303,15 @@ PUT /api/user/pacients/games/:identifier
 ```
 #### Update Pacient Game Config
 ```http
-PUT /api/user/games/:pacientId
+PUT /api/user/games/:pacientIdentifier
 ```
 ```json
 {
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg",
     "gameID":1,
     "config":"3,2,1",
-    "time":"540"
+    "time":"540",
+    "imersiveMode":false
 }
 ```
 ##### Response
@@ -329,11 +384,15 @@ GET /api/user/pacients/?:identifier
             "medic": "5bc774959f38ab00301c3f68",
             "games": [
                 {
+                    "time": "300",
+                    "imersiveMode": true,
                     "gameID": "2",
                     "config": "1,2,3",
                     "title": "Invasão Espacial"
                 },
                 {
+                    "time": "300",
+                    "imersiveMode": false,
                     "gameID": "1",
                     "config": "1,2,3",
                     "title": "Jogo da Mercearia"
@@ -358,9 +417,9 @@ GET /api/user/pacients/?:identifier
     "success": true
 }
 ```
-#### Remove pacient game
+#### Remove pacient game of list to play
 ```http
-PUT /api/user/:pacientid/games/:gameID
+PUT /api/user/:pacientidentifier/games/:gameID
 ```
 ```json
 {
@@ -374,9 +433,9 @@ PUT /api/user/:pacientid/games/:gameID
     "success": true
 }
 ```
-##### Get pacient games
+##### Get pacient's played games report
 ```http
-GET /api/user/:identifier/games
+GET /api/user/pacients/:identifier/games
 ```
 ```json
 {
@@ -405,21 +464,54 @@ GET /api/user/:identifier/games
             "title": "Bola na Caixa",
             "gameID": 3,
             "config": "1,2,3",
+            "imersiveMode": true,
+            "observation":"observacao feita pelo medico"
             "__v": 0
         }
     ],
     "success": true
 }
 ```
-
+##### Delete game report
+```http
+DELETE /api/user/:pacientIdentifier/games/:gameId
+```
+```json
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg"
+}
+```
+##### Response
+```json
+{
+    "success": true
+}
+```
+#### Set game report observation
+```http
+PATCH /api/user/:pacientIdentifier/games/:gameId
+```
+```json
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImJsZW8iLCJpZCI6IjViNWE4YTAwYWYzYTkwMTE0Y2JiMDBlZSIsImlhdCI6MTUzMjY2MTUyNCwiZXhwIjoxNTMyNzQ3OTI0fQ.7fZ_vieDKgpi_hVSCX1__mTlpZQ6KgvmcvBYjUl7qVg",
+    "observation":"teste mudanca"   
+}
+```
+##### Response
+```json
+{
+    "message": "Game observation updated",
+    "success": true
+}
+```
 ## Observations
 - mao esquerda = 1
 - mao direita = 2
 - mao cruzada = 3
 
 ## To do:
+- Refactor and redesign everything, this s*** is ugly
 - Bug hunt
-- Optimize the code
 
 ## Fix:
 - (Create user) Sending email even when the request response != 201

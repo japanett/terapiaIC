@@ -3,6 +3,7 @@
 const mongoose = require('mongoose');
 
 const csvService = require('../services/csv-service');
+const encService = require('../services/enc-service');
 const user = mongoose.model('userSchema');
 const pacient = mongoose.model('pacientSchema');
 const game = mongoose.model('gameSchema');
@@ -22,6 +23,33 @@ exports.createPacient = async (data) => {
       rawResult: true,
       new: true
     });
+}
+
+exports.recoverPassword = function (data, key) {
+  return new Promise((resolve, reject) => {
+    user.findOne({ email: data })
+      .then((_user) => {
+        let decPassword = encService.decrypt(_user.password, key);
+
+        resolve({ pwd: decPassword, login: _user.login });
+      })
+      .catch(e => reject(e))
+  })
+}
+
+exports.changePassword = function (newPassword, data) {
+  return new Promise((resolve, reject) => {
+
+    user.findByIdAndUpdate(data.id, {
+      $set: {
+        password: newPassword
+      }
+    })
+      .then((_user) => {
+        resolve(_user);
+      })
+      .catch(e => reject(e))
+  });
 }
 
 exports.generateReport = function (data) {
@@ -77,7 +105,12 @@ function _getGamesCSV(pacients) {
 
 var _filterGameAndPacient = function (pacient, game) {
   let _date = game.date;
-  let _dataSP = _date.setHours(_date.getHours() - 2);
+  // let _dataSP = _date.setHours(_date.getHours() - 2);
+  let _translateImserviseMode = game.imersiveMode ? 'Ativado' : 'Desativado';
+  let _config = game.config
+    .replace('2', 'Mão Direita')
+    .replace('1', 'Mão Esquerda')
+    .replace('3', 'Alternada');
 
   let _filtered = {
     nome: pacient.name,
@@ -86,7 +119,11 @@ var _filterGameAndPacient = function (pacient, game) {
     patologia: pacient.patologia,
     objetivo: pacient.objetivo,
     nome_jogo: game.title,
-    config: game.config,
+    observation: game.observation,
+    mao_dominante: pacient.mao_dominante,
+    gmfcs: pacient.gmfcs,
+    config: _config,
+    imersiveMode: _translateImserviseMode,
     data_jogo: _date.toLocaleDateString(),
     hora_jogo: _date.toLocaleTimeString(),
     tempo: game.time,
@@ -101,17 +138,34 @@ var _filterGameAndPacient = function (pacient, game) {
 }
 
 exports.setPacientGame = async (data) => {
+  let title;
 
-  var title;
-  if (data.gameID === 1) {
-    title = 'Jogo da Mercearia'
-  }
-  else if (data.gameID === 2) {
-    title = 'Invasão Espacial'
-  }
-  else if (data.gameID === 3) {
-    title = 'Bola na Caixa'
-  }
+  switch (data.gameID) {
+    case 1:
+      title = 'Jogo da Mercearia';
+      break;
+
+    case 2:
+      title = 'Invasão Espacial';
+      break;
+
+    case 3:
+      title = 'Bola na Caixa';
+      break;
+
+    case 4:
+      title = 'Bloquinho';
+      break;
+
+    case 5:
+      title = 'Pontes';
+      break;
+
+    default:
+      throw Error('GameID not specified!!!!');
+      break;
+  };
+
   await pacient.findOneAndUpdate({
     identifier: data.identifier
   }, {
@@ -120,7 +174,8 @@ exports.setPacientGame = async (data) => {
           gameID: data.gameID,
           config: data.config,
           title: title,
-          time: data.time
+          time: data.time,
+          imersiveMode: data.imersiveMode
         }
       }
     }, {
@@ -136,15 +191,33 @@ exports.removePacientGame = async (data) => {
 exports.updatePacientGame = async (data) => {
   await pacient.update({ _id: data.pacientId }, { "$pull": { "games": { "gameID": data.gameID } } }, { safe: true })
     .then(() => {
-      var title;
-      if (data.gameID === 1)
-        title = 'Jogo da Mercearia';
+      let title;
 
-      else if (data.gameID === 2)
-        title = 'Invasão Espacial';
+      switch (data.gameID) {
+        case 1:
+          title = 'Jogo da Mercearia';
+          break;
 
-      else if (data.gameID === 3)
-        title = 'Bola na Caixa';
+        case 2:
+          title = 'Invasão Espacial';
+          break;
+
+        case 3:
+          title = 'Bola na Caixa';
+          break;
+
+        case 4:
+          title = 'Bloquinho';
+          break;
+
+        case 5:
+          title = 'Pontes';
+          break;
+
+        default:
+          throw Error('GameID not specified!!!!');
+          break;
+      };
 
       return pacient.findOneAndUpdate({
         _id: data.pacientId
@@ -154,7 +227,8 @@ exports.updatePacientGame = async (data) => {
               gameID: data.gameID,
               config: data.config,
               title: title,
-              time: data.time
+              time: data.time,
+              imersiveMode: data.imersiveMode
             }
           }
         }, {
@@ -185,7 +259,9 @@ exports.updatePacient = async (data) => {
       sexo: data.sexo,
       active: data.active,
       objetivo: data.objetivo,
-      patologia: data.patologia
+      patologia: data.patologia,
+      mao_dominante: data.mao_dominante,
+      gmfcs: data.gmfcs
     }
   }, {
       new: true,
@@ -243,4 +319,31 @@ exports.getGameId = async (data) => {
 exports.getPacientGames = async (data) => {
   const res = await game.find({ pacient: data.pacient });
   return res;
+}
+
+exports.getPacientGame = async (data) => {
+  const res = await game.findOne({ _id: data.gameId, pacient: data.identifier });
+  return res;
+}
+
+
+exports.deletePacientGameReport = function (gameId) {
+  return new Promise((resolve, reject) => {
+    game.findByIdAndRemove(gameId)
+      .then((removedGame) => {
+        return resolve(removedGame);
+      })
+      .catch((data) => {
+        return reject(false);
+      })
+  })
+}
+
+exports.setGameReportObservation = async (data) => {
+  await game.findByIdAndUpdate(data.id,
+    {
+      $set: {
+        observation: data.observation
+      }
+    });
 }

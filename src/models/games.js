@@ -4,15 +4,25 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const gameSchema = new Schema({
-  title: { //
+  title: {
     type: String,
     required: [true, 'title not specified']
   },
-  pacient: { //
+  pacient: {
     type: String,
     required: false
   },
-  config: { //
+  imersiveMode: {
+    type: Boolean,
+    required: false,
+    default: true
+  },
+  observation: {
+    type: String,
+    required: false,
+    default: ""
+  },
+  config: {
     type: String,
     required: false
   },
