@@ -20,6 +20,16 @@ const pacientSchema = new Schema({
     type: String,
     required: false
   },
+  gmfcs: {
+    type: Number,
+    required: false,
+      default: 0
+  },
+  mao_dominante: {
+    type: String,
+    required: false,
+    default: 'direita'
+  },
   patologia: {
     type: String,
     required: false
@@ -54,6 +64,11 @@ const pacientSchema = new Schema({
       type: String,
       required: false,
       default: ""
+    },
+    imersiveMode: {
+      type: Boolean,
+      required: false,
+      default: true
     },
     _id: false
   }]
