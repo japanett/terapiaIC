@@ -23,7 +23,7 @@ const pacientSchema = new Schema({
   gmfcs: {
     type: Number,
     required: false,
-    default: 1
+    default: 0
   },
   mao_dominante: {
     type: String,
