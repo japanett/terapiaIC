@@ -15,7 +15,7 @@ const gameSchema = new Schema({
   imersiveMode: {
     type: Boolean,
     required: false,
-    default: true
+    default: false
   },
   observation: {
     type: String,
