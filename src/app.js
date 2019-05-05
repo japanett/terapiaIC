@@ -9,7 +9,7 @@ const app = express();
 const router = express.Router();
 
 // Conecta ao Banco
-mongoose.connect(config.connectionString, function (err) {
+mongoose.connect(config.connectionString, {useNewUrlParser: true}, function (err) {
     if (err) throw err;
 });
 mongoose.Promise = global.Promise;
