@@ -18,8 +18,8 @@ try {
   console.error('Missing encrypt password file, Is the crypto secret correct?');
 }
 
-// var connectionString = 'mongodb://admin:admin123@ds035290.mlab.com:35290/gamesvr';
-var connectionString = 'mongodb://localhost:27017/gamesvr';
+ var connectionString = 'mongodb://admin:admin123@ds035290.mlab.com:35290/gamesvr';
+// var connectionString = 'mongodb://localhost:27017/gamesvr';
 
 module.exports = {
   connectionString: connectionString,
