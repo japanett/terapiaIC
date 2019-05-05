@@ -3,3 +3,4 @@ node_modules/
 /src/*.enc
 package-lock.json
 .idea/
+src/services/csv/*.csv
