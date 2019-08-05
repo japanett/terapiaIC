@@ -23,8 +23,8 @@ try {
 }
 
 module.exports = {
-    //connectionString: 'mongodb://admin:admin123@ds223542.mlab.com:23542/terapiaic',
-    connectionString: 'mongodb://localhost:27017/gamesvr',
+    connectionString: 'mongodb://admin:admin123@ds223542.mlab.com:23542/terapiaic',
+   // connectionString: 'mongodb://localhost:27017/gamesvr',
     sendgridKey: prodData.sendgridKey,
     containerConnectionString: prodData.containerConnectionString
 }
