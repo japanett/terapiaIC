@@ -56,6 +56,7 @@ function _resetPassword(users, newPwd) {
             .catch(e => reject(e))
     })
 }
+
 exports.resetUserPassword = function (data) {
     return new Promise((resolve, reject) => {
 

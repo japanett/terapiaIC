@@ -13,15 +13,15 @@ console.log(_fileToEnc.toString());
 
 if (!_password) {
 
-  console.log('Informe o parametro senha para criptografia!');
-  console.log('encpass.js [password]');
+    console.log('Informe o parametro senha para criptografia!');
+    console.log('encpass.js [password]');
 
 } else {
-  var cryptedInfo = encService.encrypt(_fileToEnc, _password);
-  fs.writeFile('./src/keys.enc', cryptedInfo, function (err) {
-    if (err)
-      return console.log(err);
+    var cryptedInfo = encService.encrypt(_fileToEnc, _password);
+    fs.writeFile('./src/keys.enc', cryptedInfo, function (err) {
+        if (err)
+            return console.log(err);
 
-    console.log('Arquivo criptografado com sucesso!');
-  });
+        console.log('Arquivo criptografado com sucesso!');
+    });
 }

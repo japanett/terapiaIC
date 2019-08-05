@@ -26,15 +26,17 @@ exports.sendCSV = async (to, data) => {
         html: 'Olá, segue em anexo o Relatório do APP Games VR',
         attachments: [
             {
-              content: new Buffer(data).toString('base64'),
-              filename: 'APP_Games_report.csv',
-              type: 'plain/text',
-              disposition: 'attachment'
+                content: new Buffer(data).toString('base64'),
+                filename: 'APP_Games_report.csv',
+                type: 'plain/text',
+                disposition: 'attachment'
             },
-          ],
+        ],
     };
 
     await sendgrid.send(msg, function (err, jsn) {
-        if (err) { console.log(err); }
+        if (err) {
+            console.log(err);
+        }
     });
 };

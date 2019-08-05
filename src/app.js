@@ -13,7 +13,7 @@ mongoose.connect(config.connectionString, {useNewUrlParser: true}, function (err
     if (err) throw err;
 });
 mongoose.Promise = global.Promise;
-var db = mongoose.connection;
+const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 // Carrega Models
