@@ -5,6 +5,7 @@ const encService = require('../services/enc-service');
 const emailService = require('../services/email-service');
 const authService = require('../services/auth-service');
 const repository = require('../repositories/user-repository');
+const logger = require('../winston');
 
 exports.get = async (req, res) => {
     try {
@@ -15,6 +16,7 @@ exports.get = async (req, res) => {
 
         res.status(200).send({data: datalogin, success: true});
     } catch (e) {
+        logger.error(e);
         res.status(500).send({
             message: 'Failed process request',
             success: false
@@ -34,7 +36,7 @@ exports.changePassword = async (req, res) => {
         return res.status(200).send({data: user});
 
     } catch (e) {
-        console.log(e);
+        logger.error(e);
         res.status(500).send({
             message: 'Failed process request',
             success: false
@@ -60,7 +62,7 @@ exports.recoverPassword = async (req, res) => {
 
         res.status(200).send({data: recovered, success: true});
     } catch (e) {
-        console.log(e);
+        logger.error(e);
         res.status(500).send({
             message: 'Failed process request',
             success: false
@@ -75,11 +77,13 @@ exports.generateReport = async (req, res) => {
         const data = await authService.decodeToken(token);
         const report = await repository.generateReport(data.id);
 
-        if (!!report)
+        if (!!report) {
             res.status(200).send({message: 'CSV ENVIADO COM SUCESSO', success: true});
-        else
+        } else {
             res.status(503).send({message: 'CSV GENERATION ERROR', success: false});
+        }
     } catch (e) {
+        logger.error(e);
         res.status(500).send({
             message: 'Failed process request',
             success: false
@@ -99,6 +103,7 @@ exports.getPacients = async (req, res) => {
 
         res.status(200).send({data: dataPacients, success: true});
     } catch (e) {
+        logger.error(e);
         res.status(500).send({
             message: 'Failed process request',
             success: false
@@ -121,6 +126,7 @@ exports.getPacient = async (req, res) => {
 
         res.status(200).send({data: dataPacients, success: true});
     } catch (e) {
+        logger.error(e);
         res.status(500).send({
             message: 'Failed process request',
             success: false
@@ -145,7 +151,7 @@ exports.update = async (req, res) => {
             success: true
         });
     } catch (e) {
-        console.log(e);
+        logger.error(e);
         res.status(500).send({
             message: 'Failed process request',
             success: false
@@ -154,8 +160,7 @@ exports.update = async (req, res) => {
 };
 
 exports.createUser = async (req, res) => {
-    console.log('logging user create');
-    console.log(req.body);
+    logger.info('logging user create');
     try {
         let name = req.body.name;
         let login = req.body.login;
@@ -198,7 +203,7 @@ exports.createUser = async (req, res) => {
             login: req.body.login
         });
     } catch (e) {
-        console.log(e);
+        logger.error(e);
         res.status(500).send({
             message: 'Failed process request',
             success: false
@@ -227,7 +232,7 @@ exports.setPacientGame = async (req, res) => {
 
 
     } catch (e) {
-        console.log(e);
+        logger.error(e);
         res.status(500).send({
             message: 'Failed process request',
             success: false
@@ -254,7 +259,7 @@ exports.deletePacientGame = async (req, res) => {
             success: true
         });
     } catch (e) {
-        console.log(e);
+        logger.error(e);
         res.status(500).send({
             message: 'Failed process request',
             success: false
@@ -288,7 +293,7 @@ exports.updatePacient = async (req, res) => {
             success: true
         });
     } catch (e) {
-        console.log(e);
+        logger.error(e);
         res.status(500).send({
             message: 'Failed process request',
             success: false
@@ -366,7 +371,7 @@ exports.createPacient = async (req, res) => {
         }
 
     } catch (e) {
-        console.log(e);
+        logger.error(e);
         res.status(500).send({
             message: 'Failed process request'
         });
@@ -388,6 +393,7 @@ exports.delete = async (req, res) => {
             success: true
         });
     } catch (e) {
+        logger.error(e);
         res.status(500).send({
             message: 'Failed process request',
             success: false
@@ -414,7 +420,7 @@ exports.removePacient = async (req, res) => {
             success: true
         });
     } catch (e) {
-        console.log(e);
+        logger.error(e);
         res.status(500).send({
             message: 'Failed process request',
             success: false
@@ -441,6 +447,7 @@ exports.updatePacientGame = async (req, res) => {
                 res.status(200).send({message: 'Jogo atualizado', success: true});
             });
     } catch (e) {
+        logger.error(e);
         res.status(500).send({
             message: 'Failed process request',
             success: false
@@ -454,12 +461,13 @@ exports.getPacientGames = async (req, res) => {
         const token = req.body.token || req.query.token || req.headers['x-access-token'];
 
         //decodifica token
-        const data = await authService.decodeToken(token);
+        await authService.decodeToken(token);
 
         let dataPacients = await repository.getPacientGames({pacient: req.params.id});
 
         res.status(200).send({data: dataPacients, success: true});
     } catch (e) {
+        logger.error(e);
         res.status(500).send({
             message: 'Failed process request',
             success: false
@@ -481,6 +489,7 @@ exports.getPacientGame = async (req, res) => {
 
         res.status(200).send({data: dataPacientGame, success: true});
     } catch (e) {
+        logger.error(e);
         res.status(500).send({
             message: 'Failed process request',
             success: false
@@ -491,7 +500,7 @@ exports.getPacientGame = async (req, res) => {
 exports.deletePacientGameReport = async (req, res) => {
     try {
         const token = req.body.token || req.query.token || req.headers['x-access-token'];
-        const data = await authService.decodeToken(token);
+        await authService.decodeToken(token);
         const gameId = req.params.gameId;
 
         const gameDeleted = await repository.deletePacientGameReport(gameId);
@@ -501,6 +510,7 @@ exports.deletePacientGameReport = async (req, res) => {
         if (!gameDeleted)
             res.status(204).send();
     } catch (e) {
+        logger.error(e);
         res.status(500).send({
             message: 'Failed process request',
             success: false
@@ -511,7 +521,7 @@ exports.deletePacientGameReport = async (req, res) => {
 exports.setGameReportObservation = async (req, res) => {
     try {
         const token = req.body.token || req.query.token || req.headers['x-access-token'];
-        const data = await authService.decodeToken(token);
+        await authService.decodeToken(token);
         const gameId = req.params.gameId;
         const observation = req.body.observation;
 
@@ -523,6 +533,7 @@ exports.setGameReportObservation = async (req, res) => {
                 res.status(202).send({message: 'Game observation updated!', success: true});
             });
     } catch (e) {
+        logger.error(e);
         res.status(500).send({
             message: 'Failed process request',
             success: false

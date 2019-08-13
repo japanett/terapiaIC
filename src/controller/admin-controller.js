@@ -3,14 +3,14 @@
 const encService = require('../services/enc-service');
 const repository = require('../repositories/admin-repository');
 const authService = require('../services/auth-service');
+const logger = require('../winston');
 
 exports.create = async (req, res) => {
-    console.log(req.body);
     try {
-        var name = req.body.name;
-        var login = req.body.login;
-        var pwd = encService.encrypt(req.body.password, global.KEY);
-        var email = req.body.email;
+        let name = req.body.name;
+        let login = req.body.login;
+        let pwd = encService.encrypt(req.body.password, global.KEY);
+        let email = req.body.email;
 
         await repository.create({
             login: login,
@@ -26,15 +26,15 @@ exports.create = async (req, res) => {
             login: req.body.login
         });
     } catch (e) {
-        console.log(e);
+        logger.error(e);
         res.status(500).send({
             message: 'Failed process request',
             success: false
         });
     }
-}
+};
 
-exports.login = async (req, res, next) => {
+exports.login = async (req, res) => {
     try {
         const admin = await repository.login({
             login: req.body.login,
@@ -57,12 +57,13 @@ exports.login = async (req, res, next) => {
             success: true
         });
     } catch (e) {
+        logger.error(e);
         res.status(500).send({
             message: 'Failed to process request',
             success: false
         });
     }
-}
+};
 
 exports.getUsers = async (req, res) => {
     try {
@@ -78,48 +79,13 @@ exports.getUsers = async (req, res) => {
         res.status(200).send({data: users});
 
     } catch (e) {
+        logger.error(e);
         res.status(500).send({
             message: 'Failed process request',
             success: false
         });
     }
 };
-
-exports.getUser = async (req, res) => {
-    try {
-
-    } catch (e) {
-        res.status(500).send({
-            message: 'Failed process request',
-            success: false
-        });
-    }
-};
-
-exports.resetAllPasswords = async (req, res) => {
-    try {
-        const token = req.body.token || req.query.token || req.headers['x-access-token'];
-        const data = await authService.decodeToken(token);
-
-        const newPassword = encService.encrypt(req.body.password, global.KEY);
-
-        if (!data.admin) {
-            res.status(403).send({message: 'unauthorized access'});
-            return;
-        }
-
-        repository.resetAllPasswords(newPassword)
-            .then(() => {
-                res.status(200).send({message: 'Senhas atualizadas'});
-            })
-    } catch (e) {
-        console.log(e);
-        res.status(500).send({
-            message: 'Failed process request',
-            success: false
-        });
-    }
-}
 
 exports.resetUserPassword = async (req, res) => {
     try {
@@ -130,9 +96,10 @@ exports.resetUserPassword = async (req, res) => {
 
         res.status(200).send({data: recoveredPassword, success: true});
     } catch (e) {
+        logger.error(e);
         res.status(500).send({
             message: 'Failed process request',
             success: false
         });
     }
-}
+};

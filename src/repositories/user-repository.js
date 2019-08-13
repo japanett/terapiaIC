@@ -7,6 +7,7 @@ const encService = require('../services/enc-service');
 const user = mongoose.model('userSchema');
 const pacient = mongoose.model('pacientSchema');
 const game = mongoose.model('gameSchema');
+const logger = require('../src/winston');
 
 exports.createPacient = async (data) => {
     let tempPacient = new pacient(data.pacient);
@@ -33,7 +34,10 @@ exports.recoverPassword = function (data, key) {
 
                 resolve({pwd: decPassword, login: _user.login});
             })
-            .catch(e => reject(e))
+            .catch(function (e) {
+                logger.error(e);
+                reject(e);
+            })
     })
 };
 
@@ -48,12 +52,15 @@ exports.changePassword = function (newPassword, data) {
             .then((_user) => {
                 resolve(_user);
             })
-            .catch(e => reject(e))
+            .catch(function (e) {
+                logger.error(e);
+                reject(e);
+            })
     });
 };
 
 exports.generateReport = function (data) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         let _user;
         user.findById(data)
             .then((__user) => {
@@ -70,7 +77,9 @@ exports.generateReport = function (data) {
             .then((filePath) => {
                 resolve(filePath);
             })
-            .catch(e => console.log(e));
+            .catch(function (e) {
+                logger.error(e);
+            })
     });
 };
 
@@ -88,7 +97,10 @@ function _getGamesCSV(pacients) {
                             _games.push(_filtered);
                         });
                     })
-                    .catch(e => reject(e))
+                    .catch(function (e) {
+                        logger.error(e);
+                        reject(e);
+                    })
             );
         });
 
@@ -97,12 +109,13 @@ function _getGamesCSV(pacients) {
                 resolve(_games);
             })
             .catch((e) => {
+                logger.error(e);
                 reject(e);
             })
     });
 }
 
-var _filterGameAndPacient = function (pacient, game) {
+function _filterGameAndPacient(pacient, game) {
     let _date = game.date;
     // let _dataSP = _date.setHours(_date.getHours() - 2);
     let _translateImserviseMode = game.imersiveMode ? 'Ativado' : 'Desativado';
@@ -133,7 +146,7 @@ var _filterGameAndPacient = function (pacient, game) {
         erro_mao_esquerda: game.error.esquerda,
         erro_mao_cruzada: game.error.cruzada,
     };
-};
+}
 
 exports.setPacientGame = async (data) => {
     let title;
@@ -339,7 +352,8 @@ exports.deletePacientGameReport = function (gameId) {
             .then((removedGame) => {
                 return resolve(removedGame);
             })
-            .catch((data) => {
+            .catch(e => {
+                logger.error(e);
                 return reject(false);
             })
     })

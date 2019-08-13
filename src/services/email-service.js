@@ -1,7 +1,8 @@
 'use strict';
 
-var config = require('../config');
-var sendgrid = require('@sendgrid/mail');
+const config = require('../config');
+const sendgrid = require('@sendgrid/mail');
+const logger = require('../winston');
 
 sendgrid.setApiKey(config.sendgridKey);
 
@@ -13,7 +14,6 @@ exports.sendEMAIL = async (to, subject, body) => {
         text: 'APP Games VR',
         html: body
     };
-
     await sendgrid.send(msg);
 };
 
@@ -34,9 +34,9 @@ exports.sendCSV = async (to, data) => {
         ],
     };
 
-    await sendgrid.send(msg, function (err, jsn) {
+    await sendgrid.send(msg, function (err) {
         if (err) {
-            console.log(err);
+            logger.error(err);
         }
     });
 };

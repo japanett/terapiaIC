@@ -2,8 +2,9 @@
 
 const authService = require('../services/auth-service');
 const repository = require('../repositories/pacient-repository');
+const logger = require('../winston');
 
-exports.authenticate = async (req, res, next) => {
+exports.authenticate = async (req, res) => {
     try {
         const pacient = await repository.authenticate(req.body.identifier);
         if (!pacient) {
@@ -29,14 +30,15 @@ exports.authenticate = async (req, res, next) => {
             }
         });
     } catch (e) {
+        logger.error(e);
         res.status(500).send({
             message: 'Failed to process request',
             success: false
         });
     }
-}
+};
 
-exports.get = async (req, res, next) => {
+exports.get = async (req, res) => {
     try {
         //recupera token
         const token = req.body.token || req.query.token || req.headers['x-access-token'];
@@ -44,18 +46,20 @@ exports.get = async (req, res, next) => {
         //decodifica token
         const data = await authService.decodeToken(token);
 
-        var pacient = await repository.get(data.pacient_id);
+        let pacient = await repository.get(data.pacient_id);
 
         res.status(200).send({data: pacient, success: true});
     } catch (e) {
+        logger.error(e);
         res.status(500).send({
             message: 'Failed process request',
             success: false
         });
     }
-}
+};
 
-exports.postGame = async (req, res, next) => {
+// TODO - refatorar
+exports.postGame = async (req, res) => {
     try {
         const token = req.body.token || req.query.token || req.headers['x-access-token'];
 
@@ -85,9 +89,10 @@ exports.postGame = async (req, res, next) => {
         });
 
     } catch (e) {
+        logger.error(e);
         res.status(500).send({
             message: 'Failed process request',
             success: false
         });
     }
-}
+};

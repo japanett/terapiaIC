@@ -72,4 +72,4 @@ exports.postGame = async (data) => {
     let _game = new game(__game);
 
     await _game.save();
-}
+};

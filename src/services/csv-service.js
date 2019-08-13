@@ -3,9 +3,9 @@
 
 const path = require('path');
 const fs = require('fs');
-
 const emailService = require('./email-service');
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
+const logger = require('../winston');
 
 const filePath = path.normalize(__dirname + '/csv/report.csv');
 
@@ -15,9 +15,9 @@ exports.sendReport = function (user, csvJsonObjects) {
 
 function _generateCSV(user, csvJsonObjects) {
     return new Promise((resolve, reject) => {
-        if (fs.existsSync(filePath))
+        if (fs.existsSync(filePath)) {
             fs.unlinkSync(filePath);
-
+        }
         const csvWriter = createCsvWriter({
             path: filePath,
             header: [
@@ -44,11 +44,8 @@ function _generateCSV(user, csvJsonObjects) {
             ],
             fieldDelimiter: ';'
         });
-
-        var _records = [];
-        var _userEmail = user.email;
-
-
+        let _records = [];
+        let _userEmail = user.email;
         csvJsonObjects.forEach(obj => {
             let _line = {};
             _line.nome = obj.nome;
@@ -71,18 +68,17 @@ function _generateCSV(user, csvJsonObjects) {
             _line.erro_mao_direita = obj.erro_mao_direita;
             _line.erro_mao_esquerda = obj.erro_mao_esquerda;
             _line.erro_mao_cruzada = obj.erro_mao_cruzada;
-
             _records.push(_line);
         });
         csvWriter.writeRecords(_records)
             .then(() => {
-                var data = fs.readFileSync(filePath, 'utf8');
+                let data = fs.readFileSync(filePath, 'utf8');
                 emailService.sendCSV(_userEmail, data);
                 resolve('OK');
             })
             .catch((e) => {
+                logger.error(e);
                 reject();
             })
     })
-
 }
