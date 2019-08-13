@@ -4,17 +4,18 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const config = require('./config');
+const logger = require('./winston');
 
 const app = express();
 const router = express.Router();
 
 // Conecta ao Banco
 mongoose.connect(config.connectionString, {useNewUrlParser: true}, function (err) {
-    if (err) throw err;
+    if (err) throw logger.error(err);
 });
 mongoose.Promise = global.Promise;
 const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.on('error', function(e) {logger.error('MongoDB connection error:' + e)});
 
 // Carrega Models
 const Pacient = require('./models/pacient');

@@ -11,7 +11,7 @@ exports.get = async (req, res) => {
         const token = req.body.token || req.query.token || req.headers['x-access-token'];
         const data = await authService.decodeToken(token);
 
-        var datalogin = await repository.get(data.id);
+        let datalogin = await repository.get(data.id);
 
         res.status(200).send({data: datalogin, success: true});
     } catch (e) {
@@ -20,7 +20,7 @@ exports.get = async (req, res) => {
             success: false
         });
     }
-}
+};
 
 exports.changePassword = async (req, res) => {
     try {
@@ -40,7 +40,7 @@ exports.changePassword = async (req, res) => {
             success: false
         });
     }
-}
+};
 
 exports.recoverPassword = async (req, res) => {
     try {
@@ -51,7 +51,7 @@ exports.recoverPassword = async (req, res) => {
 
             let body = 'Login: ' + recovered.login + '<br><br>Senha: ' + recovered.pwd;
 
-            emailService.sendEMAIL(
+            await emailService.sendEMAIL(
                 email,
                 subject,
                 body
@@ -66,7 +66,7 @@ exports.recoverPassword = async (req, res) => {
             success: false
         });
     }
-}
+};
 
 exports.generateReport = async (req, res) => {
     try {
@@ -85,7 +85,7 @@ exports.generateReport = async (req, res) => {
             success: false
         });
     }
-}
+};
 
 exports.getPacients = async (req, res) => {
     try {
@@ -95,7 +95,7 @@ exports.getPacients = async (req, res) => {
         //decodifica token
         const data = await authService.decodeToken(token);
 
-        var dataPacients = await repository.getPacients(data.id);
+        let dataPacients = await repository.getPacients(data.id);
 
         res.status(200).send({data: dataPacients, success: true});
     } catch (e) {
@@ -104,7 +104,7 @@ exports.getPacients = async (req, res) => {
             success: false
         });
     }
-}
+};
 
 exports.getPacient = async (req, res) => {
     try {
@@ -114,7 +114,7 @@ exports.getPacient = async (req, res) => {
         //decodifica token
         const data = await authService.decodeToken(token);
 
-        var dataPacients = await repository.getPacient({
+        let dataPacients = await repository.getPacient({
             id: data.id,
             pacient_ident: req.params.identifier
         });
@@ -126,7 +126,7 @@ exports.getPacient = async (req, res) => {
             success: false
         });
     }
-}
+};
 
 exports.update = async (req, res) => {
     try {
@@ -151,35 +151,35 @@ exports.update = async (req, res) => {
             success: false
         });
     }
-}
+};
 
 exports.createUser = async (req, res) => {
     console.log('logging user create');
     console.log(req.body);
     try {
-        var name = req.body.name;
-        var login = req.body.login;
-        var encPwd = encService.encrypt(req.body.password, global.KEY);
-        var email = req.body.email;
+        let name = req.body.name;
+        let login = req.body.login;
+        let encPwd = encService.encrypt(req.body.password, global.KEY);
+        let email = req.body.email;
 
-        var subject = ('Bem vindo(a) name !').replace('name', name);
+        let subject = ('Bem vindo(a) name !').replace('name', name);
 
-        var index = [
+        let index = [
             'name',
             'login',
             'pwd'
         ];
-        var index2 = [
+        let index2 = [
             name,
             login,
             req.body.password
         ];
-        var body = global.EMAIL_TMPL_CREATE_USER;
-        for (var i = 0; i < index.length; i++) {
+        let body = global.EMAIL_TMPL_CREATE_USER;
+        for (let i = 0; i < index.length; i++) {
             body = body.replace(index[i], index2[i]);
         }
 
-        emailService.sendEMAIL(
+        await emailService.sendEMAIL(
             email,
             subject,
             body
@@ -204,7 +204,7 @@ exports.createUser = async (req, res) => {
             success: false
         });
     }
-}
+};
 
 exports.setPacientGame = async (req, res) => {
     try {
@@ -233,7 +233,7 @@ exports.setPacientGame = async (req, res) => {
             success: false
         });
     }
-}
+};
 
 exports.deletePacientGame = async (req, res) => {
     try {
@@ -260,7 +260,7 @@ exports.deletePacientGame = async (req, res) => {
             success: false
         });
     }
-}
+};
 
 exports.updatePacient = async (req, res) => {
     try {
@@ -294,7 +294,7 @@ exports.updatePacient = async (req, res) => {
             success: false
         });
     }
-}
+};
 
 exports.createPacient = async (req, res) => {
     try {
@@ -304,9 +304,9 @@ exports.createPacient = async (req, res) => {
         const data = await authService.decodeToken(token);
 
         //i need to check identifier to be unique
-        var identifier = (md5(req.body.name + global.SALT_KEY)).substring(0, 6);
+        let identifier = (md5(req.body.name + global.SALT_KEY)).substring(0, 6);
         //validando se o usuario existe
-        var validate = await repository.get(data.id);
+        let validate = await repository.get(data.id);
         if (validate) {
             await repository.createPacient({
                 pacient: {
@@ -323,8 +323,8 @@ exports.createPacient = async (req, res) => {
                 },
                 id: data.id
             });
-            var subject = ('Dados do seu paciente - name ').replace('name', req.body.name);
-            var index = [
+            let subject = ('Dados do seu paciente - name ').replace('name', req.body.name);
+            let index = [
                 'username',
                 'namepaciente',
                 'sexopaciente',
@@ -333,7 +333,7 @@ exports.createPacient = async (req, res) => {
                 'objetivopaciente',
                 'identifier'
             ];
-            var index2 = [
+            let index2 = [
                 validate.name,
                 req.body.name,
                 req.body.sexo,
@@ -342,13 +342,13 @@ exports.createPacient = async (req, res) => {
                 req.body.objetivo,
                 identifier
             ];
-            var body = global.EMAIL_TMPL_CREATE_PACIENT;
-            for (var i = 0; i < index.length; i++) {
+            let body = global.EMAIL_TMPL_CREATE_PACIENT;
+            for (let i = 0; i < index.length; i++) {
                 body = body.replace(index[i], index2[i]);
             }
             // console.log('subject: ', subject);
             // console.log('body: ', body);
-            emailService.sendEMAIL(
+            await emailService.sendEMAIL(
                 validate.email,
                 subject,
                 body
@@ -358,7 +358,6 @@ exports.createPacient = async (req, res) => {
                 pacient_identifier: identifier,
                 success: true
             });
-            return;
         } else {
             res.status(200).send({
                 message: 'User doesnt exist, cannot create pacient',
@@ -372,7 +371,7 @@ exports.createPacient = async (req, res) => {
             message: 'Failed process request'
         });
     }
-}
+};
 
 exports.delete = async (req, res) => {
     try {
@@ -394,7 +393,7 @@ exports.delete = async (req, res) => {
             success: false
         });
     }
-}
+};
 
 exports.removePacient = async (req, res) => {
     try {
@@ -421,7 +420,8 @@ exports.removePacient = async (req, res) => {
             success: false
         });
     }
-}
+};
+
 exports.updatePacientGame = async (req, res) => {
     try {
         //recupera token
@@ -446,7 +446,7 @@ exports.updatePacientGame = async (req, res) => {
             success: false
         });
     }
-}
+};
 
 exports.getPacientGames = async (req, res) => {
     try {
@@ -456,7 +456,7 @@ exports.getPacientGames = async (req, res) => {
         //decodifica token
         const data = await authService.decodeToken(token);
 
-        var dataPacients = await repository.getPacientGames({pacient: req.params.id});
+        let dataPacients = await repository.getPacientGames({pacient: req.params.id});
 
         res.status(200).send({data: dataPacients, success: true});
     } catch (e) {
@@ -465,12 +465,12 @@ exports.getPacientGames = async (req, res) => {
             success: false
         });
     }
-}
+};
 
 exports.getPacientGame = async (req, res) => {
     try {
         const token = req.body.token || req.query.token || req.headers['x-access-token'];
-        const data = await authService.decodeToken(token);
+        await authService.decodeToken(token);
         const gameId = req.params.gameId;
         const pacientIdentifier = req.params.id;
 
@@ -486,7 +486,7 @@ exports.getPacientGame = async (req, res) => {
             success: false
         });
     }
-}
+};
 
 exports.deletePacientGameReport = async (req, res) => {
     try {
@@ -506,7 +506,7 @@ exports.deletePacientGameReport = async (req, res) => {
             success: false
         });
     }
-}
+};
 
 exports.setGameReportObservation = async (req, res) => {
     try {
@@ -528,4 +528,4 @@ exports.setGameReportObservation = async (req, res) => {
             success: false
         });
     }
-}
+};

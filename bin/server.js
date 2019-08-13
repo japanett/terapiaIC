@@ -1,6 +1,7 @@
 const app = require('../src/app');
 const debug = require('debug')('balta:server');
 const http = require('http');
+const logger = require('../src/winston');
 
 const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
@@ -10,7 +11,7 @@ const server = http.createServer(app);
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
-console.log('API rodando na porta ' + port);
+logger.info('API rodando na porta ' + port);
 
 function normalizePort(val) {
     const port = parseInt(val, 10);
@@ -37,11 +38,11 @@ function onError(error) {
 
     switch (error.code) {
         case 'EACCES':
-            console.error(bind + ' requires elevated privileges');
+            logger.error(bind + ' requires elevated privileges');
             process.exit(1);
             break;
         case 'EADDRINUSE':
-            console.error(bind + ' is already in use');
+            logger.error(bind + ' is already in use');
             process.exit(1);
             break;
         default:
