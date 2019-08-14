@@ -20,6 +20,7 @@ try {
     } else {
         prodData.connectionString = 'mongodb://localhost:27017/gamesvr';
     }
+    prodData.sendgridKey = "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";
     logger.info(JSON.stringify(prodData));
 } catch (e) {
     logger.error('Missing encrypt password file, Is the crypto secret correct?');
