@@ -7,7 +7,7 @@ const encService = require('../services/enc-service');
 const user = mongoose.model('userSchema');
 const pacient = mongoose.model('pacientSchema');
 const game = mongoose.model('gameSchema');
-const logger = require('../src/winston');
+const logger = require('../winston');
 
 exports.createPacient = async (data) => {
     let tempPacient = new pacient(data.pacient);
