@@ -37,6 +37,7 @@ exports.sendCSV = async (to, data) => {
     await sendgrid.send(msg, function (err) {
         if (err) {
             logger.error(err);
+            logger.error(err.stack);
         }
     });
 };
