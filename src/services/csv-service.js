@@ -72,7 +72,7 @@ function _generateCSV(user, csvJsonObjects) {
         });
         csvWriter.writeRecords(_records)
             .then(() => {
-                let data = fs.readFileSync(filePath, 'utf8');
+                let data = fs.readFileSync(filePath, process.env.UNICODE);
                 emailService.sendCSV(_userEmail, data);
                 resolve('OK');
             })

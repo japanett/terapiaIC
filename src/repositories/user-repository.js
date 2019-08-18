@@ -11,9 +11,7 @@ const logger = require('../winston');
 
 exports.createPacient = async (data) => {
     let tempPacient = new pacient(data.pacient);
-
     await tempPacient.save();
-
     await user.findByIdAndUpdate(data.id, {
         $push: {
             pacients: {
@@ -31,7 +29,6 @@ exports.recoverPassword = function (data, key) {
         user.findOne({email: data})
             .then((_user) => {
                 let decPassword = encService.decrypt(_user.password, key);
-
                 resolve({pwd: decPassword, login: _user.login});
             })
             .catch(function (e) {
@@ -43,7 +40,6 @@ exports.recoverPassword = function (data, key) {
 
 exports.changePassword = function (newPassword, data) {
     return new Promise((resolve, reject) => {
-
         user.findByIdAndUpdate(data.id, {
             $set: {
                 password: newPassword
@@ -103,7 +99,6 @@ function _getGamesCSV(pacients) {
                     })
             );
         });
-
         Promise.all(promises)
             .then(() => {
                 resolve(_games);
@@ -117,13 +112,11 @@ function _getGamesCSV(pacients) {
 
 function _filterGameAndPacient(pacient, game) {
     let _date = game.date;
-    // let _dataSP = _date.setHours(_date.getHours() - 2);
     let _translateImserviseMode = game.imersiveMode ? 'Ativado' : 'Desativado';
     let _config = game.config
         .replace('2', 'Mão Direita')
         .replace('1', 'Mão Esquerda')
         .replace('3', 'Alternada');
-
     return {
         nome: pacient.name,
         sexo: pacient.sexo,
@@ -150,36 +143,28 @@ function _filterGameAndPacient(pacient, game) {
 
 exports.setPacientGame = async (data) => {
     let title;
-
     switch (data.gameID) {
         case 1:
             title = 'Jogo da Mercearia';
             break;
-
         case 2:
             title = 'Invasão Espacial';
             break;
-
         case 3:
             title = 'Bola na Caixa';
             break;
-
         case 4:
             title = 'Bloquinho';
             break;
-
         case 5:
             title = 'Pontes';
             break;
-
         case 6:
             title = 'Jogo do Labirinto';
             break;
-
         case 7:
             title = 'Fruit Jump';
             break;
-
         default:
             throw Error('GameID not specified!!!!');
     }
@@ -210,40 +195,31 @@ exports.updatePacientGame = async (data) => {
     await pacient.update({_id: data.pacientId}, {"$pull": {"games": {"gameID": data.gameID}}}, {safe: true})
         .then(() => {
             let title;
-
             switch (data.gameID) {
                 case 1:
                     title = 'Jogo da Mercearia';
                     break;
-
                 case 2:
                     title = 'Invasão Espacial';
                     break;
-
                 case 3:
                     title = 'Bola na Caixa';
                     break;
-
                 case 4:
                     title = 'Bloquinho';
                     break;
-
                 case 5:
                     title = 'Pontes';
                     break;
-
                 case 6:
                     title = 'Jogo do Labirinto';
                     break;
-
                 case 7:
                     title = 'Fruit Jump';
                     break;
-
                 default:
                     throw Error('GameID not specified!!!!');
             }
-
             return pacient.findOneAndUpdate({
                 _id: data.pacientId
             }, {
@@ -344,7 +320,6 @@ exports.getPacientGames = async (data) => {
 exports.getPacientGame = async (data) => {
     return game.findOne({_id: data.gameId, pacient: data.identifier});
 };
-
 
 exports.deletePacientGameReport = function (gameId) {
     return new Promise((resolve, reject) => {

@@ -28,13 +28,9 @@ exports.changePassword = async (req, res) => {
     try {
         const token = req.body.token || req.query.token || req.headers['x-access-token'];
         const data = await authService.decodeToken(token);
-
-        const newPassword = encService.encrypt(req.body.password, global.KEY);
-
+        const newPassword = encService.encrypt(req.body.password, process.env.KEY_ENCRYPT);
         const user = await repository.changePassword(newPassword, data);
-
         return res.status(200).send({data: user});
-
     } catch (e) {
         logger.error(e);
         res.status(500).send({
@@ -47,19 +43,16 @@ exports.changePassword = async (req, res) => {
 exports.recoverPassword = async (req, res) => {
     try {
         const email = req.params.email;
-        const recovered = await repository.recoverPassword(email, global.KEY);
+        const recovered = await repository.recoverPassword(email, process.env.KEY_ENCRYPT);
         if (recovered.pwd) {
             let subject = ('GamesVR Recuperação de senha');
-
             let body = 'Login: ' + recovered.login + '<br><br>Senha: ' + recovered.pwd;
-
             await emailService.sendEMAIL(
                 email,
                 subject,
                 body
             );
         }
-
         res.status(200).send({data: recovered, success: true});
     } catch (e) {
         logger.error(e);
@@ -73,10 +66,8 @@ exports.recoverPassword = async (req, res) => {
 exports.generateReport = async (req, res) => {
     try {
         const token = req.body.token || req.query.token || req.headers['x-access-token'];
-
         const data = await authService.decodeToken(token);
         const report = await repository.generateReport(data.id);
-
         if (!!report) {
             res.status(200).send({message: 'CSV ENVIADO COM SUCESSO', success: true});
         } else {
@@ -93,14 +84,9 @@ exports.generateReport = async (req, res) => {
 
 exports.getPacients = async (req, res) => {
     try {
-        //recupera token
         const token = req.body.token || req.query.token || req.headers['x-access-token'];
-
-        //decodifica token
         const data = await authService.decodeToken(token);
-
         let dataPacients = await repository.getPacients(data.id);
-
         res.status(200).send({data: dataPacients, success: true});
     } catch (e) {
         logger.error(e);
@@ -113,17 +99,12 @@ exports.getPacients = async (req, res) => {
 
 exports.getPacient = async (req, res) => {
     try {
-        //recupera token
         const token = req.body.token || req.query.token || req.headers['x-access-token'];
-
-        //decodifica token
         const data = await authService.decodeToken(token);
-
         let dataPacients = await repository.getPacient({
             id: data.id,
             pacient_ident: req.params.identifier
         });
-
         res.status(200).send({data: dataPacients, success: true});
     } catch (e) {
         logger.error(e);
@@ -136,16 +117,13 @@ exports.getPacient = async (req, res) => {
 
 exports.update = async (req, res) => {
     try {
-        //token:{login,id}
         const token = req.body.token || req.query.token || req.headers['x-access-token'];
         const data = await authService.decodeToken(token);
-
         await repository.update({
             id: data.id,
             name: req.body.name,
             email: req.body.email
         });
-
         res.status(200).send({
             message: 'User: ' + req.body.name + ' atualizado com sucesso !',
             success: true
@@ -164,11 +142,9 @@ exports.createUser = async (req, res) => {
     try {
         let name = req.body.name;
         let login = req.body.login;
-        let encPwd = encService.encrypt(req.body.password, global.KEY);
+        let encPwd = encService.encrypt(req.body.password, process.env.KEY_ENCRYPT);
         let email = req.body.email;
-
         let subject = ('Bem vindo(a) name !').replace('name', name);
-
         let index = [
             'name',
             'login',
@@ -179,24 +155,21 @@ exports.createUser = async (req, res) => {
             login,
             req.body.password
         ];
-        let body = global.EMAIL_TMPL_CREATE_USER;
+        let body = 'Olá, <strong>name</strong><br>Você acabou de se cadastrar no <b>APP Games VR</b> !<br><br><strong>Usuário</strong>: login<br><strong>Senha</strong>: pwd';
         for (let i = 0; i < index.length; i++) {
             body = body.replace(index[i], index2[i]);
         }
-
         await emailService.sendEMAIL(
             email,
             subject,
             body
         );
-
         await repository.createUser({
             login: login,
             password: encPwd,
             email: email,
             name: name
         });
-
         res.status(201).send({
             message: 'Terapeuta ' + req.body.name + ' criado.',
             success: true,
@@ -213,10 +186,8 @@ exports.createUser = async (req, res) => {
 
 exports.setPacientGame = async (req, res) => {
     try {
-        //token:{login,id}
         const token = req.body.token || req.query.token || req.headers['x-access-token'];
         const data = await authService.decodeToken(token);
-
         await repository.setPacientGame({
             identifier: req.params.identifier,
             gameID: parseInt(req.body.toPlay),
@@ -229,8 +200,6 @@ exports.setPacientGame = async (req, res) => {
             message: 'Adicionado jogos para o Paciente: ' + req.params.identifier,
             success: true
         });
-
-
     } catch (e) {
         logger.error(e);
         res.status(500).send({
@@ -242,18 +211,13 @@ exports.setPacientGame = async (req, res) => {
 
 exports.deletePacientGame = async (req, res) => {
     try {
-        //token:{login,id}
-        //recupera token
         const token = req.body.token || req.query.token || req.headers['x-access-token'];
-        //decodifica token
         const data = await authService.decodeToken(token);
-
         await repository.removePacientGame({
             medic: data.id,
             pacient: req.params.pacientid,
             gameid: parseInt(req.params.gameid)
         });
-
         res.status(200).send({
             message: 'Jogo removido',
             success: true
@@ -269,12 +233,8 @@ exports.deletePacientGame = async (req, res) => {
 
 exports.updatePacient = async (req, res) => {
     try {
-        //token:{login,id}
-        //recupera token
         const token = req.body.token || req.query.token || req.headers['x-access-token'];
-        //decodifica token
         const data = await authService.decodeToken(token);
-
         await repository.updatePacient({
             medic: data.id,
             identifier: req.params.identifier,
@@ -287,7 +247,6 @@ exports.updatePacient = async (req, res) => {
             objetivo: req.body.objetivo,
             patologia: req.body.patologia
         });
-
         res.status(200).send({
             message: 'Paciente: ' + req.body.name + ' atualizado com sucesso !',
             success: true
@@ -303,13 +262,10 @@ exports.updatePacient = async (req, res) => {
 
 exports.createPacient = async (req, res) => {
     try {
-        //token:{login,id}
         const token = req.body.token || req.query.token || req.headers['x-access-token'];
-        //decodifica token
         const data = await authService.decodeToken(token);
-
         //i need to check identifier to be unique
-        let identifier = (md5(req.body.name + global.SALT_KEY)).substring(0, 6);
+        let identifier = (md5(req.body.name + process.env.SALT_KEY)).substring(0, 6);
         //validando se o usuario existe
         let validate = await repository.get(data.id);
         if (validate) {
@@ -347,12 +303,10 @@ exports.createPacient = async (req, res) => {
                 req.body.objetivo,
                 identifier
             ];
-            let body = global.EMAIL_TMPL_CREATE_PACIENT;
+            let body = '<h2>Olá, username</h2><br><h2>Você acabou de cadastrar um paciente !</h2><br>Seguem os dados do mesmo: <br><br><strong>Identificador</strong>: identifier<br><strong>Nome</strong>: namepaciente<br><strong>Sexo</strong>: sexopaciente<br><strong>Idade</strong>: idadepaciente<br><strong>Patologia</strong>: patologiapaciente<br><strong>Objetivo</strong>: objetivopaciente<br><br><h3><u style="color:blue;">Lembrando que o paciente irá utilizar o Identificador para se logar no jogo !</u></h3>';
             for (let i = 0; i < index.length; i++) {
                 body = body.replace(index[i], index2[i]);
             }
-            // console.log('subject: ', subject);
-            // console.log('body: ', body);
             await emailService.sendEMAIL(
                 validate.email,
                 subject,
@@ -369,7 +323,6 @@ exports.createPacient = async (req, res) => {
                 success: false
             });
         }
-
     } catch (e) {
         logger.error(e);
         res.status(500).send({
@@ -380,14 +333,9 @@ exports.createPacient = async (req, res) => {
 
 exports.delete = async (req, res) => {
     try {
-        //recupera token
         const token = req.body.token || req.query.token || req.headers['x-access-token'];
-
-        //decodifica token
         const data = await authService.decodeToken(token);
-
         await repository.delete(data.id);
-
         res.status(200).send({
             message: 'account ' + data.login + ' deleted',
             success: true
@@ -403,13 +351,8 @@ exports.delete = async (req, res) => {
 
 exports.removePacient = async (req, res) => {
     try {
-        //recupera token
         const token = req.body.token || req.query.token || req.headers['x-access-token'];
-
-        //decodifica token
         const data = await authService.decodeToken(token);
-
-        // deletando pelo identifier do paciente
         await repository.removePacient({
             pacient: req.body.pacient,
             identifier: req.params.identifier,
@@ -430,10 +373,7 @@ exports.removePacient = async (req, res) => {
 
 exports.updatePacientGame = async (req, res) => {
     try {
-        //recupera token
         const token = req.body.token || req.query.token || req.headers['x-access-token'];
-
-        //decodifica token
         const data = await authService.decodeToken(token);
         await repository.updatePacientGame({
             config: req.body.config,
@@ -457,14 +397,9 @@ exports.updatePacientGame = async (req, res) => {
 
 exports.getPacientGames = async (req, res) => {
     try {
-        //recupera token
         const token = req.body.token || req.query.token || req.headers['x-access-token'];
-
-        //decodifica token
         await authService.decodeToken(token);
-
         let dataPacients = await repository.getPacientGames({pacient: req.params.id});
-
         res.status(200).send({data: dataPacients, success: true});
     } catch (e) {
         logger.error(e);
@@ -481,12 +416,10 @@ exports.getPacientGame = async (req, res) => {
         await authService.decodeToken(token);
         const gameId = req.params.gameId;
         const pacientIdentifier = req.params.id;
-
         let dataPacientGame = await repository.getPacientGame({
             gameId: gameId,
             identifier: pacientIdentifier
         });
-
         res.status(200).send({data: dataPacientGame, success: true});
     } catch (e) {
         logger.error(e);
@@ -502,13 +435,13 @@ exports.deletePacientGameReport = async (req, res) => {
         const token = req.body.token || req.query.token || req.headers['x-access-token'];
         await authService.decodeToken(token);
         const gameId = req.params.gameId;
-
         const gameDeleted = await repository.deletePacientGameReport(gameId);
-
-        if (gameDeleted)
+        if (gameDeleted) {
             res.status(200).send({game: gameDeleted, message: 'Report deleted successfully', success: true});
-        if (!gameDeleted)
+        }
+        if (!gameDeleted) {
             res.status(204).send();
+        }
     } catch (e) {
         logger.error(e);
         res.status(500).send({
@@ -524,7 +457,6 @@ exports.setGameReportObservation = async (req, res) => {
         await authService.decodeToken(token);
         const gameId = req.params.gameId;
         const observation = req.body.observation;
-
         await repository.setGameReportObservation({
             id: gameId,
             observation: observation

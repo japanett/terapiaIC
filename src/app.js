@@ -3,14 +3,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const config = require('./config');
 const logger = require('./winston');
 
+require('dotenv').config();
+
 const app = express();
-const router = express.Router();
 
 // Conecta ao Banco
-mongoose.connect(config.connectionString, {useNewUrlParser: true}, function (err) {
+mongoose.connect(process.env.DB_URL, {useNewUrlParser: true}, function (err) {
     if (err) throw logger.error(err);
 });
 mongoose.Promise = global.Promise;
@@ -18,10 +18,10 @@ const db = mongoose.connection;
 db.on('error', function(e) {logger.error('MongoDB connection error:' + e)});
 
 // Carrega Models
-const Pacient = require('./models/pacient');
-const User = require('./models/user');
-const Games = require('./models/games');
-const Admin = require('./models/admin');
+require('./models/pacient');
+require('./models/user');
+require('./models/games');
+require('./models/admin');
 
 // Carrega rotas
 const index = require('./routes/index');

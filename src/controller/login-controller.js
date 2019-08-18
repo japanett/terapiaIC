@@ -9,7 +9,7 @@ exports.authenticate = async (req, res) => {
     try {
         const user = await repository.authenticate({
             login: req.body.login,
-            password: encService.encrypt(req.body.password, global.KEY)
+            password: encService.encrypt(req.body.password, process.env.KEY_ENCRYPT)
         });
         if (!user) {
             res.status(401).send({
@@ -28,7 +28,7 @@ exports.authenticate = async (req, res) => {
             success: true
         });
     } catch (e) {
-        logger.error(e);
+        logger.error(e.stack);
         res.status(500).send({
             message: 'Failed to process request',
             success: false

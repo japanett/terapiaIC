@@ -9,9 +9,8 @@ exports.create = async (req, res) => {
     try {
         let name = req.body.name;
         let login = req.body.login;
-        let pwd = encService.encrypt(req.body.password, global.KEY);
+        let pwd = encService.encrypt(req.body.password, process.env.KEY_ENCRYPT);
         let email = req.body.email;
-
         await repository.create({
             login: login,
             password: pwd,
@@ -19,7 +18,6 @@ exports.create = async (req, res) => {
             name: name,
             admin: true
         });
-
         res.status(201).send({
             message: 'Admin ' + req.body.name + ' criado.',
             success: true,
@@ -38,7 +36,7 @@ exports.login = async (req, res) => {
     try {
         const admin = await repository.login({
             login: req.body.login,
-            password: encService.encrypt(req.body.password, global.KEY)
+            password: encService.encrypt(req.body.password, process.env.KEY_ENCRYPT)
         });
         if (!admin) {
             res.status(401).send({
@@ -47,7 +45,6 @@ exports.login = async (req, res) => {
             });
             return;
         }
-
         const token = await authService.generateToken({
             id: admin.id,
             admin: admin.admin
@@ -68,16 +65,13 @@ exports.login = async (req, res) => {
 exports.getUsers = async (req, res) => {
     try {
         const token = req.body.token || req.query.token || req.headers['x-access-token'];
-
         const data = await authService.decodeToken(token);
         if (!data.admin) {
             res.status(403).send({message: 'unauthorized access'});
             return;
         }
         const users = await repository.getUsers(data.id);
-
         res.status(200).send({data: users});
-
     } catch (e) {
         logger.error(e);
         res.status(500).send({
@@ -91,9 +85,7 @@ exports.resetUserPassword = async (req, res) => {
     try {
         const token = req.body.token || req.query.token || req.headers['x-access-token'];
         const data = await authService.decodeToken(token);
-
-        const recoveredPassword = await repository.resetUserPassword(data, global.KEY);
-
+        const recoveredPassword = await repository.resetUserPassword(data, process.env.KEY_ENCRYPT);
         res.status(200).send({data: recoveredPassword, success: true});
     } catch (e) {
         logger.error(e);

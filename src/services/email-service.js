@@ -1,10 +1,9 @@
 'use strict';
 
-const config = require('../config');
 const sendgrid = require('@sendgrid/mail');
 const logger = require('../winston');
 
-sendgrid.setApiKey(config.sendgridKey);
+sendgrid.setApiKey(process.env.SENDGRID_KEY);
 
 exports.sendEMAIL = async (to, subject, body) => {
     const msg = {

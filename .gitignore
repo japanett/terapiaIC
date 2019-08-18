@@ -5,3 +5,4 @@ package-lock.json
 .idea/
 src/services/csv/*.csv
 logs/
+.env

@@ -19,7 +19,6 @@ exports.authenticate = async (req, res) => {
             medic_id: pacient.medic.id,
             identifier: pacient.identifier
         });
-
         res.status(200).send({
             message: 'Paciente ' + pacient.name + ' logado',
             success: true,
@@ -40,14 +39,9 @@ exports.authenticate = async (req, res) => {
 
 exports.get = async (req, res) => {
     try {
-        //recupera token
         const token = req.body.token || req.query.token || req.headers['x-access-token'];
-
-        //decodifica token
         const data = await authService.decodeToken(token);
-
         let pacient = await repository.get(data.pacient_id);
-
         res.status(200).send({data: pacient, success: true});
     } catch (e) {
         logger.error(e);
@@ -62,7 +56,6 @@ exports.get = async (req, res) => {
 exports.postGame = async (req, res) => {
     try {
         const token = req.body.token || req.query.token || req.headers['x-access-token'];
-
         const data = await authService.decodeToken(token);
         await repository.postGame({
             identifier: data.identifier,
@@ -82,12 +75,10 @@ exports.postGame = async (req, res) => {
             },
             time: req.body.time
         });
-
         res.status(200).send({
             message: 'Informações do jogo atualizado com sucesso ',
             success: true
         });
-
     } catch (e) {
         logger.error(e);
         res.status(500).send({
