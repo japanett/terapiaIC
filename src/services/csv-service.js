@@ -47,28 +47,7 @@ function _generateCSV(user, csvJsonObjects) {
         let _records = [];
         let _userEmail = user.email;
         csvJsonObjects.forEach(obj => {
-            let _line = {};
-            _line.nome = obj.nome;
-            _line.sexo = obj.sexo;
-            _line.idade = obj.idade;
-            _line.patologia = obj.patologia;
-            _line.objetivo = obj.objetivo;
-            _line.mao_dominante = obj.mao_dominante;
-            _line.gmfcs = obj.gmfcs;
-            _line.nome_jogo = obj.nome_jogo;
-            _line.observation = obj.observation;
-            _line.config = obj.config;
-            _line.imersiveMode = obj.imersiveMode;
-            _line.data_jogo = obj.data_jogo;
-            _line.hora_jogo = obj.hora_jogo;
-            _line.tempo = obj.tempo;
-            _line.score_mao_direita = obj.score_mao_direita;
-            _line.score_mao_esquerda = obj.score_mao_esquerda;
-            _line.score_mao_cruzada = obj.score_mao_cruzada;
-            _line.erro_mao_direita = obj.erro_mao_direita;
-            _line.erro_mao_esquerda = obj.erro_mao_esquerda;
-            _line.erro_mao_cruzada = obj.erro_mao_cruzada;
-            _records.push(_line);
+            _records.push(buildCSVObject(obj));
         });
         csvWriter.writeRecords(_records)
             .then(() => {
@@ -78,7 +57,33 @@ function _generateCSV(user, csvJsonObjects) {
             })
             .catch((e) => {
                 logger.error(e);
+                logger.error(e.stack);
                 reject();
-            })
-    })
+            });
+
+        const buildCSVObject = function (obj) {
+            return {
+                nome : obj.nome,
+                sexo : obj.sexo,
+                idade : obj.idade,
+                patologia : obj.patologia,
+                objetivo : obj.objetivo,
+                mao_dominante : obj.mao_dominante,
+                gmfcs : obj.gmfcs,
+                nome_jogo : obj.nome_jogo,
+                observation : obj.observation,
+                config : obj.config,
+                imersiveMode : obj.imersiveMode,
+                data_jogo : obj.data_jogo,
+                hora_jogo : obj.hora_jogo,
+                tempo : obj.tempo,
+                score_mao_direita : obj.score_mao_direita,
+                score_mao_esquerda : obj.score_mao_esquerda,
+                score_mao_cruzada : obj.score_mao_cruzada,
+                erro_mao_direita : obj.erro_mao_direita,
+                erro_mao_esquerda : obj.erro_mao_esquerda,
+                erro_mao_cruzada : obj.erro_mao_cruzada
+            }
+        }
+    });
 }

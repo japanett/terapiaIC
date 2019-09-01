@@ -30,6 +30,7 @@ exports.authenticate = async (req, res) => {
         });
     } catch (e) {
         logger.error(e);
+        logger.error(e.stack);
         res.status(500).send({
             message: 'Failed to process request',
             success: false
@@ -45,6 +46,7 @@ exports.get = async (req, res) => {
         res.status(200).send({data: pacient, success: true});
     } catch (e) {
         logger.error(e);
+        logger.error(e.stack);
         res.status(500).send({
             message: 'Failed process request',
             success: false
@@ -55,23 +57,24 @@ exports.get = async (req, res) => {
 // TODO - refatorar
 exports.postGame = async (req, res) => {
     try {
-        const token = req.body.token || req.query.token || req.headers['x-access-token'];
+        const requestBody = req.body;
+        const token = requestBody.token || req.query.token || req.headers['x-access-token'];
         const data = await authService.decodeToken(token);
         await repository.postGame({
             identifier: data.identifier,
-            config: req.body.config,
-            gameID: req.body.gameID,
-            imersiveMode: req.body.imersiveMode,
+            config: requestBody.config,
+            gameID: requestBody.gameID,
+            imersiveMode: requestBody.imersiveMode,
             date: Date.now(),
             score: {
-                esquerda: req.body.score.esquerda,
-                direita: req.body.score.direita,
-                cruzada: req.body.score.cruzada
+                esquerda: requestBody.score.esquerda,
+                direita: requestBody.score.direita,
+                cruzada: requestBody.score.cruzada
             },
             error: {
-                esquerda: req.body.erros.esquerda,
-                direita: req.body.erros.direita,
-                cruzada: req.body.erros.cruzada
+                esquerda: requestBody.erros.esquerda,
+                direita: requestBody.erros.direita,
+                cruzada: requestBody.erros.cruzada
             },
             time: req.body.time
         });

@@ -80,18 +80,3 @@ exports.getUsers = async (req, res) => {
         });
     }
 };
-
-exports.resetUserPassword = async (req, res) => {
-    try {
-        const token = req.body.token || req.query.token || req.headers['x-access-token'];
-        const data = await authService.decodeToken(token);
-        const recoveredPassword = await repository.resetUserPassword(data, process.env.KEY_ENCRYPT);
-        res.status(200).send({data: recoveredPassword, success: true});
-    } catch (e) {
-        logger.error(e);
-        res.status(500).send({
-            message: 'Failed process request',
-            success: false
-        });
-    }
-};

@@ -29,6 +29,7 @@ const login = require('./routes/login-route');
 const admin = require('./routes/admin-route');
 const pacientsRoute = require('./routes/pacient-route');
 const userRoute = require('./routes/user-route');
+const gameRoute = require('./routes/game-route');
 
 // Habilita o CORS
 app.use(function (req, res, next) {
@@ -48,6 +49,6 @@ app.use('/api/auth', login);
 app.use('/api/admin', admin);
 app.use('/api/pacient', pacientsRoute);
 app.use('/api/user', userRoute);
+app.use('/api/game', gameRoute);
 
 module.exports = app;
-
