@@ -3,6 +3,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const logger = require('./winston');
 
 require('dotenv').config();
@@ -32,12 +33,18 @@ const userRoute = require('./routes/user-route');
 const gameRoute = require('./routes/game-route');
 
 // Habilita o CORS
+/*
 app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, x-access-token');
     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
     next();
 });
+*/
+
+app.use(cors({
+    allowedHeaders:['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'x-access-token']
+}));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
