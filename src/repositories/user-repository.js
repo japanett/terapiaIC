@@ -231,7 +231,7 @@ exports.get = async (data) => {
 };
 
 exports.getPacients = async (data) => {
-    return pacient.find({medic: data});
+    return pacient.find({medic: data}).sort({'name':1});
 };
 
 exports.getPacient = async (data) => {
@@ -265,7 +265,7 @@ exports.getGameId = async (data) => {
 };
 
 exports.getPacientGames = async (data) => {
-    return game.find({pacient: data.pacient});
+    return game.find({pacient: data.pacient}).sort({'title':1});
 };
 
 exports.getPacientGame = async (data) => {

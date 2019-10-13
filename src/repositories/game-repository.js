@@ -10,5 +10,5 @@ exports.findByGameId = async (gameID) => {
 };
 
 exports.listAllGames = async (gameID) => {
-    return game.find({});
+    return game.find({}).sort({'title':1});
 };

@@ -17,5 +17,5 @@ exports.login = async (data) => {
 };
 
 exports.getUsers = async () => {
-    return user.find({});
+    return user.find({}).sort({'name':1});
 };
