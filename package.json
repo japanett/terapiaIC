@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node ./bin/server.js"
+    "start": "NODE_ENV=production node ./bin/server.js"
   },
   "author": "Gabriel Kenzo Hirata Camargo",
   "license": "ISC",
