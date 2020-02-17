@@ -9,6 +9,14 @@ exports.findByGameId = async (gameID) => {
     });
 };
 
-exports.listAllGames = async (gameID) => {
-    return game.find({}).sort({'title':1});
+exports.listAllGames = async () => {
+    return game.find({}).sort({'title': 1});
+};
+
+exports.listByPacient = async (pacientId) => {
+    return game.find({'pacient': pacientId}).sort({'title': 1});
+};
+
+exports.filtrarPor = async (title, pacientId) => {
+    return game.find({'pacient': pacientId, 'title': title});
 };

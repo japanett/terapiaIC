@@ -89,4 +89,20 @@ exports.postGame = async (req, res) => {
             success: false
         });
     }
+
+
+};
+
+exports.relatorio = async (req, res) => {
+    try {
+        const relatorio = await repository.relatorios();
+        res.status(200).send({data: relatorio, success: true});
+    } catch (e) {
+        logger.error(e);
+        res.status(500).send({
+            message: 'Failed process request',
+            success: false
+        });
+    }
+
 };
