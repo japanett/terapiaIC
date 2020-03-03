@@ -45,7 +45,7 @@ exports.postGame = async (data) => {
 exports.relatorios = async () => {
     let linhas = [];
     let pacientes = [];
-    await pacient.find({}).then(function (pacs) {
+    await pacient.find({'identifier': {$in: ["48a849", "8c0848", "33124b", "a2c7ab", "10a26b", "af4ddf", "e71993"]}}).then(function (pacs) {
         pacientes = pacs;
     });
     for (let paciente of pacientes) {
