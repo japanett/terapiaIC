@@ -76,7 +76,7 @@ exports.generateReport = function (data) {
                 resolve(filePath);
             })
             .catch(function (e) {
-                logger.error(e);
+                logger.error(e.message);
             })
     });
 };

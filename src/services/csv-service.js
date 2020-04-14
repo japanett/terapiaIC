@@ -13,6 +13,31 @@ exports.sendReport = function (user, csvJsonObjects) {
     return _generateCSV(user, csvJsonObjects);
 };
 
+let buildCSVObject = (obj) => {
+    return {
+        nome : obj.nome,
+        sexo : obj.sexo,
+        idade : obj.idade,
+        patologia : obj.patologia,
+        objetivo : obj.objetivo,
+        mao_dominante : obj.mao_dominante,
+        gmfcs : obj.gmfcs,
+        nome_jogo : obj.nome_jogo,
+        observation : obj.observation,
+        config : obj.config,
+        imersiveMode : obj.imersiveMode,
+        data_jogo : obj.data_jogo,
+        hora_jogo : obj.hora_jogo,
+        tempo : obj.tempo,
+        score_mao_direita : obj.score_mao_direita,
+        score_mao_esquerda : obj.score_mao_esquerda,
+        score_mao_cruzada : obj.score_mao_cruzada,
+        erro_mao_direita : obj.erro_mao_direita,
+        erro_mao_esquerda : obj.erro_mao_esquerda,
+        erro_mao_cruzada : obj.erro_mao_cruzada
+    }
+};
+
 function _generateCSV(user, csvJsonObjects) {
     return new Promise((resolve, reject) => {
         if (fs.existsSync(filePath)) {
@@ -61,29 +86,8 @@ function _generateCSV(user, csvJsonObjects) {
                 reject();
             });
 
-        const buildCSVObject = function (obj) {
-            return {
-                nome : obj.nome,
-                sexo : obj.sexo,
-                idade : obj.idade,
-                patologia : obj.patologia,
-                objetivo : obj.objetivo,
-                mao_dominante : obj.mao_dominante,
-                gmfcs : obj.gmfcs,
-                nome_jogo : obj.nome_jogo,
-                observation : obj.observation,
-                config : obj.config,
-                imersiveMode : obj.imersiveMode,
-                data_jogo : obj.data_jogo,
-                hora_jogo : obj.hora_jogo,
-                tempo : obj.tempo,
-                score_mao_direita : obj.score_mao_direita,
-                score_mao_esquerda : obj.score_mao_esquerda,
-                score_mao_cruzada : obj.score_mao_cruzada,
-                erro_mao_direita : obj.erro_mao_direita,
-                erro_mao_esquerda : obj.erro_mao_esquerda,
-                erro_mao_cruzada : obj.erro_mao_cruzada
-            }
-        }
+
     });
+
+
 }
