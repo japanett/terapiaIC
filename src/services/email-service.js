@@ -1,9 +1,9 @@
 'use strict';
 
-var config = require('../config');
-var sendgrid = require('@sendgrid/mail');
+const sendgrid = require('@sendgrid/mail');
+const logger = require('../winston');
 
-sendgrid.setApiKey(config.sendgridKey);
+sendgrid.setApiKey(process.env.SENDGRID_KEY);
 
 exports.sendEMAIL = async (to, subject, body) => {
     const msg = {
@@ -13,7 +13,6 @@ exports.sendEMAIL = async (to, subject, body) => {
         text: 'APP Games VR',
         html: body
     };
-
     await sendgrid.send(msg);
 };
 
@@ -26,15 +25,18 @@ exports.sendCSV = async (to, data) => {
         html: 'Olá, segue em anexo o Relatório do APP Games VR',
         attachments: [
             {
-              content: new Buffer(data).toString('base64'),
-              filename: 'APP_Games_report.csv',
-              type: 'plain/text',
-              disposition: 'attachment'
+                content: new Buffer(data).toString('base64'),
+                filename: 'APP_Games_report.csv',
+                type: 'plain/text',
+                disposition: 'attachment'
             },
-          ],
+        ],
     };
 
-    await sendgrid.send(msg, function (err, jsn) {
-        if (err) { console.log(err); }
+    await sendgrid.send(msg, function (err) {
+        if (err) {
+            logger.error(err);
+            logger.error(err.stack);
+        }
     });
 };

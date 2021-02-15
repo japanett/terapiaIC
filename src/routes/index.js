@@ -1,9 +1,9 @@
-'use strict'
+'use strict';
 
 const express = require('express');
 const router = express.Router();
-const controller = require('../controller/index-controller');
+const {get} = require('../controller/index-controller');
 
-router.get('/', controller.get);
+router.get('/ping', get);
 
 module.exports = router;

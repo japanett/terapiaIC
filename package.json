@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node ./bin/server.js"
+    "start": "NODE_ENV=production node ./bin/server.js"
   },
   "author": "Gabriel Kenzo Hirata Camargo",
   "license": "ISC",
@@ -14,15 +14,18 @@
     "crypto": "^1.0.1",
     "csv-writer": "^1.2.0",
     "debug": "^3.1.0",
+    "dotenv": "^8.0.0",
     "express": "^4.16.3",
     "http": "0.0.0",
     "jsonwebtoken": "^7.4.0",
     "md5": "^2.2.1",
     "mongoose": "^5.0.9",
     "sendgrid": "^2.0.0",
-    "uuid": "^3.3.2"
+    "uuid": "^3.3.2",
+    "winston": "^3.2.1"
   },
   "devDependencies": {
+    "cors": "^2.8.5",
     "nodemon": "^1.18.3"
   }
 }

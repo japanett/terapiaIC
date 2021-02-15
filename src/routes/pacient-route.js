@@ -2,11 +2,12 @@
 
 const express = require('express');
 const router = express.Router();
-const controller = require('../controller/pacient-controller');
-const authService = require('../services/auth-service');
+const {authorize} = require('../services/auth-service');
+const {authenticate, postGame, get, relatorio} = require('../controller/pacient-controller');
 
-router.post('/auth', controller.authenticate);
-router.put('/games', authService.authorize, controller.postGame);
-router.get('/', authService.authorize, controller.get);
+router.post('/auth', authenticate);
+router.put('/games', authorize, postGame);
+router.get('/', authorize, get);
+router.get('/relatorio', relatorio);
 
 module.exports = router;
